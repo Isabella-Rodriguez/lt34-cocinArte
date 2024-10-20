@@ -1,6 +1,7 @@
 from flask_sqlalchemy import SQLAlchemy
-
+from datetime import datetime, timezone
 db = SQLAlchemy()
+import json
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -16,4 +17,26 @@ class User(db.Model):
             "id": self.id,
             "email": self.email,
             # do not serialize the password, its a security breach
+        }
+    
+
+class Recipe(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(80), nullable=False)
+    ingredientes = db.Column(db.JSON, nullable=False)
+    pasos = db.Column(db.String, nullable=False)
+    fecha_publicacion= db.Column(db.DateTime, nullable=False, default=lambda : datetime.now(timezone.utc))
+    img_ilustrativa= db.Column(db.String(200), nullable=True)
+
+    def __repr__(self):
+        return f'<User {self.title}'
+    
+    def serialize(self):
+        return {
+            'id': self.id,
+            'title': self.title,
+            'ingredientes': json.loads(self.ingredientes),
+            'pasos': self.pasos,
+            'fecha_publicacion': self.fecha_publicacion,
+            'img_ilustrativa': self.img_ilustrativa
         }
