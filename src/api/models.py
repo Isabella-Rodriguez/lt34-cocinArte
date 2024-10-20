@@ -40,3 +40,23 @@ class Recipe(db.Model):
             'fecha_publicacion': self.fecha_publicacion,
             'img_ilustrativa': self.img_ilustrativa
         }
+class Administrador(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(120), unique=False, nullable=False)
+    last_name = db.Column(db.String(120), unique=False, nullable=False)
+    email = db.Column(db.String(120), unique=True, nullable=False)
+    password = db.Column(db.String(80), unique=False, nullable=False)
+    is_active = db.Column(db.Boolean(), unique=False, nullable=False)
+
+    def _repr_(self):
+        return f'<Administrador {self.email}>'
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "last_name": self.last_name,
+            "email": self.email,
+            "is_active": self.is_active
+            # do not serialize the password, its a security breach
+        }    
