@@ -27,7 +27,7 @@ def handle_hello():
 
     return jsonify(response_body), 200
 
-@api.route('/recetas', methods=['POST'])
+@api.route('/recetas/', methods=['POST'])
 def create_recete():
     data = request.get_json()
     new_recipe= Recipe(

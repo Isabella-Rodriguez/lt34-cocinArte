@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { Context } from "../store/appContext";
 import rigoImageUrl from "../../img/rigo-baby.jpg";
 import "../../styles/home.css";
-
+import { Link } from "react-router-dom";
 export const Home = () => {
 	const { store, actions } = useContext(Context);
 
@@ -21,6 +21,8 @@ export const Home = () => {
 					Read documentation
 				</a>
 			</p>
+			<Link to="/recipe/create"><button>Crear Receta!</button></Link>
+			<Link to="/recipe/12"><button>Ver Receta!</button></Link>
 		</div>
 	);
 };
