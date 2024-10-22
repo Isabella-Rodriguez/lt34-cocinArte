@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 export function ViewRecipe(){
     const [recipe, setRecipe]=useState({})
     const{id}= useParams()
+    const navigate = useNavigate()
     
     useEffect(()=>{getRecipeId()},[])
     const getRecipeId=async()=>{
@@ -21,7 +22,7 @@ export function ViewRecipe(){
         if (resp.ok){
             const data = resp.json()
             console.log(data);
-            alert(`Receta Eliminada con exito!`)
+            navigate('/recipe')
         } else alert('Hubo un Error al eliminar la receta!')
     }
     

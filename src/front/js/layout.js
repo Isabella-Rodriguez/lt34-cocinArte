@@ -13,6 +13,7 @@ import { Footer } from "./component/footer";
 import { CreateRecipe } from "./component/CreateRecipe.jsx";
 import { ViewRecipe } from "./component/ViewRecipe.jsx";
 import { AllRecipes } from "./component/allRecipes.jsx";
+import { EditRecipe } from "./component/editRecipes.jsx";
 
 //create your first component
 const Layout = () => {
@@ -35,6 +36,7 @@ const Layout = () => {
                         <Route element={<CreateRecipe />} path="/recipe/create"/>
                         <Route element={<ViewRecipe />} path="/recipe/:id"/>
                         <Route element={<AllRecipes />} path="/recipe/"/>
+                        <Route element={<EditRecipe />} path="/recipe/edit/:id"/>
                         <Route element={<h1>Not found!</h1>} />
                     </Routes>
                     <Footer />
