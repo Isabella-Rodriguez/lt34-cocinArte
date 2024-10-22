@@ -94,7 +94,7 @@ def delete_administrador(administrador_id):
 
         return jsonify({"msg": "administrador eliminado exitosamente"}), 200  
     except Exception as e:
-        return jsonify({"error": "Ocurrió un error al eliminar el administrador", "detail": str(e)}), 500  # Error 500
+        return jsonify({"error": "Ocurrió un error al eliminar el administrador", "detail": str(e)}), 500  
 
 @api.route('/administrador/<int:administrador_id>', methods=['PUT'])
 def update_administrador(administrador_id):
