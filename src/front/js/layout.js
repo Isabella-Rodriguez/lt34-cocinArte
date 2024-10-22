@@ -15,6 +15,10 @@ import injectContext from "./store/appContext";
 
 import { Navbar } from "./component/navbar";
 import { Footer } from "./component/footer";
+import { CrudAdmin } from "./component/crudadmin";
+import { ListAdministradores } from "./component/listadministradores";
+import { EditarAdministradores } from "./component/editaradmins";
+
 import { CreateRecipe } from "./component/CreateRecipe.jsx";
 import { ViewRecipe } from "./component/ViewRecipe.jsx";
 import { AllRecipes } from "./component/allRecipes.jsx";
@@ -38,6 +42,9 @@ const Layout = () => {
                         <Route element={<Home />} path="/" />
                         <Route element={<Demo />} path="/demo" />
                         <Route element={<Single />} path="/single/:theid" />
+                        <Route element={<CrudAdmin/>} path="/administrador"/>
+                        <Route element={<ListAdministradores/>} path="/listdeadministradores"/>
+                        <Route element={<EditarAdministradores/>} path="/editaradminnistrador/:idadmin"/>
                         <Route element={<UsersList />} path="/users" />
                         <Route element={<UsersAdd />} path="/users/add" />
                         <Route element={<UsersEdit />} path="/users/edit" />
