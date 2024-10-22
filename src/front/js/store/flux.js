@@ -13,7 +13,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 					background: "white",
 					initial: "white"
 				}
-			]
+			],
+			users:[]
 		},
 		actions: {
 
@@ -47,7 +48,57 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 				//reset the global store
 				setStore({ demo: demo });
-			}
+			},
+			loadUsers: () => {
+				fetch(process.env.BACKEND_URL + '/api/usuario')
+        		.then(response => response.json())
+        		.then(data => {
+					console.log(data);
+					const store = getStore();
+					setStore({users:data})
+					console.log(store.users)
+				});
+			},
+
+			addUser: (newUserData) => {
+				const requestOptions = {
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify( 
+						newUserData
+					   )
+				};
+				fetch(process.env.BACKEND_URL + '/api/usuario', requestOptions)
+					.then(response => response.json())
+					.then(data => console.log("Usuario añadido"));
+			},
+
+			deleteUser: (index) => {
+				const store = getStore(); 
+				let idToDelete = store.users[index].id;
+				console.log("Se borrara: " + idToDelete)
+				setStore({users : store.users.filter( (usuarios,indx)=>indx!=index) });
+					
+				fetch(process.env.BACKEND_URL + '/api/usuario/' + idToDelete, { method: 'DELETE' })
+					.then(response => console.log("Se borro " + idToDelete));
+					
+			},
+
+			modUser: (userModif,id) => {
+				
+				console.log("id a modiifcar : " + id)
+				const requestOptions = {
+					method: 'PUT',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify( 
+						userModif
+					   )
+				};
+				fetch(process.env.BACKEND_URL + '/api/usuario/' + id, requestOptions)
+					.then(response => response.json())
+					.then(data => console.log("Usuario modificado"));
+			},
+
 		}
 	};
 };

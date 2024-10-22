@@ -6,14 +6,26 @@ import { BackendURL } from "./component/backendURL";
 import { Home } from "./pages/home";
 import { Demo } from "./pages/demo";
 import { Single } from "./pages/single";
+
+import { UsersList } from "./pages/users_list";
+import { UsersAdd } from "./pages/users_add";
+import { UsersEdit } from "./pages/users_edit";
+
 import injectContext from "./store/appContext";
 
 import { Navbar } from "./component/navbar";
 import { Footer } from "./component/footer";
+<<<<<<< HEAD
 import { CrudAdmin } from "./component/crudadmin";
 import { ListAdministradores } from "./component/listadministradores";
 import { EditarAdministradores } from "./component/editaradmins";
 
+=======
+import { CreateRecipe } from "./component/CreateRecipe.jsx";
+import { ViewRecipe } from "./component/ViewRecipe.jsx";
+import { AllRecipes } from "./component/allRecipes.jsx";
+import { EditRecipe } from "./component/editRecipes.jsx";
+>>>>>>> develop
 
 //create your first component
 const Layout = () => {
@@ -28,13 +40,24 @@ const Layout = () => {
             <BrowserRouter basename={basename}>
                 <ScrollToTop>
                     <Navbar />
+                    
                     <Routes>
                         <Route element={<Home />} path="/" />
                         <Route element={<Demo />} path="/demo" />
                         <Route element={<Single />} path="/single/:theid" />
+<<<<<<< HEAD
                         <Route element={<CrudAdmin/>} path="/administrador"/>
                         <Route element={<ListAdministradores/>} path="/listdeadministradores"/>
                         <Route element={<EditarAdministradores/>} path="/editaradminnistrador/:idadmin"/>
+=======
+                        <Route element={<UsersList />} path="/users" />
+                        <Route element={<UsersAdd />} path="/users/add" />
+                        <Route element={<UsersEdit />} path="/users/edit" />
+                        <Route element={<CreateRecipe />} path="/recipe/create"/>
+                        <Route element={<ViewRecipe />} path="/recipe/:id"/>
+                        <Route element={<AllRecipes />} path="/recipe/"/>
+                        <Route element={<EditRecipe />} path="/recipe/edit/:id"/>
+>>>>>>> develop
                         <Route element={<h1>Not found!</h1>} />
                     </Routes>
                     <Footer />
