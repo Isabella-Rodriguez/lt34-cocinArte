@@ -49,7 +49,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				setStore({ demo: demo });
 			},
 			loadUsers: () => {
-				fetch('https://solid-rotary-phone-rp7r7vgjg6vhp6-3001.app.github.dev/api/usuario')
+				fetch(process.env.BACKEND_URL + '/api/usuario')
         		.then(response => response.json())
         		.then(data => {
 					console.log(data);
@@ -67,7 +67,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 						newUserData
 					   )
 				};
-				fetch('https://solid-rotary-phone-rp7r7vgjg6vhp6-3001.app.github.dev/api/usuario', requestOptions)
+				fetch(process.env.BACKEND_URL + '/api/usuario', requestOptions)
 					.then(response => response.json())
 					.then(data => console.log("Usuario añadido"));
 			},
@@ -78,7 +78,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				console.log("Se borrara: " + idToDelete)
 				setStore({users : store.users.filter( (usuarios,indx)=>indx!=index) });
 					
-				fetch('https://solid-rotary-phone-rp7r7vgjg6vhp6-3001.app.github.dev/api/usuario/'+idToDelete, { method: 'DELETE' })
+				fetch(process.env.BACKEND_URL + '/api/usuario/' + idToDelete, { method: 'DELETE' })
 					.then(response => console.log("Se borro " + idToDelete));
 					
 			},
@@ -93,7 +93,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 						userModif
 					   )
 				};
-				fetch("https://solid-rotary-phone-rp7r7vgjg6vhp6-3001.app.github.dev/api/usuario/" + id, requestOptions)
+				fetch(process.env.BACKEND_URL + '/api/usuario/' + id, requestOptions)
 					.then(response => response.json())
 					.then(data => console.log("Usuario modificado"));
 			},
