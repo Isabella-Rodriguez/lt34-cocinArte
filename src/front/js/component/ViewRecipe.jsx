@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-
+import { Link } from "react-router-dom";
 export function ViewRecipe(){
     const [recipe, setRecipe]=useState({})
     const{id}= useParams()
@@ -43,6 +43,7 @@ export function ViewRecipe(){
         </div>
 
         <button onClick={()=>{deleteReceta(id)}}>Borrar Receta!</button>
+        <Link to={`/recipe/edit/${id}`}><button>Editar Receta!</button></Link>
         </>
     )
 }
