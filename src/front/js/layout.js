@@ -15,17 +15,14 @@ import injectContext from "./store/appContext";
 
 import { Navbar } from "./component/navbar";
 import { Footer } from "./component/footer";
-<<<<<<< HEAD
 import { CrudAdmin } from "./component/crudadmin";
 import { ListAdministradores } from "./component/listadministradores";
 import { EditarAdministradores } from "./component/editaradmins";
 
-=======
 import { CreateRecipe } from "./component/CreateRecipe.jsx";
 import { ViewRecipe } from "./component/ViewRecipe.jsx";
 import { AllRecipes } from "./component/allRecipes.jsx";
 import { EditRecipe } from "./component/editRecipes.jsx";
->>>>>>> develop
 
 //create your first component
 const Layout = () => {
@@ -45,11 +42,9 @@ const Layout = () => {
                         <Route element={<Home />} path="/" />
                         <Route element={<Demo />} path="/demo" />
                         <Route element={<Single />} path="/single/:theid" />
-<<<<<<< HEAD
                         <Route element={<CrudAdmin/>} path="/administrador"/>
                         <Route element={<ListAdministradores/>} path="/listdeadministradores"/>
                         <Route element={<EditarAdministradores/>} path="/editaradminnistrador/:idadmin"/>
-=======
                         <Route element={<UsersList />} path="/users" />
                         <Route element={<UsersAdd />} path="/users/add" />
                         <Route element={<UsersEdit />} path="/users/edit" />
@@ -57,7 +52,6 @@ const Layout = () => {
                         <Route element={<ViewRecipe />} path="/recipe/:id"/>
                         <Route element={<AllRecipes />} path="/recipe/"/>
                         <Route element={<EditRecipe />} path="/recipe/edit/:id"/>
->>>>>>> develop
                         <Route element={<h1>Not found!</h1>} />
                     </Routes>
                     <Footer />
