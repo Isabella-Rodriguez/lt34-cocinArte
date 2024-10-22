@@ -13,7 +13,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 					background: "white",
 					initial: "white"
 				}
-			]
+			],
+			users:[]
 		},
 		actions: {
 			// Use getActions to call a function within a fuction
@@ -46,7 +47,57 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 				//reset the global store
 				setStore({ demo: demo });
-			}
+			},
+			loadUsers: () => {
+				fetch('https://solid-rotary-phone-rp7r7vgjg6vhp6-3001.app.github.dev/api/usuario')
+        		.then(response => response.json())
+        		.then(data => {
+					console.log(data);
+					const store = getStore();
+					setStore({users:data})
+					console.log(store.users)
+				});
+			},
+
+			addUser: (newUserData) => {
+				const requestOptions = {
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify( 
+						newUserData
+					   )
+				};
+				fetch('https://solid-rotary-phone-rp7r7vgjg6vhp6-3001.app.github.dev/api/usuario', requestOptions)
+					.then(response => response.json())
+					.then(data => console.log("Usuario añadido"));
+			},
+
+			deleteUser: (index) => {
+				const store = getStore(); 
+				let idToDelete = store.users[index].id;
+				console.log("Se borrara: " + idToDelete)
+				setStore({users : store.users.filter( (usuarios,indx)=>indx!=index) });
+					
+				fetch('https://solid-rotary-phone-rp7r7vgjg6vhp6-3001.app.github.dev/api/usuario/'+idToDelete, { method: 'DELETE' })
+					.then(response => console.log("Se borro " + idToDelete));
+					
+			},
+
+			modUser: (userModif,id) => {
+				
+				console.log("id a modiifcar : " + id)
+				const requestOptions = {
+					method: 'PUT',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify( 
+						userModif
+					   )
+				};
+				fetch("https://solid-rotary-phone-rp7r7vgjg6vhp6-3001.app.github.dev/api/usuario/" + id, requestOptions)
+					.then(response => response.json())
+					.then(data => console.log("Usuario modificado"));
+			},
+
 		}
 	};
 };

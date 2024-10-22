@@ -4,6 +4,7 @@ This module takes care of starting the API Server, Loading the DB and Adding the
 from flask import Flask, request, jsonify, url_for, Blueprint
 from api.models import db, User, Recipe
 from api.models import db, User, Administrador
+from api.models import db, User, User
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 from werkzeug.security import check_password_hash
@@ -174,3 +175,77 @@ def update_administrador(administrador_id):
     db.session.commit()
 
     return jsonify({"msg": "administrador actualizado exitosamente"}), 200  
+
+@api.route('/usuario', methods=['POST'])
+def create_usuario():
+    body = request.get_json()
+    
+    if not body:
+        return jsonify({"msg": "No se recibió ningún dato"}), 400
+
+    # Verificar si el usuario ya existe por email
+    usuario = User.query.filter_by(email=body["email"]).first()
+    if usuario is None:
+        new_usuario = User(
+            name=body["name"],
+            last_name=body["last_name"],
+            email=body["email"],
+            password=body["password"],  
+            is_active=True
+        )
+        db.session.add(new_usuario)
+        db.session.commit()
+
+        return jsonify({"msg": "Usuario creado exitosamente"}), 201
+    else:
+        return jsonify({"msg": "Ya existe un usuario con ese email"}), 409
+
+@api.route('/usuario', methods=['GET'])
+def get_usuarios():
+    all_usuarios = User.query.all()
+    results = [usuario.serialize() for usuario in all_usuarios]
+    return jsonify(results), 200
+
+@api.route('/usuario/<int:usuario_id>', methods=['GET'])
+def get_usuario(usuario_id):
+    usuario = User.query.filter_by(id=usuario_id).first()
+    
+    if usuario is None:
+        return jsonify({"error": "Usuario no encontrado"}), 404
+
+    return jsonify(usuario.serialize()), 200
+
+@api.route('/usuario/<int:usuario_id>', methods=['DELETE'])
+def delete_usuario(usuario_id):
+    usuario = User.query.filter_by(id=usuario_id).first()
+    
+    if usuario is None:
+        return jsonify({"error": "Usuario no encontrado"}), 404
+
+    db.session.delete(usuario)
+    db.session.commit()
+
+    return jsonify({"msg": "Usuario eliminado exitosamente"}), 200
+
+@api.route('/usuario/<int:usuario_id>', methods=['PUT'])
+def update_usuario(usuario_id):
+    body = request.get_json()
+
+    if not body:
+        return jsonify({"msg": "No se recibió ningún dato"}), 400
+
+    usuario = User.query.filter_by(id=usuario_id).first()
+    
+    if usuario is None:
+        return jsonify({"error": "Usuario no encontrado"}), 404
+
+    # Actualizar los campos del usuario con los nuevos datos
+    usuario.name = body.get('name', usuario.name)
+    usuario.last_name = body.get('last_name', usuario.last_name)
+    usuario.email = body.get('email', usuario.email)
+    usuario.password = body.get('password', usuario.password)  
+    usuario.is_active = body.get('is_active', usuario.is_active)
+
+    db.session.commit()
+
+    return jsonify({"msg": "Usuario actualizado exitosamente"}), 200
