@@ -249,3 +249,17 @@ def update_usuario(usuario_id):
     db.session.commit()
 
     return jsonify({"msg": "Usuario actualizado exitosamente"}), 200
+
+@api.route('/usuario/login', methods=['POST'])
+
+def login_user():
+    body = request.get_json()
+    email = body.get("email")
+    password = body.get("password")
+    
+    user = User.query.filter_by(email=email).first()
+
+    if user and user.password == password:
+        return jsonify('Se logueo correctamente!', user.serialize()), 200
+    else:
+        return jsonify('Hubo un error en las credenciales'), 401

@@ -23,8 +23,6 @@ class User(db.Model):
             "is_active": self.is_active
             # do not serialize the password, its a security breach
         }
-    
-
 class Recipe(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(80), nullable=False)
@@ -40,7 +38,7 @@ class Recipe(db.Model):
         return {
             'id': self.id,
             'title': self.title,
-            'ingredientes': json.loads(self.ingredientes),
+            'ingredientes': self.ingredientes,
             'pasos': self.pasos,
             'fecha_publicacion': self.fecha_publicacion,
             'img_ilustrativa': self.img_ilustrativa
