@@ -8,7 +8,7 @@ export function ViewRecipe(){
     
     useEffect(()=>{getRecipeId()},[])
     const getRecipeId=async()=>{
-        const data = await fetch(`https://super-rotary-phone-qjg4pw975xj344jp-3001.app.github.dev/api/recetas/${id}`,{
+        const data = await fetch(process.env.BACKEND_URL +`/api/recetas/${id}`,{
             method:'GET',
         })
         const resp = await data.json()
@@ -16,7 +16,7 @@ export function ViewRecipe(){
         setRecipe(resp)
     }
     const deleteReceta=async(id)=>{
-        const resp = await fetch(`https://super-rotary-phone-qjg4pw975xj344jp-3001.app.github.dev/api/recetas/${id}`,{
+        const resp = await fetch(preocess.env.BACKEND_URL +`/api/recetas/${id}`,{
             method:'DELETE',
         })
         if (resp.ok){

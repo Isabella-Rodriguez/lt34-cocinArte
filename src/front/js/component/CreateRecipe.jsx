@@ -7,7 +7,7 @@ export function CreateRecipe(){
     const navigate = useNavigate()
     const [steps, setSteps]=useState('')
     const [ingredient, setIngredient]=useState('')
-    const [ingredients, setIngredients]=useState('')
+    const [ingredients, setIngredients]=useState([])
     const [title, setTitle]=useState('')
 
     const createIngredientsList=(e)=>{
@@ -33,7 +33,7 @@ export function CreateRecipe(){
             'img_ilustrativa':img
         }
         console.log(dataSend)
-        fetch('https://super-rotary-phone-qjg4pw975xj344jp-3001.app.github.dev/api/recetas', {
+        fetch(process.env.BACKEND_URL + '/api/recetas', {
             method:'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(dataSend),
