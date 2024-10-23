@@ -26,14 +26,18 @@ export function LoginCocinero(){
     }
 
     return (
-    <h1 className="container d-flex flex-column justify-content-center">
-        <h1 className="container">Login!</h1>
-        <form className="container d-flex flex-column" action="" onSubmit={(e)=>{login(e)}}>
-            <label className="form-label" htmlFor="email">Email</label>
-            <input className="form-control" type="text" name="email" id="email" placeholder="Enter your email"/>
-            <label className="form-label" htmlFor="password">Password</label>
-            <input className="form-control" type="password" name="password" id="password" placeholder="Enter your password"/>
-            <button className="btn btn-primary">Login!</button>
+    <div className="container d-flex flex-column align-items-center text-center">
+        <h1 className="container mb-5">Login!</h1>
+        <form className="container d-flex flex-column align-items-center gap-2" action="" onSubmit={(e)=>{login(e)}}>
+            <div>
+                <label className="form-label" htmlFor="email">Email</label>
+                <input className="form-control" type="text" name="email" id="email" placeholder="Enter your email"/>
+            </div>
+            <div>
+                <label className="form-label" htmlFor="password">Password</label>
+                <input className="form-control" type="password" name="password" id="password" placeholder="Enter your password"/>
+            </div>
+            <button className="btn btn-primary col-4">Login!</button>
         </form>
-    </h1>)
+    </div>)
 }
