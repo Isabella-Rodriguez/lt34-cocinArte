@@ -8,7 +8,7 @@ export const ListAdministradores = () => {
     const [administradores, setAdministradores] = useState([]);
 
     const loadSomeData = () => {
-        fetch("https://ideal-zebra-p6jr757gq9p2rqj6-3001.app.github.dev/api/administrador")
+        fetch(process.env.BACKEND_URL+"/api/administrador")
             .then((response) => response.json())
             .then((data) => {
                 setAdministradores(data);
@@ -27,7 +27,7 @@ export const ListAdministradores = () => {
     }, [administradores]);
 
     function removeAdministrador(idToDelete) {
-        fetch("https://ideal-zebra-p6jr757gq9p2rqj6-3001.app.github.dev/api/administrador/" + idToDelete, {
+        fetch(process.env.BACKEND_URL+"/api/administrador/" + idToDelete, {
             method: "DELETE",
             redirect: "follow",
         })
@@ -37,7 +37,7 @@ export const ListAdministradores = () => {
     }
 
     function addNewAdministrador(name, lastname, email, password) {
-        fetch('https://cuddly-waffle-5g9r4r6qrjxf7p45-3001.app.github.dev/api/signup/restaurant', {
+        fetch(process.env.BACKEND_URL+'/api/signup/restaurant', {
             method: 'POST',
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({

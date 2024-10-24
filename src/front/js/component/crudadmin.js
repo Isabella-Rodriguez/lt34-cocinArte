@@ -14,7 +14,7 @@ export const CrudAdmin = () => {
     const [administradores, setAdministradores] = useState([]);
 
     const loadSomeData = () => {
-        fetch("https://ideal-zebra-p6jr757gq9p2rqj6-3001.app.github.dev/api/administrador")
+        fetch(process.env.BACKEND_URL+"/api/administrador")
             .then((response) => response.json())
             .then((data) => {
                 setAdministradores(data);
@@ -27,7 +27,7 @@ export const CrudAdmin = () => {
 
 
     function addNewAdministrador(name,lastname,email,password) {
-        fetch('https://ideal-zebra-p6jr757gq9p2rqj6-3001.app.github.dev/api/administrador', {
+        fetch(process.env.BACKEND_URL+'/api/administrador', {
             method: 'POST',
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({

@@ -263,3 +263,16 @@ def login_user():
         return jsonify('Se logueo correctamente!', user.serialize()), 200
     else:
         return jsonify('Hubo un error en las credenciales'), 401
+    
+@api.route('/administrador/login', methods=['POST'])
+def login_admin():
+    body = request.get_json()
+    email = body.get("email")
+    password = body.get("password")
+    
+    admin = Administrador.query.filter_by(email=email).first()
+
+    if admin and admin.password == password:
+        return jsonify('Se logueo correctamente!', admin.serialize()), 200
+    else:
+        return jsonify('Hubo un error en las credenciales'), 401

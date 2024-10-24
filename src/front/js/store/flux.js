@@ -98,7 +98,21 @@ const getState = ({ getStore, getActions, setStore }) => {
 					.then(response => response.json())
 					.then(data => console.log("Usuario modificado"));
 			},
-
+			
+			adminLogin: async (formData) => {
+				
+				const resp = await fetch(process.env.BACKEND_URL + '/api/administrador/login',{
+					method: 'POST',
+					headers: {'Content-Type': 'application/json'},
+					body: JSON.stringify(formData)
+					})
+				if(resp.ok){
+					const data = await resp.json()
+					console.log(('Te has logueado'), data);
+					localStorage.setItem('token', true)//configurar JWT
+					console.log('token guardado en LocalStorage: ')
+				} else console.log('No has podido loguearte, revisa tus credenciales');
+			}
 		}
 	};
 };
