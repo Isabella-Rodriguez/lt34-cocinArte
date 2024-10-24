@@ -13,7 +13,7 @@ export const EditarAdministradores = () => {
     console.log("ID del administrador:", params.idadmin); // Verifica que el ID esté llegando correctamente
 
     function get_administrador() {
-        fetch(`https://ideal-zebra-p6jr757gq9p2rqj6-3001.app.github.dev/api/administrador/${params.idadmin}`)
+        fetch(process.env.BACKEND_URL+`/api/administrador/${params.idadmin}`)
             .then((response) => {
                 if (!response.ok) {
                     throw new Error('Error en la respuesta de la red');
@@ -43,7 +43,7 @@ export const EditarAdministradores = () => {
     }, [administradorData]);
 
     function putAdministrador(name, lastname, email) {
-        fetch(`https://ideal-zebra-p6jr757gq9p2rqj6-3001.app.github.dev/api/administrador/${params.idadmin}`, {
+        fetch(process.env.BACKEND_URL+`/api/administrador/${params.idadmin}`, {
             method: 'PUT',
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
