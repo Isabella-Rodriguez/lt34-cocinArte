@@ -35,7 +35,8 @@ def create_recete():
         title=data['title'],
         ingredientes=data['ingredientes'],
         pasos=data['pasos'],
-        img_ilustrativa=data['img_ilustrativa']
+        img_ilustrativa=data['img_ilustrativa'],
+        user_id=data['user_id']
     )
     print(new_recipe)
     db.session.add(new_recipe)

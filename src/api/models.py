@@ -10,6 +10,7 @@ class User(db.Model):
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(80), unique=False, nullable=False)
     is_active = db.Column(db.Boolean(), unique=False, nullable=False)
+    recipes = db.relationship('Recipe', backref='user')
 
     def __repr__(self):
         return f'<User {self.email}>'
@@ -20,7 +21,8 @@ class User(db.Model):
             "name": self.name,
             "last_name": self.last_name,
             "email": self.email,
-            "is_active": self.is_active
+            "is_active": self.is_active,
+            "recipes": self.recipes
             # do not serialize the password, its a security breach
         }
 class Recipe(db.Model):
@@ -30,6 +32,7 @@ class Recipe(db.Model):
     pasos = db.Column(db.String, nullable=False)
     fecha_publicacion= db.Column(db.DateTime, nullable=False, default=lambda : datetime.now(timezone.utc))
     img_ilustrativa= db.Column(db.String(200), nullable=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
     def __repr__(self):
         return f'<User {self.title}'
@@ -41,7 +44,8 @@ class Recipe(db.Model):
             'ingredientes': self.ingredientes,
             'pasos': self.pasos,
             'fecha_publicacion': self.fecha_publicacion,
-            'img_ilustrativa': self.img_ilustrativa
+            'img_ilustrativa': self.img_ilustrativa,
+            'user_id': self.user_id
         }
 class Administrador(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -63,3 +67,4 @@ class Administrador(db.Model):
             "is_active": self.is_active
             # do not serialize the password, its a security breach
         }    
+
