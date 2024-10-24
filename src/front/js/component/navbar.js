@@ -1,7 +1,21 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+
 
 export const Navbar = () => {
+	const [isLogin, setIsLogin]=useState(false)
+	const navigate = useNavigate()
+	useEffect(()=>{
+		const token =localStorage.getItem('token')
+		if(token){
+			setIsLogin(true)
+		} else{ setIsLogin(false)}
+	},[localStorage.getItem('token')])
+	const logOut = ()=>{
+		localStorage.removeItem('token');
+		setIsLogin(false);
+		navigate("/login/cocinero")
+	}
 	return (
 		<nav className="navbar navbar-light bg-light">
 			<div className="container">
@@ -9,12 +23,12 @@ export const Navbar = () => {
 					<span className="navbar-brand mb-0 h1">cocinArte</span>
 				</Link>
 				<div className="ml-auto">
-					<Link to="/demo">
-						<button className="btn btn-primary">Check the Context in action</button>
-					</Link>
-					<Link to="/login/cocinero">
+					{(isLogin) ? <button onClick={logOut} className="btn btn-danger">LogOut</button> : 
+						<Link to="/login/cocinero">
 						<button className="btn btn-primary">Login Cocinero</button>
-					</Link>
+						</Link>
+					}
+					
 				</div>
 			</div>
 		</nav>

@@ -260,7 +260,9 @@ def login_user():
     user = User.query.filter_by(email=email).first()
 
     if user and user.password == password:
-        return jsonify('Se logueo correctamente!', user.serialize()), 200
+        access_token = create_access_token(identity=user.id)
+        return jsonify('Se logueo correctamente!', access_token), 200
+    
     else:
         return jsonify('Hubo un error en las credenciales'), 401
     

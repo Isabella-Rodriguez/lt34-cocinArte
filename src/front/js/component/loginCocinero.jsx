@@ -19,7 +19,7 @@ export function LoginCocinero(){
         if(resp.ok){
             const data = await resp.json()
             console.log(('Te has logueado'), data);
-            localStorage.setItem('token', true)//configurar JWT
+            localStorage.setItem('token', data.access_token)
             console.log('token guardado en LocalStorage')
             navigate('/')
         } else console.log('No has podido loguearte, revisa tus credenciales');
