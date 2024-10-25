@@ -275,6 +275,7 @@ def login_admin():
     admin = Administrador.query.filter_by(email=email).first()
 
     if admin and admin.password == password:
-        return jsonify('Se logueo correctamente!', admin.serialize()), 200
+        access_token = create_access_token(identity=admin.id)
+        return jsonify('Se logueo correctamente!', access_token), 200
     else:
         return jsonify('Hubo un error en las credenciales'), 401

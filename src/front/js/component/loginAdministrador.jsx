@@ -26,36 +26,36 @@ export function LoginAdmin(){
 			</div>
 			
 			<div>
-				<form onSubmit={handleSubmit}>
-					
-					<div className="form-group">
-						<label for="exampleInputPassword1">Correo Electronico</label>
-						<input
-							type="email"
-							name="email"
-							placeholder="Email"
-							value={formData.email}
-							onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-							required
-							className="form-control"
-						/>
-					</div>
+					<form onSubmit={handleSubmit}>
+						
+						<div className="form-group">
+							<label for="exampleInputPassword1">Correo Electronico</label>
+							<input
+								type="email"
+								name="email"
+								placeholder="Email"
+								value={formData.email}
+								onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+								required
+								className="form-control"
+							/>
+						</div>
 
-					<div className="form-group">
-						<label for="exampleInputPassword1">Contraseña</label>
-						<input
-							type="text"
-							name="password"
-							placeholder="Contraseña"
-							value={formData.password}
-							onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-							required
-							className="form-control"
-						/>
-					</div>
-					
-					<button type="submit" className="btn btn-success ">Ingresar</button>
-				</form>
+						<div className="form-group">
+							<label for="exampleInputPassword1">Contraseña</label>
+							<input
+								type="text"
+								name="password"
+								placeholder="Contraseña"
+								value={formData.password}
+								onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+								required
+								className="form-control"
+							/>
+						</div>
+						
+						<button type="submit" className="btn btn-success ">Ingresar</button>
+					</form>
 
 			</div>
 			
