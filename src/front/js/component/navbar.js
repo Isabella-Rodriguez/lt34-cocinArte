@@ -14,6 +14,7 @@ export const Navbar = () => {
 	const logOut = ()=>{
 		localStorage.removeItem('token');
 		setIsLogin(false);
+		console.log("Se cerro la sesion")
 		navigate("/login/cocinero")
 	}
 	return (
