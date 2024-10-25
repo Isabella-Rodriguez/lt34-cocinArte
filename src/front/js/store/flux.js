@@ -109,8 +109,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 				if(resp.ok){
 					const data = await resp.json()
 					console.log(('Te has logueado'), data);
-					localStorage.setItem('token', true)//configurar JWT
-					console.log('token guardado en LocalStorage: ')
+					localStorage.setItem('token', data.access_token)
+            		console.log('token de admin guardado en LocalStorage ')
 				} else console.log('No has podido loguearte, revisa tus credenciales');
 			}
 		}
