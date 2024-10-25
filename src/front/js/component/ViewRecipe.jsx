@@ -16,7 +16,7 @@ export function ViewRecipe(){
         setRecipe(resp)
     }
     const deleteReceta=async(id)=>{
-        const resp = await fetch(preocess.env.BACKEND_URL +`/api/recetas/${id}`,{
+        const resp = await fetch(process.env.BACKEND_URL +`/api/recetas/${id}`,{
             method:'DELETE',
         })
         if (resp.ok){
