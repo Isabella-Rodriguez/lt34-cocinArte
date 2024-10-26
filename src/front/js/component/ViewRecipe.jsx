@@ -41,6 +41,7 @@ export function ViewRecipe(){
             <h2>Fecha de publicacion:</h2>
             <p>{recipe.fecha_publicacion}</p>
             <img src={recipe.img_ilustrativa} alt="" />
+            <p>{recipe.category}</p>
         </div>
 
         <button onClick={()=>{deleteReceta(id)}}>Borrar Receta!</button>

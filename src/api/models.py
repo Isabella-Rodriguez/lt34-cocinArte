@@ -3,6 +3,12 @@ from datetime import datetime, timezone
 db = SQLAlchemy()
 import json
 
+#creo tabla intermedia para relacion muchos a muchos.
+recipe_categories = db.Table('recipe_categories',
+    db.Column('recipe_id', db.Integer, db.ForeignKey('recipe.id'), primary_key=True),
+    db.Column('category_id', db.Integer, db.ForeignKey('category.id'), primary_key=True)
+)
+
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(60), unique=False, nullable=False)
@@ -33,6 +39,7 @@ class Recipe(db.Model):
     fecha_publicacion= db.Column(db.DateTime, nullable=False, default=lambda : datetime.now(timezone.utc))
     img_ilustrativa= db.Column(db.String(200), nullable=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    categories = db.relationship('Category', secondary=recipe_categories, backref=db.backref('recipes'))
 
     def __repr__(self):
         return f'<User {self.title}'
@@ -45,7 +52,8 @@ class Recipe(db.Model):
             'pasos': self.pasos,
             'fecha_publicacion': self.fecha_publicacion,
             'img_ilustrativa': self.img_ilustrativa,
-            'user_id': self.user_id
+            'user_id': self.user_id,
+            'category':[Category.serialize() for category in self.categories]
         }
 class Administrador(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -68,3 +76,16 @@ class Administrador(db.Model):
             # do not serialize the password, its a security breach
         }    
 
+class Category(db.Model):
+    id= db.Column(db.Integer, primary_key=True)
+    name= db.Column(db.String(30), nullable=False, unique=False)
+
+    def _repr_(self):
+        return f'<Category {self.name}>'
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "name": self.name
+        } 
+    
