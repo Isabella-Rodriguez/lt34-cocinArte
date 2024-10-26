@@ -16,7 +16,7 @@ export function ViewRecipe(){
         setRecipe(resp)
     }
     const deleteReceta=async(id)=>{
-        const resp = await fetch(preocess.env.BACKEND_URL +`/api/recetas/${id}`,{
+        const resp = await fetch(process.env.BACKEND_URL +`/api/recetas/${id}`,{
             method:'DELETE',
         })
         if (resp.ok){
@@ -29,8 +29,8 @@ export function ViewRecipe(){
 
     return(
         <>
-        <div className="container d-flex flex-column">
-            <h1>{recipe.title}</h1>
+        <div className="container d-flex flex-column align-items-center">
+            <h1 className="container text-center">{recipe.title}</h1>
             <h2>Ingredientes!</h2>
             {recipe.ingredientes && recipe.ingredientes.length>0 ? (
                 recipe.ingredientes.map((ingrediente, index)=>(

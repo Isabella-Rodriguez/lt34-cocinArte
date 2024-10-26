@@ -24,12 +24,14 @@ export const Navbar = () => {
 					<span className="navbar-brand mb-0 h1">cocinArte</span>
 				</Link>
 				<div className="ml-auto">
-					{(isLogin) ? <button onClick={logOut} className="btn btn-danger">LogOut</button> : 
-						<Link to="/login/cocinero">
+					{(isLogin) ? <>
+						<Link className="mx-2" to={"/recipe/create"} ><button className="btn btn-primary">Crear Receta</button></Link>
+						<button onClick={logOut} className="btn btn-danger">LogOut</button>
+					</> : 
+						(<Link to="/login/cocinero">
 						<button className="btn btn-primary">Login Cocinero</button>
-						</Link>
+						</Link>)
 					}
-					
 				</div>
 			</div>
 		</nav>
