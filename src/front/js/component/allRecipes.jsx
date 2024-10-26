@@ -21,14 +21,14 @@ export function AllRecipes(){
     }
 
     return(
-        <>
+        <div className="container d-flex flex-column align-items-center gap-5 ">
         {(recipes.length!=0) ? (recipes.map((recipe,index)=>(
-            <div key={index}>
-            <h1 >{recipe.title}</h1>
-            <h3>{recipe.fecha_publicacion}</h3>
-            <Link to={`/recipe/${recipe.id}`}><button>Quiero probarla!</button></Link>
+            <div className="border px-2" key={index}>
+            <h1 className="text-center">{recipe.title}</h1>
+            <h3 className="text-center">{recipe.fecha_publicacion}</h3>
+            <Link className="d-flex justify-content-center mb-2" to={`/recipe/${recipe.id}`}><button className="btn btn-success">Quiero probarla!</button></Link>
             </div>
         ))):<h1>No hay recetas que mostrar actualmente</h1>}
-        </>
+        </div>
     )
 }
