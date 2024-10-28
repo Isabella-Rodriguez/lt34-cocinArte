@@ -26,6 +26,7 @@ import { ViewRecipe } from "./component/ViewRecipe.jsx";
 import { AllRecipes } from "./component/allRecipes.jsx";
 import { EditRecipe } from "./component/editRecipes.jsx";
 import { LoginCocinero } from "./component/loginCocinero.jsx";
+import { CategoriesAdmin } from "./component/createCategories.jsx";
 
 //create your first component
 const Layout = () => {
@@ -40,6 +41,7 @@ const Layout = () => {
             <BrowserRouter basename={basename}>
                 <ScrollToTop>
                     <Navbar />
+                    <CategoriesAdmin/>
                     <Routes>
                         <Route element={<Home />} path="/" />
                         <Route element={<Demo />} path="/demo" />

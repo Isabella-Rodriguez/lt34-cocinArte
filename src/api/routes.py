@@ -290,9 +290,9 @@ def login_admin():
 @api.route('/categorias/create', methods=['POST'])
 def create_categoria():
     body = request.get_json()
-    name = body.get('name')
+    nombre = body.get('nombre')
 
-    new_categoria = Category(name=name)
+    new_categoria = Category(name=nombre)
     db.session.add(new_categoria)
     db.session.commit()
     return jsonify(new_categoria.serialize()), 200
@@ -322,10 +322,9 @@ def update_category(id):
 
 @api.route('/categorias/<int:id>', methods=['DELETE'])
 def delete_category(id):
-    category = Category.quey.get(id)
+    category = Category.query.get(id)
     if not category:
         return jsonify({"msg":"Categoria no encontrada!!"}),400
-    
     db.session.delete(category)
     db.session.commit()
     return jsonify({"msg": "Categoria eliminada"}),200
