@@ -5,6 +5,7 @@ from flask import Flask, request, jsonify, url_for, Blueprint
 from api.models import db, User, Recipe
 from api.models import db, User, Administrador, Category
 from api.models import db, User, User
+from api.models import db, User, Favorito
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 from werkzeug.security import check_password_hash
@@ -328,3 +329,43 @@ def delete_category(id):
     db.session.delete(category)
     db.session.commit()
     return jsonify({"msg": "Categoria eliminada"}),200
+
+@api.route('/favoritos', methods=['GET'])
+@jwt_required()
+def obtener_favoritos():
+    user_id = get_jwt_identity()  
+    favoritos = Favorito.query.filter_by(user_id=user_id).all()
+    
+    return jsonify({
+        "user_id": user_id,
+        "favoritos": [favorito.serialize() for favorito in favoritos]
+    }),200
+
+
+@api.route('/favoritos/<int:recipe_id>', methods=['POST'])
+@jwt_required()
+def agregar_favorito(recipe_id):
+    user_id = get_jwt_identity()  
+
+    favorito_existente = Favorito.query.filter_by(user_id=user_id, recipe_id=recipe_id).first()
+    if favorito_existente:
+        return jsonify({"msg": "La receta ya está en favoritos"}), 409
+
+    nuevo_favorito = Favorito(user_id=user_id, recipe_id=recipe_id)
+    db.session.add(nuevo_favorito)
+    db.session.commit()
+    return jsonify({"msg": "Receta añadida a favoritos"}), 201
+
+@api.route('/favoritos/<int:recipe_id>', methods=['DELETE'])
+@jwt_required()
+def eliminar_favorito(recipe_id):
+    user_id = get_jwt_identity() 
+
+    # Buscar el favorito en la base de datos
+    favorito = Favorito.query.filter_by(user_id=user_id, recipe_id=recipe_id).first()
+    if not favorito:
+        return jsonify({"msg": "La receta no está en favoritos"}), 404
+
+    db.session.delete(favorito)
+    db.session.commit()
+    return jsonify({"msg": "Receta eliminada de favoritos"}), 200

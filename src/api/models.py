@@ -17,6 +17,7 @@ class User(db.Model):
     password = db.Column(db.String(80), unique=False, nullable=False)
     is_active = db.Column(db.Boolean(), unique=False, nullable=False)
     recipes = db.relationship('Recipe', backref='user')
+    favoritos = db.relationship('Favorito', backref='user')
 
     def __repr__(self):
         return f'<User {self.email}>'
@@ -28,7 +29,7 @@ class User(db.Model):
             "last_name": self.last_name,
             "email": self.email,
             "is_active": self.is_active,
-            "recipes": self.recipes
+            "recipes": [recipe.serialize() for recipe in self.recipes]
             # do not serialize the password, its a security breach
         }
 class Recipe(db.Model):
@@ -40,6 +41,7 @@ class Recipe(db.Model):
     img_ilustrativa= db.Column(db.String(200), nullable=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     categories = db.relationship('Category', secondary=recipe_categories, backref=db.backref('recipes'))
+    favoritos = db.relationship('Favorito', backref='recipe')
 
     def __repr__(self):
         return f'<User {self.title}'
@@ -88,4 +90,19 @@ class Category(db.Model):
             "id": self.id,
             "name": self.name
         } 
+
+class Favorito(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    recipe_id = db.Column(db.Integer, db.ForeignKey('recipe.id'), nullable=False)
+    __table_args__ = (db.UniqueConstraint('user_id', 'recipe_id', name='_user_recipe_uc'),)
     
+    def _repr_(self):
+        return f'<Favorito {self.user_id}>'
+
+    def serialize(self):
+        return {
+            "favorito_id": self.id,
+            "user_id": self.user_id,
+            "recipe_id": self.recipe_id
+        }

@@ -1,7 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
+
+import { Context } from "../store/appContext";
+
 export function ViewRecipe(){
+    const { store, actions } = useContext(Context);
     const [recipe, setRecipe]=useState({})
     const{id}= useParams()
     const navigate = useNavigate()
@@ -46,6 +50,7 @@ export function ViewRecipe(){
 
         <button onClick={()=>{deleteReceta(id)}}>Borrar Receta!</button>
         <Link to={`/recipe/edit/${id}`}><button>Editar Receta!</button></Link>
+        <button onClick={()=>{actions.addFav(id)}}>Añadir a favoritos!</button>
         </>
     )
 }

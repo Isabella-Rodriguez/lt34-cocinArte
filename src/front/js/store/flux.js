@@ -14,7 +14,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 					initial: "white"
 				}
 			],
-			users:[]
+			users:[],
+			favoritos:[]
 		},
 		actions: {
 
@@ -112,7 +113,51 @@ const getState = ({ getStore, getActions, setStore }) => {
 					localStorage.setItem('token', data.access_token)
             		console.log('token de admin guardado en LocalStorage ')
 				} else console.log('No has podido loguearte, revisa tus credenciales');
-			}
+			},
+
+			loadFavs: () => {
+				const token = localStorage.getItem('token');
+				const requestOptions = {
+					method: 'GET',
+					headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}`},
+					body: JSON.stringify()
+				}
+				fetch(process.env.BACKEND_URL + '/api/favoritos',requestOptions)
+        		.then(response => response.json())
+        		.then(data => {
+					console.log(data);
+					const store = getStore();
+					setStore({favoritos:data.favoritos})
+					console.log(store.favoritos)
+				});
+			},
+
+			deleteFav: (index) => {
+				const store = getStore(); 
+				const token = localStorage.getItem('token');
+				const requestOptions = {
+					method: 'DELETE',
+					headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}`},
+					body: JSON.stringify()
+				};
+				let idToDelete = store.favoritos[index].recipe_id;
+				console.log("Se borrara favorito: " + idToDelete)
+				setStore({favoritos : store.favoritos.filter( (favorito,indx)=>indx!=index) });
+				fetch(process.env.BACKEND_URL + '/api/favoritos/' + idToDelete, requestOptions)
+					.then(response => console.log("Se borro favorito con id: " + idToDelete));		
+			},
+
+			addFav: (id) => {
+				const token = localStorage.getItem('token');
+				const requestOptions = {
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}`},
+					body: JSON.stringify()
+				};
+				fetch(process.env.BACKEND_URL + '/api/favoritos/' + id, requestOptions)
+					.then(response => response.json())
+					.then(data => console.log("Favorito añadido"));
+			},
 		}
 	};
 };
