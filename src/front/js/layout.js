@@ -41,7 +41,6 @@ const Layout = () => {
             <BrowserRouter basename={basename}>
                 <ScrollToTop>
                     <Navbar />
-                    <CategoriesAdmin/>
                     <Routes>
                         <Route element={<Home />} path="/" />
                         <Route element={<Demo />} path="/demo" />
@@ -58,6 +57,7 @@ const Layout = () => {
                         <Route element={<AllRecipes />} path="/recipe/"/>
                         <Route element={<EditRecipe />} path="/recipe/edit/:id"/>
                         <Route element={<LoginCocinero/>} path="/login/cocinero"/>
+                        <Route element={<CategoriesAdmin/>} path="/categories/create"/>
                         <Route element={<h1>Not found!</h1>} />
                     </Routes>
                     <Footer />
