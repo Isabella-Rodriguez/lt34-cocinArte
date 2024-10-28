@@ -51,6 +51,7 @@ export function ViewRecipe(){
         <button onClick={()=>{deleteReceta(id)}}>Borrar Receta!</button>
         <Link to={`/recipe/edit/${id}`}><button>Editar Receta!</button></Link>
         <button onClick={()=>{actions.addFav(id)}}>Añadir a favoritos!</button>
+        <Link to={`/comentarios/crear`}><button>crear comentarios</button></Link>
         </>
     )
 }

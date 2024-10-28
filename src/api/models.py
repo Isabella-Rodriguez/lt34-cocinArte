@@ -19,6 +19,8 @@ class User(db.Model):
     recipes = db.relationship('Recipe', backref='user')
     favoritos = db.relationship('Favorito', backref='user')
 
+    comments = db.relationship('Comment', backref='user', lazy=True)
+
     def __repr__(self):
         return f'<User {self.email}>'
 
@@ -43,6 +45,8 @@ class Recipe(db.Model):
     categories = db.relationship('Category', secondary=recipe_categories, backref=db.backref('recipes'))
     favoritos = db.relationship('Favorito', backref='recipe')
 
+    comments = db.relationship('Comment', backref='recipe', lazy=True)
+
     def __repr__(self):
         return f'<User {self.title}'
     
@@ -65,7 +69,7 @@ class Administrador(db.Model):
     password = db.Column(db.String(80), unique=False, nullable=False)
     is_active = db.Column(db.Boolean(), unique=False, nullable=False)
 
-    def _repr_(self):
+    def __repr__ (self):
         return f'<Administrador {self.email}>'
 
     def serialize(self):
@@ -77,6 +81,23 @@ class Administrador(db.Model):
             "is_active": self.is_active
             # do not serialize the password, its a security breach
         }    
+
+class Comment(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    recipe_id = db.Column(db.Integer, db.ForeignKey('recipe.id'), nullable=False)
+    comment_text = db.Column(db.String(500), nullable=False)
+
+    def __repr__(self):
+        return f'<Comment {self.id} by User {self.user_id} on Recipe {self.recipe_id}>'
+
+    def serialize(self):
+        return {
+             "id": self.id,
+            "user_id": self.user_id,  
+            "recipe_id": self.recipe_id,  
+            "comment_text": self.comment_text,
+        }        
 
 class Category(db.Model):
     id= db.Column(db.Integer, primary_key=True)

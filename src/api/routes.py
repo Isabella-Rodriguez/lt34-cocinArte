@@ -3,6 +3,8 @@ This module takes care of starting the API Server, Loading the DB and Adding the
 """
 from flask import Flask, request, jsonify, url_for, Blueprint
 from api.models import db, User, Recipe
+from api.models import db, User, Administrador
+from api.models import db, User, User, Comment
 from api.models import db, User, Administrador, Category
 from api.models import db, User, User
 from api.models import db, User, Favorito
@@ -13,6 +15,7 @@ from flask_jwt_extended import create_access_token
 from flask_jwt_extended import get_jwt_identity
 from flask_jwt_extended import jwt_required
 from flask_jwt_extended import JWTManager
+from sqlalchemy.exc import SQLAlchemyError
 
 api = Blueprint('api', __name__)
 
@@ -288,6 +291,97 @@ def login_admin():
     else:
         return jsonify('Hubo un error en las credenciales'), 401
     
+@api.route('/comentario', methods=['GET'])
+def get_comentarios():
+    try:
+        all_comentarios = Comment.query.all()
+        print(f'Comentarios recuperados: {all_comentarios}')
+        results = list(map(lambda comentario: comentario.serialize(), all_comentarios))
+        print(f'Resultados serializados: {results}')
+        return jsonify(results), 200
+    except Exception as e:
+        print(f'Error: {e}')
+        return jsonify({"msg": "Error interno del servidor", "error": str(e)}), 500
+    
+
+
+@api.route("/comentario", methods=["POST"])
+def create_comment():
+    body = request.get_json() 
+    if not body:
+        return jsonify({"msg": "No se recibió ningún dato"}), 400
+    if "user_id" not in body or "recipe_id" not in body or "comment_text" not in body:
+        return jsonify({"msg": "Datos incompletos"}), 400
+    if not body["comment_text"].strip():
+        return jsonify({"msg": "El texto del comentario no puede estar vacío"}), 400
+
+    user = User.query.get(body["user_id"])
+    if not user:
+        return jsonify({"msg": "Usuario no encontrado"}), 404
+
+    recipe = Recipe.query.get(body["recipe_id"])
+    if not recipe:
+        return jsonify({"msg": "Receta no encontrada"}), 404
+
+    try:
+        comentario = Comment(
+            user_id=user.id,
+            recipe_id=recipe.id,
+            comment_text=body["comment_text"]
+        )
+        db.session.add(comentario)
+        db.session.commit()
+
+        response_body = {
+            "msg": "Comentario creado con éxito",
+            "comment": comentario.serialize()  
+        }
+        return jsonify(response_body), 201
+    
+    except SQLAlchemyError as e:
+        db.session.rollback()
+        return jsonify({"msg": "Error al crear el comentario", "error": str(e)}), 500
+   
+
+@api.route('/edit/comentario/<int:comentario_id>', methods=['PUT'])
+def edit_comentario(comentario_id):
+ 
+    comentario = Comment.query.get(comentario_id)
+    if not comentario:
+        return jsonify({"msg": "Comentario no encontrado"}), 404
+    
+    data = request.get_json()
+    
+    if 'comment_text' not in data:
+        return jsonify({"msg": "El texto del comentario es requerido"}), 400
+
+    comentario.comment_text = data['comment_text']
+    db.session.commit()
+    return jsonify(comentario.serialize()), 200
+
+
+@api.route('/delete/comentario/<int:comentario_id>', methods=['DELETE']) 
+def delete_comentario(comentario_id): 
+    comentario = Comment.query.get(comentario_id)
+    if not comentario:
+        return jsonify({"msg": "Comentario no encontrado"}), 404  
+    
+    db.session.delete(comentario)
+    db.session.commit()  
+    
+    return jsonify({"msg": "Comentario eliminado exitosamente"}), 200
+
+@api.route('/comentario/<int:comentario_id>', methods=['GET'])
+def get_comentario(comentario_id):
+    try:
+        comentario = Comment.query.get(comentario_id)
+        if not comentario:
+            return jsonify({"msg": "Comentario no encontrado"}), 404
+        
+        return jsonify(comentario.serialize()), 200
+    except Exception as e:
+        print(f'Error: {e}')
+        return jsonify({"msg": "Error interno del servidor", "error": str(e)}), 500    
 @api.route('/categorias/create', methods=['POST'])
 def create_categoria():
     body = request.get_json()
