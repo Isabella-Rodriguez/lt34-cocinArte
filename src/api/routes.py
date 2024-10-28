@@ -5,6 +5,8 @@ from flask import Flask, request, jsonify, url_for, Blueprint
 from api.models import db, User, Recipe
 from api.models import db, User, Administrador
 from api.models import db, User, User, Comment
+from api.models import db, User, Administrador, Category
+from api.models import db, User, User
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 from werkzeug.security import check_password_hash
@@ -37,8 +39,14 @@ def create_recete():
         ingredientes=data['ingredientes'],
         pasos=data['pasos'],
         img_ilustrativa=data['img_ilustrativa'],
-        user_id=data['user_id']
+        user_id=data['user_id'],
     )
+    categoria_ids = data.get('categorias',[])
+    for categoria_id in categoria_ids:
+        categoria = Category.query.get(categoria_id)
+        if categoria:
+            new_recipe.categories.append(categoria)
+
     print(new_recipe)
     db.session.add(new_recipe)
     db.session.commit()
@@ -373,3 +381,44 @@ def get_comentario(comentario_id):
     except Exception as e:
         print(f'Error: {e}')
         return jsonify({"msg": "Error interno del servidor", "error": str(e)}), 500    
+@api.route('/categorias/create', methods=['POST'])
+def create_categoria():
+    body = request.get_json()
+    nombre = body.get('nombre')
+
+    new_categoria = Category(name=nombre)
+    db.session.add(new_categoria)
+    db.session.commit()
+    return jsonify(new_categoria.serialize()), 200
+
+@api.route('/categorias', methods=['GET'])
+def get_categories():
+    categories= Category.query.all()
+    return jsonify([categoria.serialize() for categoria in categories]), 200
+
+@api.route('/categorias/<int:id>', methods=['GET'])
+def get_category(id):
+    category = Category.query.get(id)
+    if not category:
+        return jsonify({"msg":"Categoria no encontrada"}),400
+    return jsonify({category.serialize()}),200
+
+@api.route('/categorias/<int:id>', methods=['PUT'])
+def update_category(id):
+    body = request.get_json()
+    category = Category.query.get(id)
+    name = body.get('name')
+    if name:
+        category.name = name
+
+    db.session.commit()
+    return jsonify(category.serialize()),200
+
+@api.route('/categorias/<int:id>', methods=['DELETE'])
+def delete_category(id):
+    category = Category.query.get(id)
+    if not category:
+        return jsonify({"msg":"Categoria no encontrada!!"}),400
+    db.session.delete(category)
+    db.session.commit()
+    return jsonify({"msg": "Categoria eliminada"}),200
