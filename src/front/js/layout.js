@@ -26,6 +26,9 @@ import { ViewRecipe } from "./component/ViewRecipe.jsx";
 import { AllRecipes } from "./component/allRecipes.jsx";
 import { EditRecipe } from "./component/editRecipes.jsx";
 import { LoginCocinero } from "./component/loginCocinero.jsx";
+import { EditComment } from "./component/editcomment.js";
+import { CreateComment } from "./component/createcomment.js";
+import { ListComentarios } from "./component/listcomentarios.js"
 import { CategoriesAdmin } from "./component/createCategories.jsx";
 
 //create your first component
@@ -56,6 +59,10 @@ const Layout = () => {
                         <Route element={<ViewRecipe />} path="/recipe/:id"/>
                         <Route element={<AllRecipes />} path="/recipe/"/>
                         <Route element={<EditRecipe />} path="/recipe/edit/:id"/>
+                        <Route element={<LoginCocinero />} path="/login/cocinero"/>
+                        <Route element={<ListComentarios />} path="/comment/list"/>
+                        <Route element={<CreateComment />} path="/comentarios/crear"/>
+                        <Route element={<EditComment />} path="/comment/edit/:id"/>
                         <Route element={<LoginCocinero/>} path="/login/cocinero"/>
                         <Route element={<CategoriesAdmin/>} path="/categories/create"/>
                         <Route element={<h1>Not found!</h1>} />
