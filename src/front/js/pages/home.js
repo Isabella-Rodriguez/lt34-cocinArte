@@ -26,6 +26,7 @@ export const Home = () => {
 			</p>
 			<Link to="/recipe/"><button>Ver Recetas!</button></Link>
 			<Link to="/recipe/create"><button>Crear Receta!</button></Link>
+			<Link to="/categories/create"><button>Crear etiquetas!</button></Link>
 		</div>
 	);
 };

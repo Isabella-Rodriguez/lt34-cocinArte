@@ -10,8 +10,17 @@ export function CreateRecipe(){
     const [ingredient, setIngredient]=useState('')
     const [ingredients, setIngredients]=useState([])
     const [title, setTitle]=useState('')
-
+    const [categories, setCategories]= useState([])
+    const [selectedCategories, setSelectedCategories] = useState([]);
     
+    useEffect(()=>{
+        fetch(process.env.BACKEND_URL + '/api/categorias',{
+            method:'GET',
+            headers: { 'Content-Type': 'application/json' }
+        })
+        .then(response => response.json())
+        .then(data => setCategories(data))
+    },[])
 
     const createIngredientsList=(e)=>{
         if(e.key==='Enter'||e.type==='click'){
@@ -27,6 +36,15 @@ export function CreateRecipe(){
         const newIngredients = ingredients.filter((_, i) => i !== index)
         setIngredients(newIngredients);}
 
+    const addCategorySlection=(categoryId)=>{
+        if (selectedCategories.includes(categoryId)){
+            const categoryToSend = selectedCategories.filter(id => id!= categoryId)
+            setSelectedCategories(categoryToSend)
+        } else {
+            setSelectedCategories([...selectedCategories, categoryId])
+        }
+    }
+
     const sendRecipe = (e)=>{
         e.preventDefault();
         const token = localStorage.getItem('token');
@@ -40,12 +58,13 @@ export function CreateRecipe(){
             'ingredientes': ingredients,
             'pasos': steps,
             'img_ilustrativa':img,
-            'user_id':userId
-        }
+            'user_id':userId,
+            'categories':selectedCategories
+        };
         console.log(dataSend)
         fetch(process.env.BACKEND_URL + '/api/recetas', {
             method:'POST',
-            headers: {'Content-Type': 'application/json'},
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(dataSend),
         }).then(response=>{
             if(response.ok){
@@ -86,6 +105,15 @@ return(
             <div className="d-flex flex-column">
                 <label className="form-label" htmlFor="img">Show us your finished recipe url!</label>
                 <input className="form-control" id="img" type="text" aria-label="Add steps" onChange={(e)=>{setImg(e.target.value)}}/>
+            </div>
+            <div className="d-flex flex-column">
+                <label className="form-label">Selecciona las categorias adecuadas para tu receta!</label>
+                {categories.map((categories)=>(
+                    <div key={categories.id} className="form-check" >
+                        <input className="form-check-input" type="checkbox" value={categories.id} onChange={()=>{addCategorySlection(categories.id)}}/>
+                        <label className="form-check-label">{categories.name}</label>
+                    </div>
+                ))}
             </div>
             <button className="btn btn-success col-4 mx-auto" onClick={(e)=>{sendRecipe(e)}}>A cocinar!</button>
         </form>
