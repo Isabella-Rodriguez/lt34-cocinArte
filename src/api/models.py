@@ -59,7 +59,7 @@ class Recipe(db.Model):
             'fecha_publicacion': self.fecha_publicacion,
             'img_ilustrativa': self.img_ilustrativa,
             'user_id': self.user_id,
-            'category':[Category.serialize() for Category in self.categories]
+            'categories':[category.serialize() for category in self.categories]
         }
 class Administrador(db.Model):
     id = db.Column(db.Integer, primary_key=True)

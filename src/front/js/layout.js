@@ -32,6 +32,7 @@ import { ListComentarios } from "./component/listcomentarios.js"
 import { CategoriesAdmin } from "./component/createCategories.jsx";
 
 import { Favoritos } from "./component/favoritos.jsx";
+import { SearchByCategories } from "./component/searchbyCategories.jsx";
 
 //create your first component
 const Layout = () => {
@@ -68,6 +69,8 @@ const Layout = () => {
                         <Route element={<LoginCocinero/>} path="/login/cocinero"/>
                         <Route element={<CategoriesAdmin/>} path="/categories/create"/>
                         <Route element={<Favoritos />} path="/favoritos"/>
+                        <Route element={<SearchByCategories />} path="/category/search/:categoryId"/>
+
                         <Route element={<h1>Not found!</h1>} />
                     </Routes>
                     <Footer />
