@@ -5,7 +5,7 @@ from flask import Flask, request, jsonify, url_for, Blueprint
 from api.models import db, User, Recipe
 from api.models import db, User, Administrador
 from api.models import db, User, User, Comment
-from api.models import db, User, Administrador, Category
+from api.models import db, User, Administrador, Category, recipe_categories
 from api.models import db, User, User
 from api.models import db, User, Favorito
 from api.utils import generate_sitemap, APIException
@@ -42,7 +42,7 @@ def create_recete():
         img_ilustrativa=data['img_ilustrativa'],
         user_id=data['user_id'],
     )
-    categoria_ids = data.get('categorias',[])
+    categoria_ids = data.get('categories',[])
     for categoria_id in categoria_ids:
         categoria = Category.query.get(categoria_id)
         if categoria:
@@ -463,3 +463,21 @@ def eliminar_favorito(recipe_id):
     db.session.delete(favorito)
     db.session.commit()
     return jsonify({"msg": "Receta eliminada de favoritos"}), 200
+
+@api.route('/recetas/filter/<int:categoria_id>', methods=['GET'])
+def filtrar_recetas(categoria_id):
+        recetas = Recipe.query.join(recipe_categories).join(Category).filter(Category.id == categoria_id).all()
+        if not recetas:
+            return jsonify({"message": "No se encontraron recetas"}), 404
+        return jsonify([recipe.serialize() for recipe in recetas]), 200
+
+@api.route('/recetas/filter/search', methods=['GET'])
+def search_recipe():
+    query = request.args.get('query')
+    if not query:
+        return jsonify({"msg": "No se proporciono palabra de busqueda"}), 400
+    recetas = Recipe.query.filter(Recipe.title.ilike(f"%{query}%")).all()
+    if not recetas: 
+        return jsonify({"message": "No se encontraron recetas"}), 404 
+    return jsonify([recipe.serialize() for recipe in recetas]), 200
+
