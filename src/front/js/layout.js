@@ -33,6 +33,7 @@ import { CategoriesAdmin } from "./component/createCategories.jsx";
 
 import { Favoritos } from "./component/favoritos.jsx";
 import { SearchByCategories } from "./component/searchbyCategories.jsx";
+import { SearchByTitle } from "./component/searchByTitle.jsx";
 
 //create your first component
 const Layout = () => {
@@ -70,6 +71,7 @@ const Layout = () => {
                         <Route element={<CategoriesAdmin/>} path="/categories/create"/>
                         <Route element={<Favoritos />} path="/favoritos"/>
                         <Route element={<SearchByCategories />} path="/category/search/:categoryId"/>
+                        <Route element={<SearchByTitle />} path="/search"/>
 
                         <Route element={<h1>Not found!</h1>} />
                     </Routes>

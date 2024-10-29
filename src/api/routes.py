@@ -471,4 +471,13 @@ def filtrar_recetas(categoria_id):
             return jsonify({"message": "No se encontraron recetas"}), 404
         return jsonify([recipe.serialize() for recipe in recetas]), 200
 
+@api.route('/recetas/filter/search', methods=['GET'])
+def search_recipe():
+    query = request.args.get('query')
+    if not query:
+        return jsonify({"msg": "No se proporciono palabra de busqueda"}), 400
+    recetas = Recipe.query.filter(Recipe.title.ilike(f"%{query}%")).all()
+    if not recetas: 
+        return jsonify({"message": "No se encontraron recetas"}), 404 
+    return jsonify([recipe.serialize() for recipe in recetas]), 200
 
