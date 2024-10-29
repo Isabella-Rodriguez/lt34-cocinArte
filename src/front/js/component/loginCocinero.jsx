@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../store/appContext";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export function LoginCocinero(){
     const navigate = useNavigate()
@@ -37,7 +37,8 @@ export function LoginCocinero(){
                 <label className="form-label" htmlFor="password">Password</label>
                 <input className="form-control" type="password" name="password" id="password" placeholder="Enter your password"/>
             </div>
-            <button className="btn btn-primary col-4">Login!</button>
+            <button className="btn btn-success col-4">Login!</button>
+            <Link className="btn btn-primary col-4" to={'/singup'}>Singup</Link>
         </form>
     </div>)
 }

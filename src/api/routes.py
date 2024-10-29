@@ -16,6 +16,9 @@ from flask_jwt_extended import get_jwt_identity
 from flask_jwt_extended import jwt_required
 from flask_jwt_extended import JWTManager
 from sqlalchemy.exc import SQLAlchemyError
+import cloudinary 
+import cloudinary.uploader 
+import cloudinary.api
 
 api = Blueprint('api', __name__)
 
@@ -32,7 +35,7 @@ def handle_hello():
 
     return jsonify(response_body), 200
 
-@api.route('/recetas/', methods=['POST'])
+@api.route('/recetas/create', methods=['POST'])
 def create_recete():
     data = request.get_json()
     new_recipe= Recipe(
@@ -89,9 +92,14 @@ def update_recipe(id):
         recipe.ingredientes = data['ingredientes']
         recipe.pasos=data['pasos']
         recipe.img_ilustrativa=data['img_ilustrativa']
+        categoria_ids = data.get('categories',[])
+        for categoria_id in categoria_ids:
+            categoria = Category.query.get(categoria_id)
+            if categoria:
+                recipe.categories.append(categoria)
         db.session.commit()
         return jsonify(recipe.serialize()), 200
-    else: {"msg": "Recipe not found!"}, 400
+    else: jsonify({"msg": "Recipe not found!"}), 400
 
 
 @api.route("/administrador", methods=["POST"])
@@ -189,20 +197,30 @@ def update_administrador(administrador_id):
 
 @api.route('/usuario', methods=['POST'])
 def create_usuario():
-    body = request.get_json()
-    
-    if not body:
-        return jsonify({"msg": "No se recibió ningún dato"}), 400
+    body = request.form
+    img_to_send = request.files.get('file')
+    print("Image file:", img_to_send)
+    img_profile_url=None
+    print("Form data:", request.form)
+    print("Files data:", request.files)
 
+    if img_to_send:
+        try:
+            upload_data = cloudinary.uploader.upload(img_to_send)
+            img_profile_url = upload_data['url']
+        except Exception as e:
+            print(f"Error al subir imagen: {e}")
+            return jsonify({"msg": f"Error al subir imagen: {e}"}), 500
     # Verificar si el usuario ya existe por email
     usuario = User.query.filter_by(email=body["email"]).first()
     if usuario is None:
         new_usuario = User(
-            name=body["name"],
-            last_name=body["last_name"],
-            email=body["email"],
-            password=body["password"],  
-            is_active=True
+            name=request.form['name'],
+            last_name=request.form["last_name"],
+            email=request.form["email"],
+            password=request.form["password"],  
+            is_active=True,
+            img_profile= img_profile_url
         )
         db.session.add(new_usuario)
         db.session.commit()

@@ -12,7 +12,9 @@ from api.admin import setup_admin
 from api.commands import setup_commands
 from flask_jwt_extended import JWTManager
 from flask_cors import CORS
-
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
 
 # from models import Person
 
@@ -24,6 +26,12 @@ app.url_map.strict_slashes = False
 app.config['JWT_SECRET_KEY'] = 'your_secret_key'
 CORS(app)
 jwt = JWTManager(app)
+
+cloudinary.config(
+    cloud_name='dpcgrumpo',
+    api_key='877179688653641',
+    api_secret='yKSWP9CK2NYRXTjmShmxSJOIFo8'
+)
 
 # database condiguration
 db_url = os.getenv("DATABASE_URL")
