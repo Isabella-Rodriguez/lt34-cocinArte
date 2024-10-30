@@ -1,6 +1,6 @@
 import { element } from "prop-types";
 import React, { useEffect, useState } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 
 export function CreateRecipe(){
@@ -62,7 +62,7 @@ export function CreateRecipe(){
             'categories':selectedCategories
         };
         console.log(dataSend)
-        fetch(process.env.BACKEND_URL + '/api/recetas', {
+        fetch(process.env.BACKEND_URL + '/api/recetas/create', {
             method:'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(dataSend),
@@ -81,7 +81,7 @@ export function CreateRecipe(){
 return(
         <>
         {localStorage.getItem('token') ? <div className="container col-6 d-flex flex-column gap-3">
-            <h1 className="text-center my-4">Publicar Receta</h1>
+            <h1 className="text-center my-4">Publica tu receta!</h1>
         <form onSubmit={(e)=>{sendRecipe(e)}} action="" className="container d-flex flex-column gap-2">
             <div className="d-flex flex-column">
                 <label className="form-label" htmlFor="title">Enter recipe title:</label>
@@ -93,7 +93,7 @@ return(
                 {ingredients.length!=0 ? ingredients.map((element, index)=>(
                     <div key={index} className="d-flex align-items-center">
                         <h1>{element}</h1>
-                        <button type="button" onClick={() => removeIngredient(index)}>Eliminar</button>
+                        <button className="btn btn-danger ms-2" type="button" onClick={() => removeIngredient(index)}>Eliminar</button>
                     </div>)):
                     null}
                 <input className="form-control" id="ingredients" type="text" placeholder="Ingredients" onChange={(e)=>{setIngredient(e.target.value)}} onKeyDown={createIngredientsList}/>
@@ -116,6 +116,7 @@ return(
                 ))}
             </div>
             <button className="btn btn-success col-4 mx-auto" onClick={(e)=>{sendRecipe(e)}}>A cocinar!</button>
+            <Link to={'/'} className="btn btn-secondary col-4 mx-auto" >Cancelar</Link>
         </form>
         </div>:
         <>

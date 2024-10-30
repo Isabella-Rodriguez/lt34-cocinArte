@@ -16,6 +16,7 @@ class User(db.Model):
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(80), unique=False, nullable=False)
     is_active = db.Column(db.Boolean(), unique=False, nullable=False)
+    img_profile = db.Column(db.String(200), nullable=True)
     recipes = db.relationship('Recipe', backref='user')
     favoritos = db.relationship('Favorito', backref='user')
 
@@ -31,7 +32,8 @@ class User(db.Model):
             "last_name": self.last_name,
             "email": self.email,
             "is_active": self.is_active,
-            "recipes": [recipe.serialize() for recipe in self.recipes]
+            "recipes": [recipe.serialize() for recipe in self.recipes],
+            "img_profile":self.img_profile
             # do not serialize the password, its a security breach
         }
 class Recipe(db.Model):
