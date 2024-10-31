@@ -379,8 +379,14 @@ def edit_comentario(comentario_id):
 
 
 @api.route('/delete/comentario/<int:comentario_id>', methods=['DELETE']) 
+@jwt_required()
 def delete_comentario(comentario_id): 
+    user_id = get_jwt_identity()
+    print (user_id)
     comentario = Comment.query.get(comentario_id)
+    if comentario.user_id!=user_id:
+        return jsonify({"msg": "Comentario no pertenece al usuario"}), 404 
+
     if not comentario:
         return jsonify({"msg": "Comentario no encontrado"}), 404  
     
@@ -399,7 +405,26 @@ def get_comentario(comentario_id):
         return jsonify(comentario.serialize()), 200
     except Exception as e:
         print(f'Error: {e}')
-        return jsonify({"msg": "Error interno del servidor", "error": str(e)}), 500    
+        return jsonify({"msg": "Error interno del servidor", "error": str(e)}), 500 
+    
+
+@api.route('/comentario/receta/<int:recipe_id>', methods=['GET'])
+def get_comments_by_recipe(recipe_id):
+    try:
+        comentarios = Comment.query.filter_by(recipe_id=recipe_id).all()
+        
+        if not comentarios:
+            return jsonify({"msg": "No hay comentarios para esta receta"}), 404
+
+        results = [comentario.serialize() for comentario in comentarios]
+        return jsonify(results), 200
+
+    except Exception as e:
+        print(f"Error: {e}")
+        return jsonify({"msg": "Error interno del servidor", "error": str(e)}), 500
+
+
+       
 @api.route('/categorias/create', methods=['POST'])
 def create_categoria():
     body = request.get_json()
