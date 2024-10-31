@@ -99,6 +99,7 @@ class Comment(db.Model):
             "user_id": self.user_id,  
             "recipe_id": self.recipe_id,  
             "comment_text": self.comment_text,
+            "user_email": self.user.email,
         }        
 
 class Category(db.Model):

@@ -15,7 +15,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			],
 			users:[],
-			favoritos:[]
+			favoritos:[],
+			Comments:[]
 		},
 		actions: {
 
