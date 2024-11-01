@@ -1,32 +1,57 @@
-import React, { useContext } from "react";
-import { Context } from "../store/appContext";
-import rigoImageUrl from "../../img/rigo-baby.jpg";
+import React, { useEffect, useState } from "react";
 import "../../styles/home.css";
 import { Link } from "react-router-dom";
 export const Home = () => {
-	const { store, actions } = useContext(Context);
+	const [loading, setLoading]=useState(false);
+	const [recipesRand, setRecipesRand]=useState([]);
+
+	useEffect(()=>{
+		recipes_external()
+	},[])
+
+	const recipes_external = ()=>{
+		setLoading(true);
+		fetch('https://api.spoonacular.com/recipes/random?number=12&apiKey=f6c3531069234577afe4d0e2e49fd508',{
+			method:'GET',
+			headers: { 'Content-Type': 'application/json' }
+		}).then(response=>response.json())
+		.then(data=>{setRecipesRand(data.recipes || []); console.log(data.recipes)})
+		.finally(() => setLoading(false))
+	}
 
 	return (
-		<div className="text-center mt-5">
-			<h1>Hello Rigo!!</h1>
-	
-
-			<div className="alert alert-info">
-				{store.message || "Loading message from the backend (make sure your python backend is running)..."}
-			</div>
-
-			<Link to="/administrador">
-				<button className="btn btn-primary">ver administradores y crear</button>
-			</Link>
-			<p>
-				This boilerplate comes with lots of documentation:{" "}
-				<a href="https://start.4geeksacademy.com/starters/react-flask">
-					Read documentation
-				</a>
-			</p>
-			<Link to="/recipe/"><button>Ver Recetas!</button></Link>
-			<Link to="/recipe/create"><button>Crear Receta!</button></Link>
-			<Link to="/categories/create"><button>Crear etiquetas!</button></Link>
-		</div>
-	);
+        <div className="container text-center mt-5">
+            <h1 className="container d-flex justify-content-center">Hola Cocinero!</h1>
+            {loading ? (
+                <h1 className="container text-center text-danger">Loading</h1>
+            ):(
+                <div className="container-fluid d-flex row ">
+                    {recipesRand.length > 0 ? recipesRand.map((recipe)=>(
+                        <div key={recipe.id} className="card align-items-stretch m-2 col-3" style={{ width:"18rem" }}>
+                            <img src={recipe.image} className="card-img-top" alt={recipe.title} />
+                            <div className="card-body d-flex flex-column">
+                                <h5 className="card-title">{recipe.title}</h5>
+                                <p className="card-text">{recipe.creditsText}</p>
+                                <Link className="mt-auto" to={`/recipe/api/${recipe.id}`}><button>Quiero probarla!</button></Link>
+                            </div>
+                        </div>
+                    )):(
+                        <h1 className="container text-center text-danger">Error al cargar recetas.</h1>
+                    )}
+                </div>
+            )}
+            <Link to="/administrador">
+                <button className="btn btn-primary">ver administradores y crear</button>
+            </Link>
+            <p>
+                This boilerplate comes with lots of documentation:{" "}
+                <a href="https://start.4geeksacademy.com/starters/react-flask">
+                    Read documentation
+                </a>
+            </p>
+            <Link to="/recipe/"><button>Ver Recetas!</button></Link>
+            <Link to="/recipe/create"><button>Crear Receta!</button></Link>
+            <Link to="/categories/create"><button>Crear etiquetas!</button></Link>
+        </div>
+    );
 };

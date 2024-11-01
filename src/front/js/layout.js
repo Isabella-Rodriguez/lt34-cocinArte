@@ -35,6 +35,7 @@ import { Favoritos } from "./component/favoritos.jsx";
 import { SearchByCategories } from "./component/searchbyCategories.jsx";
 import { SearchByTitle } from "./component/searchByTitle.jsx";
 import { CreateUser } from "./component/singup.jsx";
+import { ViewRecipeApi } from "./component/viewRecipesApi.jsx";
 
 //create your first component
 const Layout = () => {
@@ -74,6 +75,7 @@ const Layout = () => {
                         <Route element={<SearchByCategories />} path="/category/search/:categoryId"/>
                         <Route element={<SearchByTitle />} path="/search"/>
                         <Route element={<CreateUser />} path="/singup"/>
+                        <Route element={<ViewRecipeApi />} path="/recipe/api/:id"/>
 
                         <Route element={<h1>Not found!</h1>} />
                     </Routes>
