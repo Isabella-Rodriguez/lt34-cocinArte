@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { Context } from "../store/appContext";
 import { jwtDecode } from "jwt-decode";
 
+
 export function ViewRecipe(){
     const { store, actions } = useContext(Context);
     const [recipe, setRecipe]=useState({})
@@ -14,13 +15,15 @@ export function ViewRecipe(){
     const [comment, setComment] = useState("");  
     const [comments, setComments] = useState([]);
     const [userId, setUserId] = useState(null);
-    
+    const [calificacion, setCalificacion] = useState(0);
+
     useEffect(()=>{
         getRecipeId()
         getComments();
         checkLoginStatus();
         console.log(localStorage.token)
     },[])
+
     const getRecipeId=async()=>{
         const data = await fetch(process.env.BACKEND_URL +`/api/recetas/${id}`,{
             method:'GET',
@@ -59,7 +62,6 @@ export function ViewRecipe(){
             navigate('/recipe')
         } else alert('Hubo un Error al eliminar la receta!')
     }
-
 
     const createComment = async () => {
         if (!store.user.email) return console.error("User email is missing");
@@ -101,9 +103,32 @@ export function ViewRecipe(){
             console.error("Error:", error);
         }
     };
-
-
     
+    const handleCalificacionChange = (event) => {
+        setCalificacion(parseInt(event.target.value));
+      };
+
+    const addCalif = async () => {
+        const data = {
+            recipe_id: id,
+            qualification: calificacion
+        };
+
+        const resp = await fetch(process.env.BACKEND_URL + `/api/calificaciones`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',  'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify(data),
+        });
+
+        if (resp.ok) {
+            setComment("");
+            getComments();
+        } else {
+            console.error("Error al crear el comentario");
+        }
+    };
 
     return(
         <>
@@ -144,6 +169,20 @@ export function ViewRecipe(){
         <button onClick={()=>{deleteReceta(id)}}>Borrar Receta!</button>
         <Link to={`/recipe/edit/${id}`}><button>Editar Receta!</button></Link>
         <button onClick={()=>{actions.addFav(id)}}>Añadir a favoritos!</button>
+        <form onSubmit={addCalif} className="calificacion-form">
+            <h5>Califica la receta:</h5>
+            <select value={calificacion} onChange={handleCalificacionChange}>
+                <option value={0}>Selecciona una calificación</option>
+                <option value={1}>1 estrella</option>
+                <option value={2}>2 estrellas</option>
+                <option value={3}>3 estrellas</option>
+                <option value={4}>4 estrellas</option>
+                <option value={5}>5 estrellas</option>
+            </select>
+            <button type="submit" className="btn btn-primary mt-2">
+                Enviar Calificación
+            </button>
+        </form>
 
         <div className="comments-section">
                 <h3>Comentarios</h3>
