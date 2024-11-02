@@ -4,7 +4,7 @@ import { Link, Navigate, useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 
 export function CreateRecipe(){
-    const [img, setImg]=useState('')
+    const [images, setImages]=useState([])
     const navigate = useNavigate()
     const [steps, setSteps]=useState('')
     const [ingredient, setIngredient]=useState('')
@@ -21,6 +21,11 @@ export function CreateRecipe(){
         .then(response => response.json())
         .then(data => setCategories(data))
     },[])
+
+    const uploadImages=(e)=>{
+        console.log(e.target.files)
+        setImages([...e.target.files])
+    }
 
     const createIngredientsList=(e)=>{
         if(e.key==='Enter'||e.type==='click'){
@@ -53,19 +58,19 @@ export function CreateRecipe(){
         console.log(decriptedToken)
         console.log(userId)
 
-        let dataSend= {
-            'title': title,
-            'ingredientes': ingredients,
-            'pasos': steps,
-            'img_ilustrativa':img,
-            'user_id':userId,
-            'categories':selectedCategories
-        };
-        console.log(dataSend)
+        const formData= new FormData();
+            formData.append('title', title)
+            formData.append('ingredientes', JSON.stringify(ingredients))
+            formData.append('pasos', steps)
+            formData.append('user_id', userId)
+            images.forEach((image, index) => {
+                formData.append(`files_${index}`, image)
+            });
+            formData.append('categories', JSON.stringify(selectedCategories))
+            console.log(formData)
         fetch(process.env.BACKEND_URL + '/api/recetas/create', {
             method:'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(dataSend),
+            body: formData,
         }).then(response=>{
             if(response.ok){
                 navigate(`/`)
@@ -82,7 +87,7 @@ return(
         <>
         {localStorage.getItem('token') ? <div className="container col-6 d-flex flex-column gap-3">
             <h1 className="text-center my-4">Publica tu receta!</h1>
-        <form onSubmit={(e)=>{sendRecipe(e)}} action="" className="container d-flex flex-column gap-2">
+        <form onSubmit={sendRecipe} action="" className="container d-flex flex-column gap-2">
             <div className="d-flex flex-column">
                 <label className="form-label" htmlFor="title">Enter recipe title:</label>
                 <input className="form-control" id="title" type="text" placeholder="Title" onChange={(e)=>{setTitle(e.target.value)}}/>
@@ -104,7 +109,7 @@ return(
             </div>
             <div className="d-flex flex-column">
                 <label className="form-label" htmlFor="img">Show us your finished recipe url!</label>
-                <input className="form-control" id="img" type="text" aria-label="Add steps" onChange={(e)=>{setImg(e.target.value)}}/>
+                <input className="form-control" id="img" type="file" multiple onChange={(e)=>{uploadImages(e)}}/>
             </div>
             <div className="d-flex flex-column">
                 <label className="form-label">Selecciona las categorias adecuadas para tu receta!</label>
@@ -115,7 +120,7 @@ return(
                     </div>
                 ))}
             </div>
-            <button className="btn btn-success col-4 mx-auto" onClick={(e)=>{sendRecipe(e)}}>A cocinar!</button>
+            <button className="btn btn-success col-4 mx-auto" type="submit">A cocinar!</button>
             <Link to={'/'} className="btn btn-secondary col-4 mx-auto" >Cancelar</Link>
         </form>
         </div>:

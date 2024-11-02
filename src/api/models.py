@@ -42,7 +42,7 @@ class Recipe(db.Model):
     ingredientes = db.Column(db.JSON, nullable=False)
     pasos = db.Column(db.String, nullable=False)
     fecha_publicacion= db.Column(db.DateTime, nullable=False, default=lambda : datetime.now(timezone.utc))
-    img_ilustrativa= db.Column(db.String(200), nullable=True)
+    img_ilustrativa= db.Column(db.JSON, nullable=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     categories = db.relationship('Category', secondary=recipe_categories, backref=db.backref('recipes'))
     favoritos = db.relationship('Favorito', backref='recipe')

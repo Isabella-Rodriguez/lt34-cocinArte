@@ -19,6 +19,7 @@ from sqlalchemy.exc import SQLAlchemyError
 import cloudinary 
 import cloudinary.uploader 
 import cloudinary.api
+import json
 
 api = Blueprint('api', __name__)
 
@@ -37,15 +38,29 @@ def handle_hello():
 
 @api.route('/recetas/create', methods=['POST'])
 def create_recete():
-    data = request.get_json()
-    new_recipe= Recipe(
+    data = request.form
+    img_urls = []
+    for img in request.files:
+        if img.startswith("files_"):
+            imgupload = request.files[img]
+            try:
+                upload_data = cloudinary.uploader.upload(imgupload)
+                img_urls.append(upload_data['url'])
+                print(f"Uploaded image URL: {upload_data['url']}")
+            except Exception as e:
+                return jsonify({"msg": f"Error al subir la imagen: {e}"}), 500
+
+    print(f"Image URLs to be saved: {img_urls}")
+    
+    categoria_ids = json.loads(data.get('categories', '[]'))
+    print(f"img_urls: {img_urls}")
+    new_recipe = Recipe(
         title=data['title'],
-        ingredientes=data['ingredientes'],
+        ingredientes=json.loads(data['ingredientes']),
         pasos=data['pasos'],
-        img_ilustrativa=data['img_ilustrativa'],
-        user_id=data['user_id'],
+        img_ilustrativa=img_urls,
+        user_id=int(data['user_id']),
     )
-    categoria_ids = data.get('categories',[])
     for categoria_id in categoria_ids:
         categoria = Category.query.get(categoria_id)
         if categoria:
@@ -71,6 +86,7 @@ def get_all():
 def get_recipe_id(id):
     recipe = Recipe.query.filter_by(id=id).first()
     if recipe:
+        print(recipe.serialize())
         return jsonify(recipe.serialize()), 200
     else: return {"msg":"No existe la receta solicitada!"}, 400
 
@@ -85,21 +101,41 @@ def recipe_delete(id):
 
 @api.route('/recetas/update/<int:id>', methods=['PUT'])
 def update_recipe(id):
-    data = request.get_json()
-    recipe = recipe = Recipe.query.filter_by(id=id).first()
-    if recipe:
-        recipe.title = data['title']
-        recipe.ingredientes = data['ingredientes']
-        recipe.pasos=data['pasos']
-        recipe.img_ilustrativa=data['img_ilustrativa']
-        categoria_ids = data.get('categories',[])
-        for categoria_id in categoria_ids:
-            categoria = Category.query.get(categoria_id)
-            if categoria:
-                recipe.categories.append(categoria)
-        db.session.commit()
-        return jsonify(recipe.serialize()), 200
-    else: jsonify({"msg": "Recipe not found!"}), 400
+    data = request.form
+    recipe = Recipe.query.filter_by(id=id).first()
+    if not recipe:
+        return jsonify({"msg": "Recipe not found!"}), 404
+
+    recipe.title = data.get('title', recipe.title)
+    recipe.ingredientes = json.loads(data.get('ingredientes', json.dumps(recipe.ingredientes)))
+    recipe.pasos = data.get('pasos', recipe.pasos)
+
+    img_urls = recipe.img_ilustrativa or []
+    new_images = request.files.getlist('file')
+
+    for img in new_images:
+        if img:
+            try:
+                upload_data = cloudinary.uploader.upload(img)
+                img_urls.append(upload_data['url'])
+            except Exception as e:
+                return jsonify({"msg": f"Error al subir la imagen: {e}"}), 500
+
+    recipe.img_ilustrativa = img_urls
+
+    categoria_ids = json.loads(data.get('categories', '[]'))
+    if (categoria_ids, int):
+        categoria_ids = [categoria_ids]
+    categoria_ids = [int(id) for id in categoria_ids]
+
+    recipe.categories.clear()
+    for categoria_id in categoria_ids:
+        categoria = Category.query.get(categoria_id)
+        if categoria:
+            recipe.categories.append(categoria)
+
+    db.session.commit()
+    return jsonify(recipe.serialize()), 200
 
 
 @api.route("/administrador", methods=["POST"])
@@ -426,6 +462,7 @@ def get_comments_by_recipe(recipe_id):
 
        
 @api.route('/categorias/create', methods=['POST'])
+
 def create_categoria():
     body = request.get_json()
     nombre = body.get('nombre')
