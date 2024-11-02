@@ -64,6 +64,7 @@ export function EditRecipe() {
     };
 
     const uploadImages = (e) => {
+        console.log(e.target.files)
         setImages([...e.target.files])
     };
 
@@ -74,20 +75,20 @@ export function EditRecipe() {
         formData.append('ingredientes', JSON.stringify(ingredients))
         formData.append('pasos', steps)
         selectedCategories.forEach((catId) => formData.append('categories', catId))
-        images.forEach((image, index) => formData.append(`file_${index}`, image))
+        images.forEach((image, index) => {
+            formData.append(`files_${index}`, image)
+        });
 
         fetch(process.env.BACKEND_URL + `/api/recetas/update/${id}`, {
             method: 'PUT',
             body: formData,
-        }).then(response => {
-            if (response.ok) {
-                navigate(`/recipe/${id}`);
-            } else {
-                alert('Hubo un error al actualizar la receta')
-            }
-        });
-    };
-
+        }).then(response => response.json())
+        .then(data => {
+            console.log('Data actualizada:', data)
+                navigate(`/recipe/${id}`)
+        })
+        .catch(error => console.error('Error:', error))
+    }
     return (
         <>
             <h1>Editar Receta</h1>

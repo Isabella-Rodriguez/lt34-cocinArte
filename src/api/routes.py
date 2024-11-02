@@ -110,18 +110,20 @@ def update_recipe(id):
     recipe.ingredientes = json.loads(data.get('ingredientes', json.dumps(recipe.ingredientes)))
     recipe.pasos = data.get('pasos', recipe.pasos)
 
-    img_urls = recipe.img_ilustrativa or []
-    new_images = request.files.getlist('file')
-
-    for img in new_images:
-        if img:
+    img_urls = []
+    for img in request.files:
+        if img.startswith("files_"):
+            imgupload = request.files[img]
             try:
-                upload_data = cloudinary.uploader.upload(img)
-                img_urls.append(upload_data['url'])
+                upload_data = cloudinary.uploader.upload(imgupload)
+                img_url = upload_data['url']
+                img_urls.append(img_url)
+                print(f"Uploaded image URL: {img_url}")
             except Exception as e:
                 return jsonify({"msg": f"Error al subir la imagen: {e}"}), 500
-
+    print(f"Image URLs to be saved: {img_urls}")
     recipe.img_ilustrativa = img_urls
+
 
     categoria_ids = json.loads(data.get('categories', '[]'))
     if (categoria_ids, int):
