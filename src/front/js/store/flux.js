@@ -16,7 +16,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 			],
 			users:[],
 			favoritos:[],
-			Comments:[]
+			Comments:[],
+			authadmin:false,
 		},
 		actions: {
 
@@ -111,6 +112,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				if(resp.ok){
 					const data = await resp.json()
 					console.log(('Te has logueado'), data);
+					setStore({ authadmin: true })
 					localStorage.setItem('token', data.access_token)
             		console.log('token de admin guardado en LocalStorage ')
 				} else console.log('No has podido loguearte, revisa tus credenciales');

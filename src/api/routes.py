@@ -145,16 +145,14 @@ def signup():
     body = request.get_json()
     
     if not body:
-        return jsonify({"msg": "No se recibió ningún dato"}), 400  # Manejo de errores si el cuerpo está vacío
+        return jsonify({"msg": "No se recibió ningún dato"}), 400  
 
     print(body)
 
-    # Buscar el administrador por email
     administrador = Administrador.query.filter_by(email=body["email"]).first()
     print(administrador)
 
     if administrador is None: 
-        # Crear un nuevo administrador
         administrador = Administrador(
             name=body["name"],
             last_name=body["last_name"],
@@ -162,16 +160,15 @@ def signup():
             password=body["password"], 
             is_active=True
         )
-        # Agregar el nuevo administrador a la sesión y confirmar los cambios
         db.session.add(administrador)
         db.session.commit()
 
         response_body = {
             "msg": "usuario de administrador creado"
         }
-        return jsonify(response_body), 201  # Usar 201 para indicar que se creó un recurso
+        return jsonify(response_body), 201  
     else:
-        return jsonify({"msg": "ya hay un usuario con ese email"}), 409  # Usar 409 para indicar conflicto
+        return jsonify({"msg": "ya hay un usuario con ese email"}), 
 
 
 @api.route('/administrador', methods=['GET'])
@@ -221,7 +218,6 @@ def update_administrador(administrador_id):
     if administrador is None:
         return jsonify({"error": "administrador no encontrado"}), 404  
 
-    # Actualizar los campos del administrador con los nuevos datos
     administrador.name = body.get('name', administrador.name)
     administrador.last_name = body.get('last_name', administrador.last_name)
     administrador.email = body.get('email', administrador.email)
@@ -562,4 +558,3 @@ def search_recipe():
     if not recetas: 
         return jsonify({"message": "No se encontraron recetas"}), 404 
     return jsonify([recipe.serialize() for recipe in recetas]), 200
-
