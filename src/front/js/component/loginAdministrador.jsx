@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { Context } from "../store/appContext";
 
 export function LoginAdmin(){
@@ -19,7 +19,9 @@ export function LoginAdmin(){
         });
     };
 
-    return (
+    return (<>
+	{store.authadmin?<Navigate to="/" /> : (
+
         <div className="p-3 m-auto w-75">
             <div>
 				<h1 className="mx-auto">Admin LOGIN</h1>
@@ -29,7 +31,7 @@ export function LoginAdmin(){
 					<form onSubmit={handleSubmit}>
 						
 						<div className="form-group">
-							<label for="exampleInputPassword1">Correo Electronico</label>
+							<label  htmlFor="exampleInputPassword1">Correo Electronico</label>
 							<input
 								type="email"
 								name="email"
@@ -42,7 +44,7 @@ export function LoginAdmin(){
 						</div>
 
 						<div className="form-group">
-							<label for="exampleInputPassword1">Contraseña</label>
+							<label  htmlFor="exampleInputPassword1">Contraseña</label>
 							<input
 								type="text"
 								name="password"
@@ -60,5 +62,7 @@ export function LoginAdmin(){
 			</div>
 			
         </div>
+	)}
+	</>
     );
 };
