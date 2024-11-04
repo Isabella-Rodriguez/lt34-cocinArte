@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: faaf7175a612
+Revision ID: 155d33fa0356
 Revises: 
-Create Date: 2024-10-30 20:44:34.708316
+Create Date: 2024-11-01 20:47:55.507998
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'faaf7175a612'
+revision = '155d33fa0356'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -55,6 +55,15 @@ def upgrade():
     sa.ForeignKeyConstraint(['user_id'], ['user.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
+    op.create_table('calificacion',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('user_id', sa.Integer(), nullable=False),
+    sa.Column('recipe_id', sa.Integer(), nullable=False),
+    sa.Column('qualification', sa.Integer(), nullable=False),
+    sa.ForeignKeyConstraint(['recipe_id'], ['recipe.id'], ),
+    sa.ForeignKeyConstraint(['user_id'], ['user.id'], ),
+    sa.PrimaryKeyConstraint('id')
+    )
     op.create_table('comment',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('user_id', sa.Integer(), nullable=False),
@@ -88,6 +97,7 @@ def downgrade():
     op.drop_table('recipe_categories')
     op.drop_table('favorito')
     op.drop_table('comment')
+    op.drop_table('calificacion')
     op.drop_table('recipe')
     op.drop_table('user')
     op.drop_table('category')

@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { Context } from "../store/appContext";
 import { jwtDecode } from "jwt-decode";
 
+
 export function ViewRecipe(){
     const { store, actions } = useContext(Context);
     const [recipe, setRecipe]=useState({})
@@ -14,13 +15,17 @@ export function ViewRecipe(){
     const [comment, setComment] = useState("");  
     const [comments, setComments] = useState([]);
     const [userId, setUserId] = useState(null);
-    
+    const [calificacion, setCalificacion] = useState(0);
+    const [promedioCalificacion, setPromedioCalificacion] = useState(null);
+
     useEffect(()=>{
         getRecipeId()
         getComments();
         checkLoginStatus();
+        obtenerPromedioCalificacion();
         
     },[])
+
     const getRecipeId=async()=>{
         const data = await fetch(process.env.BACKEND_URL +`/api/recetas/${id}`,{
             method:'GET',
@@ -60,7 +65,6 @@ export function ViewRecipe(){
             navigate('/recipe')
         } else alert('Hubo un Error al eliminar la receta!')
     }
-
 
     const createComment = async () => {
         await actions.userById(userId)
@@ -104,14 +108,50 @@ export function ViewRecipe(){
             console.error("Error:", error);
         }
     };
-
-
     
+    const obtenerPromedioCalificacion = async () => {
+        const resp = await fetch(`${process.env.BACKEND_URL}/api/calificaciones/promedio/${id}`, {
+            method: 'GET',
+        });
+        const data = await resp.json();
+        if (resp.ok) setPromedioCalificacion(data.promedio);
+    };
+
+    const handleCalificacionChange = (event) => {
+        setCalificacion(parseInt(event.target.value));
+    };
+
+    const addCalif = async (event) => {
+        event.preventDefault();
+        const token = localStorage.getItem("token");
+        const data = {
+            recipe_id: id,
+            qualification: calificacion,
+        };
+
+        const resp = await fetch(`${process.env.BACKEND_URL}/api/calificaciones`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify(data),
+        });
+
+        if (resp.ok) {
+            obtenerPromedioCalificacion();
+        } else {
+            console.error("Error al enviar la calificación");
+        }
+    };
 
     return(
         <>
         <div className="container d-flex flex-column align-items-center">
             <h1 className="container text-center">{recipe.title}</h1>
+            <div className="promedio-calificacion">
+                <p>{" | Calificación promedio: " + promedioCalificacion + " estrellas"}</p>
+            </div>
             <h2>Ingredientes!</h2>
             {recipe.ingredientes && recipe.ingredientes.length>0 ? (
                 recipe.ingredientes.map((ingrediente, index)=>(
@@ -148,7 +188,20 @@ export function ViewRecipe(){
                 <button onClick={()=>{deleteReceta(id)}}>Borrar Receta!</button>
                 <Link to={`/recipe/edit/${id}`}><button>Editar Receta!</button></Link>
             </div>):(<></>)}
-        <button onClick={()=>{actions.addFav(id)}}>Añadir a favoritos!</button>
+            <button onClick={()=>{actions.addFav(id)}}>Añadir a favoritos!</button>
+            
+            <form onSubmit={addCalif} className="calificacion-form">
+                <h5>Califica la receta:</h5>
+                <select value={calificacion} onChange={handleCalificacionChange}>
+                    <option value={0}>Selecciona una calificación</option>
+                    <option value={1}>1 estrella</option>
+                    <option value={2}>2 estrellas</option>
+                    <option value={3}>3 estrellas</option>
+                    <option value={4}>4 estrellas</option>
+                    <option value={5}>5 estrellas</option>
+                        </select>
+                <button type="submit" className="btn btn-primary mt-2">Enviar Calificación</button>
+            </form>
 
         <div className="comments-section">
                 <h3>Comentarios</h3>
