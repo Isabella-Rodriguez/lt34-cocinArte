@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "../../styles/home.css";
 import { Link, useNavigate } from "react-router-dom";
+import { Context } from "../store/appContext"
 
 export const Home = () => {
 	const [loading, setLoading]=useState(false);
 	const [recipesRand, setRecipesRand]=useState([]);
-	const { store, actions } = useContext(Context);
+	const { store, actions } = useContext(Context)
 	const navigate = useNavigate(); // Importa el hook useNavigate y úsalo aquí
 
 	function navegar() {
@@ -28,9 +29,6 @@ export const Home = () => {
 
 	return (
         <div className="container text-center mt-5">
-		<Link to="/administrador">
-				<button className="btn btn-primary">ver administradores y crear</button>
-		</Link>
             <h1 className="container d-flex justify-content-center">Hola Cocinero!</h1>
             {loading ? (
                 <h1 className="container text-center text-danger">Loading</h1>

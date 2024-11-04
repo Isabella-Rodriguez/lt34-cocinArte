@@ -15,6 +15,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			],
 			users:[],
+			user:[],
 			favoritos:[],
 			Comments:[],
 			authadmin:false,
@@ -160,6 +161,13 @@ const getState = ({ getStore, getActions, setStore }) => {
 				fetch(process.env.BACKEND_URL + '/api/favoritos/' + id, requestOptions)
 					.then(response => response.json())
 					.then(data => console.log("Favorito añadido"));
+			},
+			userById:async(id)=>{
+				await fetch(`${process.env.BACKEND_URL}/api/usuario/${id}`)
+				.then(response=>response.json())
+				.then(data=>{console.log("user es:", data)
+					setStore({user:data})
+				})
 			},
 		}
 	};
