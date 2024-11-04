@@ -218,5 +218,3 @@ export function ViewRecipe(){
         </>
     )
 }
-/*<button onClick={()=>{deleteReceta(id)}}>Borrar Receta!</button>
-        <Link to={`/recipe/edit/${id}`}><button>Editar Receta!</button></Link>*/
