@@ -15,8 +15,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			],
 			users:[],
+			user:[],
 			favoritos:[],
-			Comments:[]
+			Comments:[],
+			authadmin:false,
 		},
 		actions: {
 
@@ -111,6 +113,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				if(resp.ok){
 					const data = await resp.json()
 					console.log(('Te has logueado'), data);
+					setStore({ authadmin: true })
 					localStorage.setItem('token', data.access_token)
             		console.log('token de admin guardado en LocalStorage ')
 				} else console.log('No has podido loguearte, revisa tus credenciales');
@@ -158,6 +161,13 @@ const getState = ({ getStore, getActions, setStore }) => {
 				fetch(process.env.BACKEND_URL + '/api/favoritos/' + id, requestOptions)
 					.then(response => response.json())
 					.then(data => console.log("Favorito añadido"));
+			},
+			userById:async(id)=>{
+				await fetch(`${process.env.BACKEND_URL}/api/usuario/${id}`)
+				.then(response=>response.json())
+				.then(data=>{console.log("user es:", data)
+					setStore({user:data})
+				})
 			},
 		}
 	};

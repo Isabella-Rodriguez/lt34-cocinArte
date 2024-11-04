@@ -4,14 +4,15 @@ import { Link, Navigate, useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 
 export function CreateRecipe(){
-    const [img, setImg]=useState('')
+    const [images, setImages]=useState([])
     const navigate = useNavigate()
     const [steps, setSteps]=useState('')
     const [ingredient, setIngredient]=useState('')
     const [ingredients, setIngredients]=useState([])
     const [title, setTitle]=useState('')
     const [categories, setCategories]= useState([])
-    const [selectedCategories, setSelectedCategories] = useState([]);
+    const [selectedCategories, setSelectedCategories] = useState([])
+    const [recomendedSteps, setRecomendedSteps] = useState('')
     
     useEffect(()=>{
         fetch(process.env.BACKEND_URL + '/api/categorias',{
@@ -21,6 +22,11 @@ export function CreateRecipe(){
         .then(response => response.json())
         .then(data => setCategories(data))
     },[])
+
+    const uploadImages=(e)=>{
+        console.log(e.target.files)
+        setImages([...e.target.files])
+    }
 
     const createIngredientsList=(e)=>{
         if(e.key==='Enter'||e.type==='click'){
@@ -45,6 +51,24 @@ export function CreateRecipe(){
         }
     }
 
+    const titleToFetch=(e)=>{
+        const newTitle = e.target.value;
+        setTitle(newTitle)
+        recomendSteps(newTitle)
+    }
+
+    const recomendSteps= async(recipeTitle)=>{
+        const response = await fetch(`https://api.spoonacular.com/recipes/complexSearch?titleMatch=${recipeTitle}&number=1&apiKey=f6c3531069234577afe4d0e2e49fd508`)
+        const data = await response.json()
+        console.log(data)
+        if (data.results && data.results.length>0){
+            const stepsResponse = await fetch(`https://api.spoonacular.com/recipes/${data.results[0].id}/information?apiKey=f6c3531069234577afe4d0e2e49fd508`)
+            const stepsData = await stepsResponse.json()
+            console.log(stepsData)
+            setRecomendedSteps(stepsData.instructions)
+        }else setRecomendedSteps('')
+    }
+
     const sendRecipe = (e)=>{
         e.preventDefault();
         const token = localStorage.getItem('token');
@@ -53,19 +77,19 @@ export function CreateRecipe(){
         console.log(decriptedToken)
         console.log(userId)
 
-        let dataSend= {
-            'title': title,
-            'ingredientes': ingredients,
-            'pasos': steps,
-            'img_ilustrativa':img,
-            'user_id':userId,
-            'categories':selectedCategories
-        };
-        console.log(dataSend)
+        const formData= new FormData();
+            formData.append('title', title)
+            formData.append('ingredientes', JSON.stringify(ingredients))
+            formData.append('pasos', steps)
+            formData.append('user_id', userId)
+            images.forEach((image, index) => {
+                formData.append(`files_${index}`, image)
+            });
+            formData.append('categories', JSON.stringify(selectedCategories))
+            console.log(formData)
         fetch(process.env.BACKEND_URL + '/api/recetas/create', {
             method:'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(dataSend),
+            body: formData,
         }).then(response=>{
             if(response.ok){
                 navigate(`/`)
@@ -82,10 +106,10 @@ return(
         <>
         {localStorage.getItem('token') ? <div className="container col-6 d-flex flex-column gap-3">
             <h1 className="text-center my-4">Publica tu receta!</h1>
-        <form onSubmit={(e)=>{sendRecipe(e)}} action="" className="container d-flex flex-column gap-2">
+        <form onSubmit={sendRecipe} action="" className="container d-flex flex-column gap-2">
             <div className="d-flex flex-column">
                 <label className="form-label" htmlFor="title">Enter recipe title:</label>
-                <input className="form-control" id="title" type="text" placeholder="Title" onChange={(e)=>{setTitle(e.target.value)}}/>
+                <input className="form-control" id="title" type="text" placeholder="Title" onChange={(e)=>{titleToFetch(e)}}/>
                 
             </div>
             <div className="d-flex flex-column">
@@ -100,11 +124,17 @@ return(
             </div>
             <div className="d-flex flex-column">
                 <label className="form-label" htmlFor="steps">Steps:</label>
-                <textarea className="form-control" id="steps" type="text" placeholder="Steps" onChange={(e)=>{setSteps(e.target.value)}}/>
+                <textarea className="form-control" id="steps" type="text" placeholder={recomendedSteps ? recomendedSteps: 'steps'} onChange={(e)=>{setSteps(e.target.value)}}/>
             </div>
+            {recomendedSteps && (
+                <div className="alert alert-info">
+                    <strong>Recomended Steps:</strong>
+                    <p>{recomendedSteps}</p>
+                    <button onClick={()=>{setSteps(''); setSteps(recomendedSteps); console.log(steps)}} type="button" className="btn btn-primary">Use the suggested steps!</button>
+                </div> )}
             <div className="d-flex flex-column">
                 <label className="form-label" htmlFor="img">Show us your finished recipe url!</label>
-                <input className="form-control" id="img" type="text" aria-label="Add steps" onChange={(e)=>{setImg(e.target.value)}}/>
+                <input className="form-control" id="img" type="file" multiple onChange={(e)=>{uploadImages(e)}}/>
             </div>
             <div className="d-flex flex-column">
                 <label className="form-label">Selecciona las categorias adecuadas para tu receta!</label>
@@ -115,7 +145,7 @@ return(
                     </div>
                 ))}
             </div>
-            <button className="btn btn-success col-4 mx-auto" onClick={(e)=>{sendRecipe(e)}}>A cocinar!</button>
+            <button className="btn btn-success col-4 mx-auto" type="submit">A cocinar!</button>
             <Link to={'/'} className="btn btn-secondary col-4 mx-auto" >Cancelar</Link>
         </form>
         </div>:
@@ -126,3 +156,4 @@ return(
         </>
     )
 }
+    

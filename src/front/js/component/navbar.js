@@ -60,6 +60,9 @@ export const Navbar = () => {
 							<button className="btn btn-primary">Login Cocinero</button>
 							</Link>)
 						}
+				<Link to="/login/administrador">
+				<button className="btn btn-primary">login admin</button>
+			   </Link>
 				</div>
 			</div>
 		</nav>

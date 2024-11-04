@@ -1,13 +1,18 @@
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState, useContext} from "react";
+import { Link, Navigate } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
+import { Context } from "../store/appContext";
 
 export function CategoriesAdmin() {
+    const { store, actions } = useContext(Context);
     const [name, setName] = useState('');
     const [categories, setCategories]=useState([])
     const [editInput, setEditInput]= useState(false)
     const [nameToEdit, setNameToEdit]=useState('')
     const [idToEdit, setIdToEdit]=useState('')
+
     useEffect(()=>{
+
         fetch(process.env.BACKEND_URL + '/api/categorias',{
             method:'GET',
             headers: { 'Content-Type': 'application/json' }
@@ -67,6 +72,7 @@ export function CategoriesAdmin() {
     };
 
     return (<>
+        {store.authadmin ? null : <Navigate to="/" />}
         <div className="container-fluid d-flex mt-5">
             <div className="col-5 border-end">
                 <h1 className="container-fluid text-center fw-semibold">Crear nueva etiqueta</h1>

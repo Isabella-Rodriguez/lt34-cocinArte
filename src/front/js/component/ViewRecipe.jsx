@@ -21,7 +21,7 @@ export function ViewRecipe(){
         getRecipeId()
         getComments();
         checkLoginStatus();
-        console.log(localStorage.token)
+        
     },[])
 
     const getRecipeId=async()=>{
@@ -29,7 +29,7 @@ export function ViewRecipe(){
             method:'GET',
         })
         const resp = await data.json()
-        console.log (resp)
+        console.log ("recipe es: " ,resp)
         setRecipe(resp)
     }
 
@@ -46,6 +46,7 @@ export function ViewRecipe(){
         if (token) {
             setIsLogin(true);
             const decodedToken = jwtDecode(token);
+            console.log(decodedToken)
             setUserId(decodedToken.sub);
         } else {
             setIsLogin(false);
@@ -64,6 +65,8 @@ export function ViewRecipe(){
     }
 
     const createComment = async () => {
+        await actions.userById(userId)
+        console.log("user es",store.user)
         if (!store.user.email) return console.error("User email is missing");
 
         const data = {
@@ -165,9 +168,11 @@ export function ViewRecipe(){
             )}
 
 
-
-        <button onClick={()=>{deleteReceta(id)}}>Borrar Receta!</button>
-        <Link to={`/recipe/edit/${id}`}><button>Editar Receta!</button></Link>
+        {userId===recipe.user_id ? (
+            <div>
+                <button onClick={()=>{deleteReceta(id)}}>Borrar Receta!</button>
+                <Link to={`/recipe/edit/${id}`}><button>Editar Receta!</button></Link>
+            </div>):(<></>)}
         <button onClick={()=>{actions.addFav(id)}}>Añadir a favoritos!</button>
         <form onSubmit={addCalif} className="calificacion-form">
             <h5>Califica la receta:</h5>
@@ -213,3 +218,5 @@ export function ViewRecipe(){
         </>
     )
 }
+/*<button onClick={()=>{deleteReceta(id)}}>Borrar Receta!</button>
+        <Link to={`/recipe/edit/${id}`}><button>Editar Receta!</button></Link>*/
