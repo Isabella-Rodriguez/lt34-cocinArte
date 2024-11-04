@@ -48,18 +48,12 @@ export const Home = () => {
                     )}
                 </div>
             )}
-            <Link to="/administrador">
-                <button className="btn btn-primary">ver administradores y crear</button>
-            </Link>
             <p>
                 This boilerplate comes with lots of documentation:{" "}
                 <a href="https://start.4geeksacademy.com/starters/react-flask">
                     Read documentation
                 </a>
             </p>
-            <Link to="/recipe/"><button>Ver Recetas!</button></Link>
-            <Link to="/recipe/create"><button>Crear Receta!</button></Link>
-            <Link to="/categories/create"><button>Crear etiquetas!</button></Link>
 			{store.authadmin ? (
                 <button onClick={navegar}> {/* Llama a la función de navegación aquí */}
                     Crear etiquetas!
