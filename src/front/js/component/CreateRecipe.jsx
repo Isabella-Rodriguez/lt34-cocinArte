@@ -11,7 +11,8 @@ export function CreateRecipe(){
     const [ingredients, setIngredients]=useState([])
     const [title, setTitle]=useState('')
     const [categories, setCategories]= useState([])
-    const [selectedCategories, setSelectedCategories] = useState([]);
+    const [selectedCategories, setSelectedCategories] = useState([])
+    const [recomendedSteps, setRecomendedSteps] = useState('')
     
     useEffect(()=>{
         fetch(process.env.BACKEND_URL + '/api/categorias',{
@@ -48,6 +49,24 @@ export function CreateRecipe(){
         } else {
             setSelectedCategories([...selectedCategories, categoryId])
         }
+    }
+
+    const titleToFetch=(e)=>{
+        const newTitle = e.target.value;
+        setTitle(newTitle)
+        recomendSteps(newTitle)
+    }
+
+    const recomendSteps= async(recipeTitle)=>{
+        const response = await fetch(`https://api.spoonacular.com/recipes/complexSearch?titleMatch=${recipeTitle}&number=1&apiKey=f6c3531069234577afe4d0e2e49fd508`)
+        const data = await response.json()
+        console.log(data)
+        if (data.results && data.results.length>0){
+            const stepsResponse = await fetch(`https://api.spoonacular.com/recipes/${data.results[0].id}/information?apiKey=f6c3531069234577afe4d0e2e49fd508`)
+            const stepsData = await stepsResponse.json()
+            console.log(stepsData)
+            setRecomendedSteps(stepsData.instructions)
+        }else setRecomendedSteps('')
     }
 
     const sendRecipe = (e)=>{
@@ -90,7 +109,7 @@ return(
         <form onSubmit={sendRecipe} action="" className="container d-flex flex-column gap-2">
             <div className="d-flex flex-column">
                 <label className="form-label" htmlFor="title">Enter recipe title:</label>
-                <input className="form-control" id="title" type="text" placeholder="Title" onChange={(e)=>{setTitle(e.target.value)}}/>
+                <input className="form-control" id="title" type="text" placeholder="Title" onChange={(e)=>{titleToFetch(e)}}/>
                 
             </div>
             <div className="d-flex flex-column">
@@ -105,8 +124,14 @@ return(
             </div>
             <div className="d-flex flex-column">
                 <label className="form-label" htmlFor="steps">Steps:</label>
-                <textarea className="form-control" id="steps" type="text" placeholder="Steps" onChange={(e)=>{setSteps(e.target.value)}}/>
+                <textarea className="form-control" id="steps" type="text" placeholder={recomendedSteps ? recomendedSteps: 'steps'} onChange={(e)=>{setSteps(e.target.value)}}/>
             </div>
+            {recomendedSteps && (
+                <div className="alert alert-info">
+                    <strong>Recomended Steps:</strong>
+                    <p>{recomendedSteps}</p>
+                    <button onClick={()=>{setSteps(''); setSteps(recomendedSteps); console.log(steps)}} type="button" className="btn btn-primary">Use the suggested steps!</button>
+                </div> )}
             <div className="d-flex flex-column">
                 <label className="form-label" htmlFor="img">Show us your finished recipe url!</label>
                 <input className="form-control" id="img" type="file" multiple onChange={(e)=>{uploadImages(e)}}/>
@@ -131,3 +156,4 @@ return(
         </>
     )
 }
+    
