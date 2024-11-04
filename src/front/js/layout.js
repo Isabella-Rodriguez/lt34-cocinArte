@@ -33,6 +33,7 @@ import { SearchByCategories } from "./component/searchbyCategories.jsx";
 import { SearchByTitle } from "./component/searchByTitle.jsx";
 import { CreateUser } from "./component/singup.jsx";
 import { ViewRecipeApi } from "./component/viewRecipesApi.jsx";
+import { Sidebar } from "./component/sidebar.jsx";
 
 
 //create your first component
@@ -48,6 +49,8 @@ const Layout = () => {
             <BrowserRouter basename={basename}>
                 <ScrollToTop>
                     <Navbar />
+                    <div style={{display: 'flex'}}>
+                    <Sidebar/>
                     <Routes>
                         <Route element={<Home />} path="/" />
                         <Route element={<Demo />} path="/demo" />
@@ -74,6 +77,7 @@ const Layout = () => {
 
                         <Route element={<h1>Not found!</h1>} />
                     </Routes>
+                    </div>
                     <Footer />
                 </ScrollToTop>
             </BrowserRouter>
