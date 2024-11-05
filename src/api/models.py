@@ -21,6 +21,7 @@ class User(db.Model):
     favoritos = db.relationship('Favorito', backref='user')
 
     comments = db.relationship('Comment', backref='user', lazy=True)
+    calificacion = db.relationship('Calificacion', backref='user')
 
     def __repr__(self):
         return f'<User {self.email}>'
@@ -48,6 +49,7 @@ class Recipe(db.Model):
     favoritos = db.relationship('Favorito', backref='recipe')
 
     comments = db.relationship('Comment', backref='recipe', lazy=True)
+    calificacion = db.relationship('Calificacion', backref='recipe')
 
     def __repr__(self):
         return f'<User {self.title}'
@@ -130,3 +132,20 @@ class Favorito(db.Model):
             "user_id": self.user_id,
             "recipe_id": self.recipe_id
         }
+
+class Calificacion(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    recipe_id = db.Column(db.Integer, db.ForeignKey('recipe.id'), nullable=False)
+    qualification = db.Column(db.Integer, nullable=False)
+
+    def __repr__(self):
+        return f'<Qualification {self.id} by User {self.user_id} on Recipe {self.recipe_id}>'
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "user_id": self.user_id,  
+            "recipe_id": self.recipe_id,  
+            "qualification": self.qualification,
+        } 

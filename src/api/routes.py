@@ -8,6 +8,7 @@ from api.models import db, User, User, Comment
 from api.models import db, User, Administrador, Category, recipe_categories
 from api.models import db, User, User
 from api.models import db, User, Favorito
+from api.models import db, User, Calificacion
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 from werkzeug.security import check_password_hash
@@ -558,3 +559,53 @@ def search_recipe():
     if not recetas: 
         return jsonify({"message": "No se encontraron recetas"}), 404 
     return jsonify([recipe.serialize() for recipe in recetas]), 200
+
+@api.route('/calificaciones', methods=['POST'])
+@jwt_required()
+def agregar_o_actualizar_calificacion():
+    data = request.get_json()
+    user_id = get_jwt_identity()
+    recipe_id = data.get('recipe_id')
+    qualification = data.get('qualification')
+
+    if not (1 <= qualification <= 5):
+        return jsonify({"error": "La calificación debe ser entre 1 y 5"}), 400
+
+    calificacion_existente = Calificacion.query.filter_by(user_id=user_id, recipe_id=recipe_id).first()
+
+    if calificacion_existente:
+        calificacion_existente.qualification = qualification
+        mensaje = "Calificación actualizada exitosamente"
+    else:
+        calificacion_existente = Calificacion(user_id=user_id, recipe_id=recipe_id, qualification=qualification)
+        db.session.add(calificacion_existente)
+        mensaje = "Calificación agregada exitosamente"
+    
+    db.session.commit()
+    return jsonify({"message": mensaje, "calificacion": calificacion_existente.serialize()}), 200
+
+@api.route('/calificaciones', methods=['DELETE'])
+@jwt_required()
+def eliminar_calificacion(calificacion_id):
+    data = request.get_json()
+    user_id = get_jwt_identity()
+    recipe_id = data.get('recipe_id')
+    calificacion = Calificacion.query.filter_by(user_id=user_id, recipe_id=recipe_id).first()
+
+    if not calificacion:
+        return jsonify({"error": "Calificación no encontrada"}), 404
+
+    db.session.delete(calificacion)
+    db.session.commit()
+    return jsonify({"message": "Calificación eliminada exitosamente"}), 200
+
+@api.route('/calificaciones/promedio/<int:recipe_id>', methods=['GET'])
+def obtener_promedio_calificacion(recipe_id):
+    calificaciones = Calificacion.query.filter_by(recipe_id=recipe_id).all()
+    if not calificaciones:
+        return jsonify({"error": "No se encontraron calificaciones para esta receta"}), 404
+
+    promedio = sum([cal.qualification for cal in calificaciones]) / len(calificaciones)
+    return jsonify({"recipe_id": recipe_id, "promedio": round(promedio, 2)}), 200
+
+
