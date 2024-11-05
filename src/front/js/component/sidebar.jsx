@@ -39,7 +39,7 @@ export function Sidebar(){
                         {categories.map((category) => (
 								<li key={category.id}> 
 									<Link className="dropdown-item" to={`/category/search/${category.id}`}>{category.name}</Link>
-								</li>))} 
+								</li>))};
                         </ul>
                     </div>
                 </li>
@@ -64,8 +64,3 @@ export function Sidebar(){
         </div>
     )
 }
-
-/*
-
-
-*/
