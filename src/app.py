@@ -15,6 +15,7 @@ from flask_cors import CORS
 import cloudinary
 import cloudinary.uploader
 import cloudinary.api
+import openai
 
 # from models import Person
 
@@ -26,6 +27,8 @@ app.url_map.strict_slashes = False
 app.config['JWT_SECRET_KEY'] = 'your_secret_key'
 CORS(app)
 jwt = JWTManager(app)
+openai.api_key = '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'
+
 
 cloudinary.config(
     cloud_name='dpcgrumpo',

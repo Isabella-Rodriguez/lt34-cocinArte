@@ -18,6 +18,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			user:[],
 			favoritos:[],
 			Comments:[],
+			recipeAi:{},
 			authadmin:false,
 		},
 		actions: {
@@ -168,6 +169,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 				.then(data=>{console.log("user es:", data)
 					setStore({user:data})
 				})
+			},
+			setRecipeAi:(recipe)=>{
+				const store = getStore()
+				setStore({...store, recipeAi:recipe})
 			},
 		}
 	};

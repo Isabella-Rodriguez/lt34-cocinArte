@@ -15,7 +15,7 @@ export function SearchByCategories(){
     },[categoryId])
     return( 
     <> 
-    {recipes.length!==0 ? ( recipes.map((recipe)=>(
+    {recipes && recipes.length>0 ? ( recipes.map((recipe)=>(
         <div key={recipe.id}>
         <Link to={`/recipe/${recipe.id}`}><h1 >{recipe.title}</h1></Link>
         <h3>{recipe.fecha_publicacion}</h3>

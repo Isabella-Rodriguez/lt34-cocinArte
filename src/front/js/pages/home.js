@@ -1,17 +1,11 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../../styles/home.css";
 import { Link, useNavigate } from "react-router-dom";
-import { Context } from "../store/appContext"
 
 export const Home = () => {
 	const [loading, setLoading]=useState(false);
 	const [recipesRand, setRecipesRand]=useState([]);
-	const { store, actions } = useContext(Context)
-	const navigate = useNavigate(); // Importa el hook useNavigate y úsalo aquí
-
-	function navegar() {
-		navigate("/categories/create"); // Usa navigate para redirigir programáticamente
-	}
+	
 
 	useEffect(()=>{
 		recipes_external()
@@ -54,11 +48,6 @@ export const Home = () => {
                     Read documentation
                 </a>
             </p>
-			{store.authadmin ? (
-                <button onClick={navegar}> {/* Llama a la función de navegación aquí */}
-                    Crear etiquetas!
-                </button>
-            ) : null}
         </div>
     )
 }

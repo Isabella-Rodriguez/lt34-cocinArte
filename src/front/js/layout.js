@@ -34,6 +34,8 @@ import { SearchByTitle } from "./component/searchByTitle.jsx";
 import { CreateUser } from "./component/singup.jsx";
 import { ViewRecipeApi } from "./component/viewRecipesApi.jsx";
 import { Sidebar } from "./component/sidebar.jsx";
+import { OpenAiAssistant } from "./component/openAi.jsx";
+import { OpenAiRecipe } from "./component/openAiRecipe.jsx";
 
 
 //create your first component
@@ -73,6 +75,8 @@ const Layout = () => {
                         <Route element={<SearchByTitle />} path="/search"/>
                         <Route element={<CreateUser />} path="/singup"/>
                         <Route element={<ViewRecipeApi />} path="/recipe/api/:id"/>
+                        <Route element={<OpenAiAssistant/>} path="/assistant"/>
+                        <Route element={<OpenAiRecipe/>} path="/assistant/resp"/>
                        
 
                         <Route element={<h1>Not found!</h1>} />

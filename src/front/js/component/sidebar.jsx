@@ -1,8 +1,17 @@
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState, useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { Context } from "../store/appContext"
+
 
 export function Sidebar(){
     const [categories, setCategories] = useState([])
+    const navigate = useNavigate()
+	const { store, actions } = useContext(Context)
+
+	function navegar() {
+		navigate("/categories/create"); // Usa navigate para redirigir programáticamente
+	}
+
     useEffect(()=>{
         fetch(process.env.BACKEND_URL + '/api/categorias',{ 
 			method: 'GET', 
@@ -10,13 +19,14 @@ export function Sidebar(){
 		}) 
 		.then(response=> response.json()) 
 		.then(data=> setCategories(data));
+        fetch(process.env.BACKEND_URL + '/api/categorias',{ 
+            method: 'GET', 
+            headers: { 'Content-Type': 'application/json' } 
+        }) 
+        .then(response=> response.json()) 
+        .then(data=> setCategories(data));
     },[])
-    fetch(process.env.BACKEND_URL + '/api/categorias',{ 
-        method: 'GET', 
-        headers: { 'Content-Type': 'application/json' } 
-    }) 
-    .then(response=> response.json()) 
-    .then(data=> setCategories(data));
+    
     return(
         <div className="flex-shrink-0 p-3 bg-light vh-100" style={{width: '280px'}}>
             <a href="/" className="d-flex align-items-center pb-3 mb-3 link-body-emphasis text-decoration-none border-bottom">
@@ -39,7 +49,7 @@ export function Sidebar(){
                         {categories.map((category) => (
 								<li key={category.id}> 
 									<Link className="dropdown-item" to={`/category/search/${category.id}`}>{category.name}</Link>
-								</li>))};
+								</li>))}
                         </ul>
                     </div>
                 </li>
@@ -48,6 +58,11 @@ export function Sidebar(){
                     <div className="collapse" id="orders-collapse">
                         <ul className="btn-toggle-nav list-unstyled fw-normal pb-1 small">
                             <li><Link className="dropdown-item" to="/administrador">Crear admins</Link></li>
+                            {store.authadmin ? (
+                                <button onClick={navegar}> {/* Llama a la función de navegación aquí */}
+                                    Crear etiquetas!
+                                </button>
+                            ) : null}
                         </ul>
                     </div>
                 </li>
