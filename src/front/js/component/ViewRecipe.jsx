@@ -146,13 +146,11 @@ export function ViewRecipe(){
     };
 
     return(
-        <>
         <div className="container d-flex flex-column align-items-center">
-            <h1 className="container text-center">{recipe.title}</h1>
-            <div className="promedio-calificacion">
-                <p>{" | Calificación promedio: " + promedioCalificacion + " estrellas"}</p>
-            </div>
-            <h2>Ingredientes!</h2>
+        <div className="container d-flex flex-column align-items-center">
+            <h1 className="container fs-1">{recipe.title}</h1>
+            <p>{" | Calificación promedio: " + promedioCalificacion + " estrellas"}</p>
+            <h2 className="">Ingredientes!</h2>
             {recipe.ingredientes && recipe.ingredientes.length>0 ? (
                 recipe.ingredientes.map((ingrediente, index)=>(
                 <h3 key={index}>{ingrediente}</h3>))
@@ -164,22 +162,30 @@ export function ViewRecipe(){
             <img src={recipe.img_ilustrativa} alt="" />
             <p>{recipe.category}</p>
         </div>
-
+        {userId===recipe.user_id ? (
+            <div className="d-flex col-12 gap-2 justify-content-evenly my-3">
+                <button className="btn btn-danger " onClick={()=>{deleteReceta(id)}}>Borrar Receta!</button>
+                <Link to={`/recipe/edit/${id}`}><button className="btn btn-warning">Editar Receta!</button></Link>
+                <button className="btn btn-warning" onClick={()=>{actions.addFav(id)}}>Añadir a favoritos!</button>
+            </div>):(
+                <>
+                    <button className="btn btn-warning" onClick={()=>{actions.addFav(id)}}>Añadir a favoritos!</button>
+                </>)}
 
         {isLogin && (
-                <>
-                    <div className="form-floating">
+                <div className="d-flex col-12 gap-2 justify-content-center">
+                    <div className="form-floating col-7 ms-2">
                         <textarea
                             className="form-control"
                             placeholder="Leave a comment here"
                             id="floatingTextarea"
                             value={comment}
-                            onChange={(e) => setComment(e.target.value)}
+                            onChange={(e)=>setComment(e.target.value)}
                         ></textarea>
                         <label htmlFor="floatingTextarea">Comments</label>
                     </div>
-                    <button onClick={createComment}>Crear comentarios</button>
-                </>
+                    <button className="btn btn-success col-2 my-3" onClick={createComment}>Crear comentarios</button>
+                </div>
             )}
 
 
@@ -229,6 +235,6 @@ export function ViewRecipe(){
                     )}
                 </ul>
             </div>
-        </>
+        </div>
     )
 }
