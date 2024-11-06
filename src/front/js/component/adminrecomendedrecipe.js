@@ -6,17 +6,15 @@ import { jwtDecode } from "jwt-decode";
 export const AdminRecommendedRecipes = () => {
     const [recipes, setRecipes] = useState([]);
     const [recommendedRecipes, setRecommendedRecipes] = useState([]);
-    const { store, actions, setStore } = useContext(Context); // Obtén `setStore` para actualizar el contexto
+    const { store, actions, setStore } = useContext(Context); 
     const navigate = useNavigate();
 
     useEffect(() => {
         const token = localStorage.getItem('token');
         
-        if (token && !store.admin?.id) { // Verifica si el token existe y si `admin.id` no está en el contexto
+        if (token && !store.admin?.id) {
             const decoded = jwtDecode(token);
-            const adminId = decoded.sub; // `sub` es el campo típico de identidad en JWT; confirma esto con el backend
-            
-            // Guarda `admin_id` en el contexto
+            const adminId = decoded.sub;
             setStore({ admin: { id: adminId } });
             console.log(adminId)
         }
@@ -24,7 +22,7 @@ export const AdminRecommendedRecipes = () => {
 
     useEffect(() => {
         if (!store.authadmin) {
-            navigate("/"); // Redirige si no es admin
+            navigate("/");
         } else {
             fetchRecipes();
             fetchRecommendedRecipes();
@@ -78,6 +76,22 @@ export const AdminRecommendedRecipes = () => {
         }
     };
 
+    const removeRecipeFromRecommended = async (recipeId) => {
+        try {
+            const resp = await fetch(`${process.env.BACKEND_URL}/api/recommendations/${recipeId}`, {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json' },
+            });
+            if (resp.ok) {
+                setRecommendedRecipes(recommendedRecipes.filter(id => id !== recipeId));
+            } else {
+                console.error("Failed to remove recipe from recommended list");
+            }
+        } catch (error) {
+            console.error("Error removing recipe from recommended:", error);
+        }
+    };
+
     return store.authadmin ? (
         <div className="container mt-4">
             <h2>Administrar Recetas Recomendadas</h2>
@@ -88,13 +102,21 @@ export const AdminRecommendedRecipes = () => {
                             <img src={recipe.image_url} className="card-img-top" alt={recipe.title} />
                             <div className="card-body">
                                 <h5 className="card-title">{recipe.title}</h5>
-                                <button
-                                    className="btn btn-primary"
-                                    onClick={() => addRecipeToRecommended(recipe.id)}
-                                    disabled={recommendedRecipes.includes(recipe.id)}
-                                >
-                                    {recommendedRecipes.includes(recipe.id) ? "Ya recomendada" : "Agregar a Recomendadas"}
-                                </button>
+                                {recommendedRecipes.includes(recipe.id) ? (
+                                    <button
+                                        className="btn btn-danger"
+                                        onClick={() => removeRecipeFromRecommended(recipe.id)}
+                                    >
+                                        Quitar de Recomendadas
+                                    </button>
+                                ) : (
+                                    <button
+                                        className="btn btn-primary"
+                                        onClick={() => addRecipeToRecommended(recipe.id)}
+                                    >
+                                        Agregar a Recomendadas
+                                    </button>
+                                )}
                             </div>
                         </div>
                     </div>
@@ -102,6 +124,6 @@ export const AdminRecommendedRecipes = () => {
             </div>
         </div>
     ) : (
-        <Navigate to="/" /> // Redirige si no está autenticado como admin
+        <Navigate to="/" />
     );
 };
