@@ -8,9 +8,7 @@ export function Sidebar(){
     const navigate = useNavigate()
 	const { store, actions } = useContext(Context)
 
-	function navegar() {
-		navigate("/categories/create"); // Usa navigate para redirigir programáticamente
-	}
+	
 
     useEffect(()=>{
         fetch(process.env.BACKEND_URL + '/api/categorias',{ 
@@ -26,56 +24,97 @@ export function Sidebar(){
         .then(response=> response.json()) 
         .then(data=> setCategories(data));
     },[])
-    
-    return(
-        <div className="flex-shrink-0 p-3 bg-light vh-100" style={{width: '280px'}}>
+    function navegar() {
+		navigate("/categories/create"); // Usa navigate para redirigir programáticamente
+	}
+
+    return (
+        <div className="flex-shrink-0 p-3 bg-light vh-100" style={{ width: '280px' }}>
             <a href="/" className="d-flex align-items-center pb-3 mb-3 link-body-emphasis text-decoration-none border-bottom">
                 <svg className="bi pe-none me-2" width="30" height="24"><use href="#bootstrap"></use></svg>
                 <span className="fs-5 fw-semibold">cocinArte</span>
             </a>
             <ul className="list-unstyled ps-0">
                 <li className="mb-1">
-                    <button className="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#home-collapse" aria-expanded="true">Home</button>
-                    <div className="collapse show" id="home-collapse">
-                        <ul className="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                            <li><Link className="dropdown-item" to="/recipe/">Ver Recetas!</Link></li>
-                        </ul>
-                    </div>
+                    <button 
+                        className="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" 
+                        onClick={() => navigate("/recipe/")} 
+                        aria-expanded="true">
+                        Ver Recetas!
+                    </button>
                 </li>
                 <li className="mb-1">
-                    <button className="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#dashboard-collapse" aria-expanded="false">Categorias</button>
+                    <button 
+                        className="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" 
+                        data-bs-toggle="collapse" 
+                        data-bs-target="#dashboard-collapse" 
+                        aria-expanded="false">
+                        Categorias
+                    </button>
                     <div className="collapse" id="dashboard-collapse">
                         <ul className="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                        {categories.map((category) => (
-								<li key={category.id}> 
-									<Link className="dropdown-item" to={`/category/search/${category.id}`}>{category.name}</Link>
-								</li>))}
+                            {categories.map((category) => (
+                                <li key={category.id}> 
+                                    <button 
+                                        className="dropdown-item" 
+                                        onClick={() => navigate(`/category/search/${category.id}`)}>
+                                        {category.name}
+                                    </button>
+                                </li>
+                            ))} 
                         </ul>
                     </div>
                 </li>
                 <li className="mb-1">
-                    <button className="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#orders-collapse" aria-expanded="false">Admins</button>
-                    <div className="collapse" id="orders-collapse">
-                        <ul className="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                            <li><Link className="dropdown-item" to="/administrador">Crear admins</Link></li>
-                            {store.authadmin ? (
-                                <button onClick={navegar}> {/* Llama a la función de navegación aquí */}
-                                    Crear etiquetas!
-                                </button>
-                            ) : null}
-                        </ul>
-                    </div>
+                    <button 
+                        className="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" 
+                        onClick={() => navigate("/administrador")} 
+                        aria-expanded="false">
+                        Crear Admins
+                    </button>
                 </li>
+                <li className="mb-1">
+                    <button 
+                        className="btn btn-toggle d-inline-flex align-items-center rounded border-0" 
+                        onClick={() => navigate("/recomended/recipe")}>
+                        Recetas Recomendadas
+                    </button>
+                </li>
+                {store.authadmin && (
+                    <li className="mb-1">
+                        <button
+                            className="btn btn-toggle d-inline-flex align-items-center rounded border-0"
+                            onClick={() => navigate("/categories/create")}
+                        >
+                            Crear Etiquetas!
+                        </button>
+                    </li>
+                )}
+                {store.authadmin && (
+                    <li className="mb-1">
+                        <button 
+                            className="btn btn-toggle d-inline-flex align-items-center rounded border-0" 
+                            onClick={() => navigate("/admin/recomended/recipe")}>
+                            Administrar Recetas Recomendadas
+                        </button>
+                    </li>
+                )}
                 <li className="border-top my-3"></li>
                 <li className="mb-1">
-                    <button className="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#account-collapse" aria-expanded="false">Account</button>
+                    <button 
+                        className="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" 
+                        data-bs-toggle="collapse" 
+                        data-bs-target="#account-collapse" 
+                        aria-expanded="false">
+                        Account
+                    </button>
                     <div className="collapse" id="account-collapse">
                         <ul className="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                            
+                            {/* Puedes agregar enlaces relacionados con la cuenta aquí */}
                         </ul>
                     </div>
                 </li>
             </ul>
         </div>
-    )
+    );
 }

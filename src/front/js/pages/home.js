@@ -48,6 +48,7 @@ export const Home = () => {
                     Read documentation
                 </a>
             </p>
+			
         </div>
     )
 }
