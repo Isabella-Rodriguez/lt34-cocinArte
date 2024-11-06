@@ -10,7 +10,6 @@ export function OpenAiAssistant(){
     const [duration, setDuration] = useState('')
     const [dificulty, setDificulty]= useState('')
     const navigate = useNavigate()
-    const { store, actions } = useContext(Context)
 
     const addIngredient=(e)=>{
         setIngredient(e.target.value)
@@ -46,7 +45,6 @@ export function OpenAiAssistant(){
             if(data.receta){
                 const parsedRecipe = JSON.parse(data.receta)
                 console.log("parsedRecipe: ", parsedRecipe)
-                actions.setRecipeAi(parsedRecipe)
                 localStorage.setItem('RecipeAi', JSON.stringify(parsedRecipe))
                 navigate('/assistant/resp')
             }
