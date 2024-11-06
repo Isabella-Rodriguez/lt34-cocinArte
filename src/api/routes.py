@@ -16,9 +16,11 @@ import cloudinary
 import cloudinary.uploader 
 import cloudinary.api
 import json
+import openai
+
+
 
 api = Blueprint('api', __name__)
-
 # Allow CORS requests to this API
 CORS(api)
 
@@ -656,3 +658,49 @@ def delete_recommended_recipe(id):
     db.session.delete(recommended_recipe)
     db.session.commit()
     return jsonify({"message": "Recommended recipe deleted"}), 200
+
+@api.route('/assistant' , methods=['POST'])
+def assistant():
+    title = request.form.get('title')
+    ingredients = request.form.get('ingredients')
+    taste = request.form.get('taste')
+    duration = request.form.get('duration')
+    dificulty = request.form.get('dificulty')
+
+    prompt = 'Me gustaria que me des una receta con las siguientes caracteristicas'
+    if title:
+        prompt+= f'Su nombre es {title}. '
+    if ingredients:
+        prompt+= f'Tengo los siguientes ingredientes: {ingredients}. '
+    if taste:
+        prompt += f'Su sabor deberia ser {taste}. '
+    if duration:
+        prompt+= f'No debo demorar en realizarla mas de {duration} minutos. '
+    if dificulty:
+        prompt += f'Debe ser {dificulty} de realizar. '
+
+    prompt += """
+    Dame una receta en formato JSON con las siguientes claves:
+    {
+        "nombre": "string",
+        "ingredientes": ["string"],
+        "pasos": ["string"],
+        "tiempo_preparacion": "string",
+        "tiempo_coccion": "string",
+        "dificultad": "string"
+    }
+    Asegúrate de usar estas claves incluso si algunos datos no son proporcionados. La respuesta debe ser formato JSON valido, sin caracteres extras.
+    """
+    try:
+        response = openai.chat.completions.create(
+            model="gpt-3.5-turbo",
+            messages=[
+                {"role": "system", 'content':"Eres un asistente experto en recetas de cocina."},
+                {"role": "user", "content": prompt}
+            ],
+            max_tokens=400
+        )
+        receta = response.choices[0].message.content
+        return jsonify({'receta': receta})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500

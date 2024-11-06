@@ -20,6 +20,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			user:[],
 			favoritos:[],
 			Comments:[],
+			recipeAi:{},
 			authadmin:false,
 			admin: null, // Almacena el `admin_id`
 
@@ -181,6 +182,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 				.then(data=>{console.log("user es:", data)
 					setStore({user:data})
 				})
+			},
+			setRecipeAi:(recipe)=>{
+				const store = getStore()
+				setStore({...store, recipeAi:recipe})
 			},
 		}
 	};

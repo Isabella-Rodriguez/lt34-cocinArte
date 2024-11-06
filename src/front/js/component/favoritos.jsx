@@ -26,7 +26,7 @@ export const Favoritos = () => {
 		<div className="text-center mt-5 d-flex flex-column">
 			<h1>Favoritos!</h1>
 			<div className="d-flex justify-content-center col flex-column">
-			{recipes.length>0 ? (
+			{recipes && recipes.length>0 ? (
 				recipes.map((favorito, index)=>(
 					<div key={index} className="m-1 rounded w-75 p-3 border border-info row d-flex align-items-center col mx-auto">
 						<div className="col">

@@ -1,7 +1,6 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../../styles/home.css";
 import { Link, useNavigate } from "react-router-dom";
-import { Context } from "../store/appContext"
 
 export const Home = () => {
 	const [loading, setLoading]=useState(false);

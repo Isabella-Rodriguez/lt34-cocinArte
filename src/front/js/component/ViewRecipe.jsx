@@ -147,69 +147,61 @@ export function ViewRecipe(){
 
     return(
         <div className="container d-flex flex-column align-items-center">
-        <div className="container d-flex flex-column align-items-center">
-            <h1 className="container fs-1">{recipe.title}</h1>
-            <p>{" | Calificación promedio: " + promedioCalificacion + " estrellas"}</p>
-            <h2 className="">Ingredientes!</h2>
-            {recipe.ingredientes && recipe.ingredientes.length>0 ? (
-                recipe.ingredientes.map((ingrediente, index)=>(
-                <h3 key={index}>{ingrediente}</h3>))
-                ):(<h3>El chef aún no especifica los ingredientes!</h3>)}
-            <h2>Pasos:</h2>
-            <p>{recipe.pasos}</p>
-            <h2>Fecha de publicacion:</h2>
-            <p>{recipe.fecha_publicacion}</p>
-            <img src={recipe.img_ilustrativa} alt="" />
-            <p>{recipe.category}</p>
-        </div>
-        {userId===recipe.user_id ? (
-            <div className="d-flex col-12 gap-2 justify-content-evenly my-3">
-                <button className="btn btn-danger " onClick={()=>{deleteReceta(id)}}>Borrar Receta!</button>
-                <Link to={`/recipe/edit/${id}`}><button className="btn btn-warning">Editar Receta!</button></Link>
-                <button className="btn btn-warning" onClick={()=>{actions.addFav(id)}}>Añadir a favoritos!</button>
-            </div>):(
-                <>
+            <div className="container d-flex flex-column align-items-center">
+                <h1 className="container fs-1">{recipe.title}</h1>
+                <p className="container text-start">{" | Calificación promedio: " + promedioCalificacion + " estrellas"}</p>
+                <h2 className="">Ingredientes!</h2>
+                {recipe.ingredientes && recipe.ingredientes.length>0 ? (
+                    recipe.ingredientes.map((ingrediente, index)=>(
+                    <h3 key={index}>{ingrediente}</h3>))
+                    ):(<h3>El chef aún no especifica los ingredientes!</h3>)}
+                <h2>Pasos:</h2>
+                <p>{recipe.pasos}</p>
+                <img src={recipe.img_ilustrativa} alt="" />
+                <h2>Fecha de publicacion:</h2>
+                <p>{recipe.fecha_publicacion}</p>
+                <p>{recipe.category}</p>
+            </div>
+            {userId===recipe.user_id ? (
+                <div className="d-flex col-12 gap-2 justify-content-evenly my-3">
+                    <button className="btn btn-danger " onClick={()=>{deleteReceta(id)}}>Borrar Receta!</button>
+                    <Link to={`/recipe/edit/${id}`}><button className="btn btn-warning">Editar Receta!</button></Link>
                     <button className="btn btn-warning" onClick={()=>{actions.addFav(id)}}>Añadir a favoritos!</button>
-                </>)}
+                </div>):(
+                    <>
+                        <button className="btn btn-warning my-3" onClick={()=>{actions.addFav(id)}}>Añadir a favoritos!</button>
+                    </>)}
 
-        {isLogin && (
-                <div className="d-flex col-12 gap-2 justify-content-center">
-                    <div className="form-floating col-7 ms-2">
-                        <textarea
-                            className="form-control"
-                            placeholder="Leave a comment here"
-                            id="floatingTextarea"
-                            value={comment}
-                            onChange={(e)=>setComment(e.target.value)}
-                        ></textarea>
-                        <label htmlFor="floatingTextarea">Comments</label>
+            {isLogin && (
+                    <div className="d-flex col-12 gap-2 justify-content-center">
+                        <div className="form-floating col-7 ms-2">
+                            <textarea
+                                className="form-control"
+                                placeholder="Leave a comment here"
+                                id="floatingTextarea"
+                                value={comment}
+                                onChange={(e)=>setComment(e.target.value)}
+                            ></textarea>
+                            <label htmlFor="floatingTextarea">Comments</label>
+                        </div>
+                        <button className="btn btn-success col-2 my-3" onClick={createComment}>Crear comentarios</button>
                     </div>
-                    <button className="btn btn-success col-2 my-3" onClick={createComment}>Crear comentarios</button>
-                </div>
-            )}
+                )}
 
+                <form onSubmit={addCalif} className="calificacion-form">
+                    <h5>Califica la receta:</h5>
+                    <select value={calificacion} onChange={handleCalificacionChange}>
+                        <option value={0}>Selecciona una calificación</option>
+                        <option value={1}>1 estrella</option>
+                        <option value={2}>2 estrellas</option>
+                        <option value={3}>3 estrellas</option>
+                        <option value={4}>4 estrellas</option>
+                        <option value={5}>5 estrellas</option>
+                            </select>
+                    <button type="submit" className="btn btn-primary mt-2">Enviar Calificación</button>
+                </form>
 
-        {userId===recipe.user_id ? (
-            <div>
-                <button onClick={()=>{deleteReceta(id)}}>Borrar Receta!</button>
-                <Link to={`/recipe/edit/${id}`}><button>Editar Receta!</button></Link>
-            </div>):(<></>)}
-            <button onClick={()=>{actions.addFav(id)}}>Añadir a favoritos!</button>
-            
-            <form onSubmit={addCalif} className="calificacion-form">
-                <h5>Califica la receta:</h5>
-                <select value={calificacion} onChange={handleCalificacionChange}>
-                    <option value={0}>Selecciona una calificación</option>
-                    <option value={1}>1 estrella</option>
-                    <option value={2}>2 estrellas</option>
-                    <option value={3}>3 estrellas</option>
-                    <option value={4}>4 estrellas</option>
-                    <option value={5}>5 estrellas</option>
-                        </select>
-                <button type="submit" className="btn btn-primary mt-2">Enviar Calificación</button>
-            </form>
-
-        <div className="comments-section">
+            <div className="comments-section">
                 <h3>Comentarios</h3>
                 <ul className="list-group">
                     {comments.length > 0 ? (

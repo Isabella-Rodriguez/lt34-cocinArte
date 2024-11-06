@@ -1,20 +1,32 @@
 import React, { useEffect, useState, useContext } from "react";
-import { useNavigate } from "react-router-dom";
-import { Context } from "../store/appContext";
+import { Link, useNavigate } from "react-router-dom";
+import { Context } from "../store/appContext"
 
-export function Sidebar() {
-    const [categories, setCategories] = useState([]);
-    const { store } = useContext(Context); 
-    const navigate = useNavigate();
 
-    useEffect(() => {
-        fetch(process.env.BACKEND_URL + '/api/categorias', { 
+export function Sidebar(){
+    const [categories, setCategories] = useState([])
+    const navigate = useNavigate()
+	const { store, actions } = useContext(Context)
+
+	
+
+    useEffect(()=>{
+        fetch(process.env.BACKEND_URL + '/api/categorias',{ 
+			method: 'GET', 
+			headers: { 'Content-Type': 'application/json' } 
+		}) 
+		.then(response=> response.json()) 
+		.then(data=> setCategories(data));
+        fetch(process.env.BACKEND_URL + '/api/categorias',{ 
             method: 'GET', 
             headers: { 'Content-Type': 'application/json' } 
-        })
-        .then(response => response.json()) 
-        .then(data => setCategories(data));
-    }, []);
+        }) 
+        .then(response=> response.json()) 
+        .then(data=> setCategories(data));
+    },[])
+    function navegar() {
+		navigate("/categories/create"); // Usa navigate para redirigir programáticamente
+	}
 
     return (
         <div className="flex-shrink-0 p-3 bg-light vh-100" style={{ width: '280px' }}>
