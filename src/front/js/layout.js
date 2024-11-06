@@ -24,6 +24,7 @@ import { LoginAdmin } from "./component/loginAdministrador.jsx";
 import { CreateRecipe } from "./component/CreateRecipe.jsx";
 import { ViewRecipe } from "./component/ViewRecipe.jsx";
 import { AllRecipes } from "./component/allRecipes.jsx";
+import { MisRecetas } from "./component/misRecetas.jsx";
 import { EditRecipe } from "./component/editRecipes.jsx";
 import { LoginCocinero } from "./component/loginCocinero.jsx";
 import { CategoriesAdmin } from "./component/createCategories.jsx";
@@ -77,7 +78,7 @@ const Layout = () => {
                         <Route element={<ViewRecipeApi />} path="/recipe/api/:id"/>
                         <Route element={<RecomendedRecipe />} path="/recomended/recipe"/>
                         <Route element={<AdminRecommendedRecipes />} path="/admin/recomended/recipe"/>
-                       
+                        <Route element={<MisRecetas />} path="/mis-recetas"/>
 
                         <Route element={<h1>Not found!</h1>} />
                     </Routes>

@@ -135,6 +135,17 @@ def update_recipe(id):
     db.session.commit()
     return jsonify(recipe.serialize()), 200
 
+@api.route('/recetas/mis-recetas', methods=['GET'])
+@jwt_required()
+def get_my_recipes():
+    user_id = get_jwt_identity() 
+    recipes = Recipe.query.filter_by(user_id=user_id).all()
+    
+    if recipes:
+        serialized_recipes = [recipe.serialize() for recipe in recipes]
+        return jsonify(serialized_recipes), 200
+    else:
+        return jsonify({"msg": "No tienes recetas publicadas"}), 400
 
 @api.route("/administrador", methods=["POST"])
 def signup():
