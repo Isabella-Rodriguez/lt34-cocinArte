@@ -38,6 +38,7 @@ export const Navbar = () => {
 					</form>
 						{(isLogin) ? <>
 							<Link className="mx-2" to={"/recipe/create"} ><button className="btn btn-primary">Crear Receta</button></Link>
+							<Link className="mx-2" to={"/mis-recetas"} ><button className="btn btn-success">Mis Recetas</button></Link>
 							<Link className="mx-2" to={"/favoritos"} ><button className="btn btn-warning">Favoritos</button></Link>
 							<button onClick={logOut} className="btn btn-danger">LogOut</button>
 						</> : 
