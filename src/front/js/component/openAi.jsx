@@ -73,7 +73,7 @@ export function OpenAiAssistant(){
             <input type="text" name="duration" id="duration" onChange={(e)=>{setDuration(e.target.value)}}/>
             <label htmlFor="dificulty">Dificultad</label>
             <input type="text" name="dificulty" id="dificulty" onChange={(e)=>{setDificulty(e.target.value)}}/>
-            <button className="btn btn-success" type="submit"></button>
+            <button className="btn btn-success" type="submit">Recomiendame!</button>
         </form>
         </div>
     )

@@ -99,7 +99,7 @@ class Comment(db.Model):
 
     def serialize(self):
         return {
-             "id": self.id,
+            "id": self.id,
             "user_id": self.user_id,  
             "recipe_id": self.recipe_id,  
             "comment_text": self.comment_text,
