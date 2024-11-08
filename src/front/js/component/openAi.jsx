@@ -56,25 +56,27 @@ export function OpenAiAssistant(){
 
 
     return(
-        <div >
-        <form className="d-flex flex-column justify-content-center" action="" onSubmit={sendData}>
-            <label htmlFor="title">Titulo</label>
-            <input type="text" name="title" id="title" onChange={(e)=>{setTitle(e.target.value)}}/>
-            <label htmlFor="ingredients">Ingredientes</label>
-            <input type="text" name="ingredients" id="ingredients" onChange={(e)=>{addIngredient(e)}} onKeyDown={(e)=>{ingredientsToSend(e)}} />
-            <ul>
-                {ingredients.map((ing, index) => (
-                    <li key={index}>{ing}</li>
-                ))}
-            </ul>
-            <label htmlFor="taste">Gustos</label>
-            <input type="text" name="taste" id="taste" onChange={(e)=>{setTaste(e.target.value)}}/>
-            <label htmlFor="duration">Comida del Dia</label>
-            <input type="text" name="duration" id="duration" onChange={(e)=>{setDuration(e.target.value)}}/>
-            <label htmlFor="dificulty">Dificultad</label>
-            <input type="text" name="dificulty" id="dificulty" onChange={(e)=>{setDificulty(e.target.value)}}/>
-            <button className="btn btn-success" type="submit"></button>
-        </form>
+        <div className="m-5">
+            <h1>En que podemos ayudarte hoy?</h1>
+            <h5 className="my-4">Cuentanos en que estas pensando y te daremos la mejor receta para ti!</h5>
+            <form className="d-flex flex-column justify-content-center gap-2" action="" onSubmit={sendData}>
+                <label htmlFor="title">Titulo</label>
+                <input type="text" name="title" id="title" onChange={(e)=>{setTitle(e.target.value)}}/>
+                <label htmlFor="ingredients">Ingredientes</label>
+                <input type="text" name="ingredients" id="ingredients" onChange={(e)=>{addIngredient(e)}} onKeyDown={(e)=>{ingredientsToSend(e)}} />
+                <ul>
+                    {ingredients.map((ing, index) => (
+                        <li key={index}>{ing}</li>
+                    ))}
+                </ul>
+                <label htmlFor="taste">Gustos</label>
+                <input type="text" name="taste" id="taste" onChange={(e)=>{setTaste(e.target.value)}}/>
+                <label htmlFor="duration">Comida del Dia</label>
+                <input type="text" name="duration" id="duration" onChange={(e)=>{setDuration(e.target.value)}}/>
+                <label htmlFor="dificulty">Dificultad</label>
+                <input type="text" name="dificulty" id="dificulty" onChange={(e)=>{setDificulty(e.target.value)}}/>
+                <button className="btn btn-success mt-3" type="submit">Recomiendame!</button>
+            </form>
         </div>
     )
 }

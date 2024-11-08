@@ -3,8 +3,7 @@ This module takes care of starting the API Server, Loading the DB and Adding the
 """
 from flask import Flask, request, jsonify, url_for, Blueprint
 from api.models import db, User, Recipe, Administrador, Comment, Category, Favorito, Calificacion,RecommendedRecipe
-from api.models import db, User, recipe_categories
-from api.utils import generate_sitemap, APIException
+from api.models import db, recipe_categories
 from flask_cors import CORS
 from werkzeug.security import check_password_hash
 from flask_jwt_extended import create_access_token

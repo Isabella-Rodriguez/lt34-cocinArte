@@ -1,7 +1,9 @@
 import React, { useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 export function OpenAiRecipe(){
 
     const [recipe, setRecipe] = useState(null)
+    const navigate = useNavigate()
     
     useEffect(()=>{
         const recipeAi = localStorage.getItem('RecipeAi')
@@ -39,6 +41,10 @@ export function OpenAiRecipe(){
                 <h5>{recipe.tiempo_preparacion}</h5>
                 <h5 className="border-start ps-3">Tiempo de coccion:</h5>     
                 <h5>{recipe.tiempo_coccion}</h5>
+            </div>
+            <div>
+            <button className="btn btn-success" onClick={()=>{navigate('/postear-recipe-ai')}}>Preparar esta receta!</button>
+            <button className="btn btn-secondary" onClick={()=>{navigate('/assistant')}}>Intentemoslo una vez mas</button>
             </div>
         </div>
     )

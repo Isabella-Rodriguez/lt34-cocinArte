@@ -2,9 +2,9 @@
 import os
 from flask_admin import Admin
 from .models import db, User, Recipe
-from .models import db, User, Administrador,Comment
-from .models import db, User, Recipe, Category
-from .models import db, User, Administrador,RecommendedRecipe
+from .models import db, Administrador,Comment
+from .models import db, Category
+from .models import db, Administrador,RecommendedRecipe
 from flask_admin.contrib.sqla import ModelView
 
 def setup_admin(app):
