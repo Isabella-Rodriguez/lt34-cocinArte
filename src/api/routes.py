@@ -710,7 +710,7 @@ def assistant():
             ],
             max_tokens=400
         )
-        receta = response.choices[0].message['content']
+        receta = response.choices[0].message.content
         return jsonify({'receta': receta})
     except Exception as e:
         return jsonify({'error': str(e)}), 500

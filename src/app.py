@@ -31,7 +31,6 @@ jwt = JWTManager(app)
 load_dotenv() 
 openai.api_key = os.getenv('OPENAI_API_KEY')
 
-
 cloudinary.config(
     cloud_name='dpcgrumpo',
     api_key='877179688653641',
