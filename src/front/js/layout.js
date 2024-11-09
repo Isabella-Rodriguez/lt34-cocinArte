@@ -84,6 +84,7 @@ const Layout = () => {
                         <Route element={<AdminRecommendedRecipes />} path="/admin/recomended/recipe"/>
                         <Route element={<MisRecetas />} path="/mis-recetas"/>
 
+
                         <Route element={<h1>Not found!</h1>} />
                     </Routes>
                     </div>
