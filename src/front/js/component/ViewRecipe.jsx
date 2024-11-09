@@ -17,14 +17,19 @@ export function ViewRecipe(){
     const [userId, setUserId] = useState(null);
     const [calificacion, setCalificacion] = useState(0);
     const [promedioCalificacion, setPromedioCalificacion] = useState(null);
+    const [voteCount, setVoteCount] = useState(0);
+    const [userVote, setUserVote] = useState(null); 
+
 
     useEffect(()=>{
         getRecipeId()
         getComments();
         checkLoginStatus();
         obtenerPromedioCalificacion();
+        fetchVotes(); // Obtener votos iniciales
+        fetchUserVote(); // Obtener el voto del usuario al cargar la página
         
-    },[])
+    },[userId])
 
     const getRecipeId=async()=>{
         const data = await fetch(process.env.BACKEND_URL +`/api/recetas/${id}`,{
@@ -145,6 +150,91 @@ export function ViewRecipe(){
         }
     };
 
+
+
+    const fetchVotes = async () => {
+        const data = await fetch(`${process.env.BACKEND_URL}/api/vote/recipe/${id}`, {
+            method: 'GET',
+        });
+        const resp = await data.json();
+        if (resp && resp.total_votes !== undefined) {
+            setVoteCount(resp.total_votes);
+        }
+    };
+
+    const fetchUserVote = async () => {
+        if (!userId) return;
+        const token = localStorage.getItem("token");
+        // Obtiene el voto específico del usuario para esta receta
+        const data = await fetch(`${process.env.BACKEND_URL}/api/vote/user/${userId}/recipe/${id}`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        const resp = await data.json();
+        if (resp && resp.vote_type !== undefined) {
+            setUserVote(resp.vote_type); 
+        } else {
+            setUserVote(null); 
+        }
+    };
+
+    const handleVote = async (type) => {
+        const token = localStorage.getItem("token");
+
+        if (userVote === type) {
+            await deleteVote();
+            setVoteCount(voteCount - type); 
+            setUserVote(null);
+            return;
+        }
+
+        if (userVote !== null) {
+            alert("Debe anular su voto actual antes de cambiar a otro.");
+            return;
+        }
+
+        const voteData = {
+            recipe_id: id,
+            vote_type: type,
+        };
+        
+        const resp = await fetch(`${process.env.BACKEND_URL}/api/vote/add`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify(voteData),
+        });
+
+        if (resp.ok) {
+            setVoteCount(voteCount + type); 
+            setUserVote(type); 
+        } else {
+            console.error("Error al enviar el voto");
+        }
+    };
+
+    const deleteVote = async () => {
+        const token = localStorage.getItem("token");
+        const resp = await fetch(`${process.env.BACKEND_URL}/api/vote/delete`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({ recipe_id: id }),
+        });
+        if (resp.ok) {
+            setUserVote(null); 
+        } else {
+            console.error("Error al eliminar el voto");
+        }
+    };
+
+
     return(
         <div className="container d-flex flex-column align-items-center">
             <div className="container d-flex flex-column align-items-center">
@@ -200,7 +290,27 @@ export function ViewRecipe(){
                             </select>
                     <button type="submit" className="btn btn-primary mt-2">Enviar Calificación</button>
                 </form>
-
+                  {isLogin && (
+                <div className="vote-section">
+                    <button
+                        className={`btn ${userVote === 1 ? "btn-success" : "btn-outline-primary"}`}
+                        onClick={() => handleVote(1)}
+                    >
+                        Votar Positivo
+                    </button>
+                    <span className="mx-3 fs-4">{voteCount}</span>
+                    <button
+                        className={`btn ${userVote === -1 ? "btn-danger" : "btn-outline-danger"}`}
+                        onClick={() => handleVote(-1)}
+                    >
+                        Votar Negativo
+                    </button>
+                </div>
+            )}
+            {userVote !== null && (
+                <p className="text-info">Has votado: {userVote === 1 ? "Positivo" : "Negativo"}</p>
+            )}
+           
             <div className="comments-section">
                 <h3>Comentarios</h3>
                 <ul className="list-group">

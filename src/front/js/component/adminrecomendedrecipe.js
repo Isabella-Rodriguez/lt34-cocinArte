@@ -16,47 +16,52 @@ export const AdminRecommendedRecipes = () => {
             const decoded = jwtDecode(token);
             const adminId = decoded.sub;
             setStore({ admin: { id: adminId } });
-            console.log(adminId)
+            console.log(adminId);
         }
     }, [store.admin]);
 
     useEffect(() => {
+        let isMounted = true;
+
         if (!store.authadmin) {
             navigate("/");
         } else {
             fetchRecipes();
             fetchRecommendedRecipes();
         }
-    }, [store.authadmin]);
 
-    const fetchRecipes = async () => {
-        try {
-            const resp = await fetch(`${process.env.BACKEND_URL}/api/recetas`, {
-                method: 'GET',
-                headers: { 'Content-Type': 'application/json' },
-            });
-            const data = await resp.json();
-            setRecipes(data);
-        } catch (error) {
-            console.error("Error fetching recipes:", error);
+        async function fetchRecipes() {
+            try {
+                const resp = await fetch(`${process.env.BACKEND_URL}/api/recetas`, {
+                    method: 'GET',
+                    headers: { 'Content-Type': 'application/json' },
+                });
+                const data = await resp.json();
+                if (isMounted) setRecipes(data);
+            } catch (error) {
+                if (isMounted) console.error("Error fetching recipes:", error);
+            }
         }
-    };
 
-    const fetchRecommendedRecipes = async () => {
-        try {
-            const resp = await fetch(`${process.env.BACKEND_URL}/api/recommendations`, {
-                method: 'GET',
-                headers: { 'Content-Type': 'application/json' },
-            });
-            const data = await resp.json();
-            setRecommendedRecipes(data.map(rec => rec.recipe_id));
-        } catch (error) {
-            console.error("Error fetching recommended recipes:", error);
+        async function fetchRecommendedRecipes() {
+            try {
+                const resp = await fetch(`${process.env.BACKEND_URL}/api/recommendations`, {
+                    method: 'GET',
+                    headers: { 'Content-Type': 'application/json' },
+                });
+                const data = await resp.json();
+                if (isMounted) setRecommendedRecipes(data.map(rec => rec.recipe_id));
+            } catch (error) {
+                if (isMounted) console.error("Error fetching recommended recipes:", error);
+            }
         }
-    };
+
+        return () => {
+            isMounted = false;
+        };
+    }, [store.authadmin, navigate]);
 
     const addRecipeToRecommended = async (recipeId) => {
-        console.log("Admin ID:", store.admin?.id);
         try {
             const resp = await fetch(`${process.env.BACKEND_URL}/api/recommendations/add`, {
                 method: 'POST',
@@ -78,7 +83,7 @@ export const AdminRecommendedRecipes = () => {
 
     const removeRecipeFromRecommended = async (recipeId) => {
         try {
-            const resp = await fetch(`${process.env.BACKEND_URL}/api/recommendations/${recipeId}`, {
+            const resp = await fetch(`${process.env.BACKEND_URL}/api/recommendations/recipe/${recipeId}`, {
                 method: 'DELETE',
                 headers: { 'Content-Type': 'application/json' },
             });
