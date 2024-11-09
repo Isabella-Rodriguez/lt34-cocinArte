@@ -176,6 +176,42 @@ class RecommendedRecipe(db.Model):
             "recipe_title": self.recipe.title
         }
     
+class Chat(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_1_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    user_2_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    messages = db.relationship('Message', backref='chat', lazy=True)
+
+    def __repr__(self):
+        return f'<Chat {self.id}>'
+    
+    def serialize(self):
+        return{
+            "id": self.id,
+            "user_1_id": self.user_1_id,
+            "user_2_id": self.user_2_id
+        }
+    
+class Message(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    chat_id = db.Column(db.Integer, db.ForeignKey('chat.id'), nullable=False)
+    sender = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    content =db.Column(db.Text, nullable=False)
+    date = db.Column(db.Date, nullable=False, default=datetime.now(timezone.utc))
+
+    def __repr__(self):
+        return f'<Message {self.id}>'
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "chat_id": self.chat_id,
+            "sender": self.sender,
+            "content": self.content,
+            "date": self.date
+        }
+    
+    
 class Vote(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)

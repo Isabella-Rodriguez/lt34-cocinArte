@@ -39,6 +39,8 @@ import { OpenAiAssistant } from "./component/openAi.jsx";
 import { OpenAiRecipe } from "./component/openAiRecipe.jsx";
 import { RecomendedRecipe } from "./component/recomendedrecipe.js";
 import { AdminRecommendedRecipes } from "./component/adminrecomendedrecipe.js";
+import { ChatList } from "./component/chatList.jsx";
+import { Chats } from "./pages/chats.jsx";
 import { AddRecipeAi } from "./component/addRecipeAi.jsx";
 
 
