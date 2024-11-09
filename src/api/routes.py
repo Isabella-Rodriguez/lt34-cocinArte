@@ -3,7 +3,7 @@ This module takes care of starting the API Server, Loading the DB and Adding the
 """
 from flask import Flask, request, jsonify, url_for, Blueprint
 from api.models import db, User, Recipe, Administrador, Comment, Category, Favorito, Calificacion,RecommendedRecipe
-from api.models import db, User, recipe_categories
+from api.models import db, User, recipe_categories, Chat, Message
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 from werkzeug.security import check_password_hash
@@ -17,6 +17,8 @@ import cloudinary.uploader
 import cloudinary.api
 import json
 import openai
+from datetime import datetime, timezone
+
 
 
 
@@ -715,3 +717,59 @@ def assistant():
         return jsonify({'receta': receta})
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
+@api.route('/chats', methods=['POST'])
+def create_chat():
+    body = request.get_json()
+    user_1_id = body.get('user_1_id')
+    user_2_id = body.get('user_2_id')
+
+    if not user_1_id or not user_2_id:
+        return jsonify({"msg": "no se encuentran los ID de los cocineros"}), 400
+    
+    chat = Chat(user_1_id=user_1_id, user_2_id=user_2_id)
+    db.session.add(chat)
+    db.session.commit()
+    return jsonify(chat.serialize()), 201
+
+@api.route('/chats/<int:chat_id>/messages', methods=['POST'])
+def send_message(chat_id):
+    body=request.get_json()
+    sender = body.get('sender')
+    content = body.get('content')
+
+    if not sender or not content:
+        return jsonify({"msg": "No hay contenido o remitente"}), 400
+    
+    message = Message(chat_id=chat_id, sender=sender, content = content, date=datetime.now(timezone.utc))
+    db.session.add(message)
+    db.session.commit()
+    return jsonify(message.serialize()), 201
+
+@api.route('/chats/<int:chat_id>/messages', methods=['GET'])
+def get_messages(chat_id):
+    messages = Message.query.filter_by(chat_id=chat_id).all()
+    return jsonify([message.serialize() for message in messages]), 200
+
+@api.route('/chats', methods=['GET'])
+def get_all_chats():
+    chats = Chat.query.all()
+    return jsonify([chat.serialize() for chat in chats]), 200
+
+@api.route('/users/<int:user_id>/chats', methods=['GET'])
+@jwt_required()
+def get_user_chats(user_id):
+    chats = Chat.query.filter(
+        (Chat.user_1_id==user_id) | (Chat.user_2_id==user_id)
+    ).all()
+    return jsonify([chat.serialize() for chat in chats]), 200
+
+@api.route('/users/search', methods=['GET'])
+def search_users():
+    query = request.args.get('query')
+    if not query:
+        return jsonify({"msg": "No se proporciono usuario de busqueda"}), 400
+    users = User.query.filter(User.name.ilike(f"%{query}%")).all()
+    if not users: 
+        return jsonify({"message": "No se encontraron usuarios"}), 404 
+    return jsonify([user.serialize() for user in users]), 200

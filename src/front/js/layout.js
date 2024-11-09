@@ -39,6 +39,8 @@ import { OpenAiAssistant } from "./component/openAi.jsx";
 import { OpenAiRecipe } from "./component/openAiRecipe.jsx";
 import { RecomendedRecipe } from "./component/recomendedrecipe.js";
 import { AdminRecommendedRecipes } from "./component/adminrecomendedrecipe.js";
+import { ChatList } from "./component/chatList.jsx";
+import { Chats } from "./pages/chats.jsx";
 
 
 //create your first component
@@ -83,6 +85,7 @@ const Layout = () => {
                         <Route element={<RecomendedRecipe />} path="/recomended/recipe"/>
                         <Route element={<AdminRecommendedRecipes />} path="/admin/recomended/recipe"/>
                         <Route element={<MisRecetas />} path="/mis-recetas"/>
+                        <Route element={<Chats />} path="/chat"/>
 
                         <Route element={<h1>Not found!</h1>} />
                     </Routes>
