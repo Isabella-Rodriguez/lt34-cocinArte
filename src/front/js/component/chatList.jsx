@@ -64,16 +64,16 @@ export function ChatList({selectChat}){
             method: 'POST',
             headers: {
                 'Content-Type':'application/json',
-                'Authorization': `Bearer ${userId}`,
+                'Authorization': `Bearer ${token}`
+                },
                 'body': JSON.stringify({
                     'user_1_id': userId,
-                    'user_2_id': user
+                    'user_2_id': user.id
                 })
-            }
-        })
+            })
         const data = await response.json()
         console.log(data)
-        selectChat(data.id, userName)
+        selectChat(data.id, user.name)
         setSearchInput('')
         setSearchResult([])
     }
@@ -91,14 +91,12 @@ export function ChatList({selectChat}){
             <ul className="list-unstyled chat-list mt-2 mb-0">
                 {searchResult.length>0 ? 
                     searchResult.map(user=>(
-                        <li key={user.id} className="clearfix">
+                        <li key={user.id} className="clearfix" onClick={()=>{newChat(user)}}>
                         <img src={user.img_profile ? user.img_profile: null}/>
                         <div className="about">
-                            <div className="name">iniciar chat con`${user.name} ${user.last_name}`</div>
+                            <div className="name">iniciar chat con {user.name} {user.last_name}</div>
                         </div>
-                    </li>)):(
-                    <h3>No hay usuarios encontrados</h3>
-                )}
+                    </li>)):null}
             </ul>
             <ul className="list-unstyled chat-list mt-2 mb-0">
                 {chats.map(chat=>{
