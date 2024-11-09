@@ -13,6 +13,7 @@ export function CreateRecipe(){
     const [categories, setCategories]= useState([])
     const [selectedCategories, setSelectedCategories] = useState([])
     const [recomendedSteps, setRecomendedSteps] = useState('')
+    const [recomendedIngredients, setRecomendedIngredients] = useState([])
     
     useEffect(()=>{
         fetch(process.env.BACKEND_URL + '/api/categorias',{
@@ -58,15 +59,21 @@ export function CreateRecipe(){
     }
 
     const recomendSteps= async(recipeTitle)=>{
-        const response = await fetch(`https://api.spoonacular.com/recipes/complexSearch?titleMatch=${recipeTitle}&number=1&apiKey=f6c3531069234577afe4d0e2e49fd508`)
+        const APIkey = '9c5e9cf7930840e5acd2b5edc06177e0';
+        const response = await fetch(`https://api.spoonacular.com/recipes/complexSearch?titleMatch=${recipeTitle}&number=1&apiKey=${APIkey}`)
         const data = await response.json()
         console.log(data)
         if (data.results && data.results.length>0){
-            const stepsResponse = await fetch(`https://api.spoonacular.com/recipes/${data.results[0].id}/information?apiKey=f6c3531069234577afe4d0e2e49fd508`)
+            const stepsResponse = await fetch(`https://api.spoonacular.com/recipes/${data.results[0].id}/information?apiKey=${APIkey}`)
             const stepsData = await stepsResponse.json()
             console.log(stepsData)
             setRecomendedSteps(stepsData.instructions)
-        }else setRecomendedSteps('')
+            setRecomendedIngredients(stepsData.extendedIngredients.map(ingrediente => ingrediente.original));
+            console.log(recomendedIngredients)
+        }else  {
+            setRecomendedSteps('');
+            setRecomendedIngredients([]);
+        }   
     }
 
     const sendRecipe = (e)=>{
@@ -122,6 +129,21 @@ return(
                     null}
                 <input className="form-control" id="ingredients" type="text" placeholder="Ingredients" onChange={(e)=>{setIngredient(e.target.value)}} onKeyDown={createIngredientsList}/>
             </div>
+            
+            {recomendedIngredients && recomendedIngredients.length > 0 && (
+                <div className="alert alert-info">
+                    <strong>Ingredientes Recomendados:</strong>
+                    <ul>
+                        {recomendedIngredients.map((ingredient, index) => (
+                            <li key={index}>{ingredient}</li>
+                        ))}
+                    </ul>
+                    <button onClick={() => {setIngredients(recomendedIngredients); }} type="button" className="btn btn-primary">
+                        Usar ingredientes recomendados!
+                    </button>
+                </div>
+            )}
+
             <div className="d-flex flex-column">
                 <label className="form-label" htmlFor="steps">Steps:</label>
                 <textarea className="form-control" id="steps" type="text" placeholder={recomendedSteps ? recomendedSteps: 'steps'} onChange={(e)=>{setSteps(e.target.value)}}/>

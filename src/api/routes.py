@@ -2,8 +2,7 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, User, Recipe, Administrador, Comment, Category, Favorito, Calificacion,RecommendedRecipe
-from api.models import db, User, recipe_categories, Chat, Message
+from api.models import db, User, Recipe, Administrador, Comment, Category, Favorito, Calificacion,RecommendedRecipe, recipe_categories,Vote, Chat, Message
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 from werkzeug.security import check_password_hash
@@ -12,6 +11,7 @@ from flask_jwt_extended import get_jwt_identity
 from flask_jwt_extended import jwt_required
 from flask_jwt_extended import JWTManager
 from sqlalchemy.exc import SQLAlchemyError
+from sqlalchemy import func
 import cloudinary 
 import cloudinary.uploader 
 import cloudinary.api
@@ -662,15 +662,16 @@ def delete_all_recommended_recipes():
     return jsonify({"message": "All recommended recipes deleted"}), 200
 
 
-@api.route('/recommendations/<int:id>', methods=['DELETE'])
-def delete_recommended_recipe(id):
-    recommended_recipe = RecommendedRecipe.query.get(id)
+@api.route('/recommendations/recipe/<int:recipe_id>', methods=['DELETE'])
+def delete_recommended_recipe_by_recipe_id(recipe_id):
+    recommended_recipe = RecommendedRecipe.query.filter_by(recipe_id=recipe_id).first()
     if not recommended_recipe:
         return jsonify({"error": "Recommended recipe not found"}), 404
 
     db.session.delete(recommended_recipe)
     db.session.commit()
     return jsonify({"message": "Recommended recipe deleted"}), 200
+
 
 @api.route('/assistant' , methods=['POST'])
 def assistant():
@@ -773,3 +774,70 @@ def search_users():
     if not users: 
         return jsonify({"message": "No se encontraron usuarios"}), 404 
     return jsonify([user.serialize() for user in users]), 200
+    
+@api.route('/vote/add', methods=['POST'])
+@jwt_required()
+def create_or_update_vote():
+    user_id = get_jwt_identity()  
+    data = request.get_json()
+    recipe_id = data.get('recipe_id')
+    vote_type = data.get('vote_type')  
+
+    if not recipe_id or vote_type is None:
+        return jsonify({"message": "Missing recipe_id or vote_type"}), 400
+
+    existing_vote = Vote.query.filter_by(user_id=user_id, recipe_id=recipe_id).first()
+
+    if existing_vote:
+        if existing_vote.vote_type == vote_type:
+            db.session.delete(existing_vote)
+            db.session.commit()
+            return jsonify({"message": "Vote removed"}), 200
+
+        existing_vote.vote_type = vote_type
+        db.session.commit()
+        return jsonify({"message": "Vote updated"}), 200
+    else:
+        vote = Vote(user_id=user_id, recipe_id=recipe_id, vote_type=vote_type)
+        db.session.add(vote)
+        db.session.commit()
+        return jsonify({"message": "Vote created successfully"}), 201
+
+@api.route('/vote/user/<int:user_id>/recipe/<int:recipe_id>', methods=['GET'])
+@jwt_required()
+def get_user_vote(user_id, recipe_id):
+    vote = Vote.query.filter_by(user_id=user_id, recipe_id=recipe_id).first()
+    if vote:
+        return jsonify({"vote_type": vote.vote_type}), 200
+    return jsonify({"message": "No vote found"}), 404
+
+
+@api.route('/vote/recipe/<int:recipe_id>', methods=['GET'])
+def get_votes(recipe_id):
+    votes = Vote.query.filter_by(recipe_id=recipe_id).all()
+    total_votes = sum(vote.vote_type for vote in votes)
+    return jsonify({
+        "recipe_id": recipe_id,
+        "total_votes": total_votes,
+        "votes": [vote.serialize() for vote in votes]
+    }), 200
+
+
+@api.route('/vote/delete', methods=['DELETE'])
+def delete_vote():
+    data = request.get_json()
+    user_id = data.get('user_id')
+    recipe_id = data.get('recipe_id')
+
+    vote = Vote.query.filter_by(user_id=user_id, recipe_id=recipe_id).first()
+    if vote:
+        db.session.delete(vote)
+        db.session.commit()
+        return jsonify({"message": "Vote deleted successfully"}), 204
+    else:
+        return jsonify({"message": "Vote not found"}), 404
+
+@api.route('/vote', methods=['GET'])
+def get_all_votes():
+    votes = Vote.query.all()
+    return jsonify([vote.serialize() for vote in votes]), 200

@@ -43,6 +43,7 @@ export function Sidebar(){
                         Ver Recetas!
                     </button>
                 </li>
+
                 <li className="mb-1">
                     <button 
                         className="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" 
@@ -64,6 +65,14 @@ export function Sidebar(){
                             ))} 
                         </ul>
                     </div>
+                </li>
+                <li className="mb-1">
+                    <button 
+                        className="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" 
+                        onClick={() => navigate("/assistant/")} 
+                        aria-expanded="true">
+                        Asistente personal
+                    </button>
                 </li>
                 <li className="mb-1">
                     <button 

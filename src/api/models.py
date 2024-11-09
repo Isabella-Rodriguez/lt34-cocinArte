@@ -17,11 +17,13 @@ class User(db.Model):
     password = db.Column(db.String(80), unique=False, nullable=False)
     is_active = db.Column(db.Boolean(), unique=False, nullable=False)
     img_profile = db.Column(db.String(200), nullable=True)
+
     recipes = db.relationship('Recipe', backref='user')
     favoritos = db.relationship('Favorito', backref='user')
-
     comments = db.relationship('Comment', backref='user', lazy=True)
     calificacion = db.relationship('Calificacion', backref='user')
+    votes = db.relationship('Vote', backref='user')
+ 
 
     def __repr__(self):
         return f'<User {self.email}>'
@@ -50,6 +52,7 @@ class Recipe(db.Model):
 
     comments = db.relationship('Comment', backref='recipe', lazy=True)
     calificacion = db.relationship('Calificacion', backref='recipe')
+    votes = db.relationship('Vote', backref='recipe')
 
     def __repr__(self):
         return f'<Recipe {self.title}>'
@@ -99,7 +102,7 @@ class Comment(db.Model):
 
     def serialize(self):
         return {
-             "id": self.id,
+            "id": self.id,
             "user_id": self.user_id,  
             "recipe_id": self.recipe_id,  
             "comment_text": self.comment_text,
@@ -157,7 +160,7 @@ class RecommendedRecipe(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     admin_id = db.Column(db.Integer, db.ForeignKey('administrador.id'), nullable=False)
     recipe_id = db.Column(db.Integer, db.ForeignKey('recipe.id'), nullable=False)
-    # Opcional: evitar recomendaciones duplicadas
+   
     __table_args__ = (db.UniqueConstraint('admin_id', 'recipe_id', name='_admin_recipe_recommendation_uc'),)
 
     recipe = db.relationship('Recipe', backref='recommended_by')
@@ -208,3 +211,21 @@ class Message(db.Model):
             "date": self.date
         }
     
+    
+class Vote(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    recipe_id = db.Column(db.Integer, db.ForeignKey('recipe.id'), nullable=False)
+    vote_type = db.Column(db.Integer, nullable=False)  # 1 para positivo, -1 para negativo
+    __table_args__ = (db.UniqueConstraint('user_id', 'recipe_id', name='_user_recipe_vote_uc'),)
+
+    def __repr__(self):
+        return f'<Vote {self.vote_type} by User {self.user_id} on Recipe {self.recipe_id}>'
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "user_id": self.user_id,
+            "recipe_id": self.recipe_id,
+            "vote_type": self.vote_type
+        }
