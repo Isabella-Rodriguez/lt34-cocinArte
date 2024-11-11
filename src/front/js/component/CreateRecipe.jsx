@@ -67,14 +67,47 @@ export function CreateRecipe(){
             const stepsResponse = await fetch(`https://api.spoonacular.com/recipes/${data.results[0].id}/information?apiKey=${APIkey}`)
             const stepsData = await stepsResponse.json()
             console.log(stepsData)
-            setRecomendedSteps(stepsData.instructions)
-            setRecomendedIngredients(stepsData.extendedIngredients.map(ingrediente => ingrediente.original));
-            console.log(recomendedIngredients)
+
+            const pasosEnIngles = stepsData.instructions;
+            const ingredientesEnIngles = stepsData.extendedIngredients.map(ingrediente => ingrediente.original);
+
+            const pasosTraducidos = await traducirTexto([pasosEnIngles]);
+            const ingredientesTraducidos = await traducirTexto(ingredientesEnIngles);
+
+            setRecomendedSteps(pasosTraducidos[0]);
+            setRecomendedIngredients(ingredientesTraducidos);
         }else  {
             setRecomendedSteps('');
             setRecomendedIngredients([]);
         }   
     }
+
+    const traducirTexto = async (textoArray) => {
+        console.log("Traduciendo texto...");
+        try {
+            const response = await fetch(`${process.env.BACKEND_URL}/api/traducir`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    "texto": textoArray,
+                    "idioma": "es"
+                })
+            });
+    
+            if (!response.ok) {
+                throw new Error(`Error en la respuesta: ${response.status} ${response.statusText}`);
+            }
+    
+            const data = await response.json();
+            return data.traducciones;
+            
+        } catch (error) {
+            console.error("Error al traducir el texto:", error.message);
+            return { error: "No se pudo completar la traducción. Intenta nuevamente más tarde." };
+        }
+    };
 
     const sendRecipe = (e)=>{
         e.preventDefault();
@@ -145,12 +178,12 @@ return(
             )}
 
             <div className="d-flex flex-column">
-                <label className="form-label" htmlFor="steps">Steps:</label>
-                <textarea className="form-control" id="steps" type="text" placeholder={recomendedSteps ? recomendedSteps: 'steps'} onChange={(e)=>{setSteps(e.target.value)}}/>
+                <label className="form-label" htmlFor="steps">Pasos:</label>
+                <textarea className="form-control" id="steps" type="text" value={steps} placeholder='Escribe los pasos para tu receta' onChange={(e)=>{setSteps(e.target.value)}}/>
             </div>
             {recomendedSteps && (
                 <div className="alert alert-info">
-                    <strong>Recomended Steps:</strong>
+                    <strong>Pasos Recomendados:</strong>
                     <p>{recomendedSteps}</p>
                     <button onClick={()=>{setSteps(''); setSteps(recomendedSteps); console.log(steps)}} type="button" className="btn btn-primary">Use the suggested steps!</button>
                 </div> )}
