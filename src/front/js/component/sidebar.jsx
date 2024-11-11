@@ -1,12 +1,22 @@
 import React, { useEffect, useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Context } from "../store/appContext"
-
+import '../../styles/sidebar.css'
+import { ChatIcon } from "./chatIcon.jsx";
+import { CategoryIcon } from "./categoryIcon.jsx";
+import { RecipeIcon } from "./recipesIcon.jsx";
+import { PersonalAssistant } from "./personalAssistant.jsx";
+import { RecomendedIcon } from "./recomendedIcon.jsx";
+import { AdminIcon } from "./aminIcon.jsx";
+import { ViewRecipeIcon } from "./viewRecipeIcon.jsx";
+import { AdminRecomendationsIcon } from "./recipesRecommendedIcon.jsx";
+import { AccountIcon } from "./accountIcon.jsx";
 
 export function Sidebar(){
     const [categories, setCategories] = useState([])
     const navigate = useNavigate()
 	const { store, actions } = useContext(Context)
+    const [categoryRotate ,setCategoryRotate]= useState(false)
 
 	
 
@@ -28,102 +38,133 @@ export function Sidebar(){
 		navigate("/categories/create"); // Usa navigate para redirigir programáticamente
 	}
 
+    const rotate=()=>{
+        if (categoryRotate===false){
+            setCategoryRotate(true)
+        } else{
+            setCategoryRotate(false)
+        }
+    }
+
     return (
-        <div className="flex-shrink-0 p-3 bg-light vh-100" style={{ width: '280px' }}>
-            <a href="/" className="d-flex align-items-center pb-3 mb-3 link-body-emphasis text-decoration-none border-bottom">
-                <svg className="bi pe-none me-2" width="30" height="24"><use href="#bootstrap"></use></svg>
-                <span className="fs-5 fw-semibold">cocinArte</span>
+        <div className="flex-shrink-0 mb-5 vh-100 bg-cocinarte cocinarte-text" style={{ width: '280px' }}>
+            <a href="/" className="d-flex align-items-center justify-content-center py-3 mb-3 border-bottom text-decoration-none">
+            <RecipeIcon/>
+            <span className="sidebar-brand text-center  ms-2 cocinarte-text fs-5">cocinArte</span>
             </a>
-            <ul className="list-unstyled ps-0">
-                <li className="mb-1">
-                    <button 
-                        className="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" 
+            <ul className="sidebar-nav">
+                <li className="sidebar-item py-3 mb-1 svg-hover">
+                    <ViewRecipeIcon/>
+                    <a 
+                        className="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed cocinarte-text" 
                         onClick={() => navigate("/recipe/")} 
                         aria-expanded="true">
-                        Ver Recetas!
-                    </button>
+                        Recetas
+                    </a>
                 </li>
 
-                <li className="mb-1">
-                    <button 
-                        className="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" 
-                        data-bs-toggle="collapse" 
-                        data-bs-target="#dashboard-collapse" 
-                        aria-expanded="false">
-                        Categorias
-                    </button>
+                <li className="sidebar-item mb-1 py-3 cocinarte-text " onClick={rotate}>
+                    <div className="svg-hover ">
+                        <CategoryIcon />
+                        <a 
+                            className="btn btn-toggle d-inline-flex align-items-center rounded border-0 cocinarte-text collapsed" 
+                            data-bs-toggle="collapse" 
+                            data-bs-target="#dashboard-collapse" 
+                            aria-expanded={categoryRotate}>
+                                Categorias
+                            <svg className={`rotate ${categoryRotate ? ('rotate-180'): ''}`} height={'30px'} width={'30px'} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff" > <path d="M18 15L12 9L6 15" stroke="#ffffff" strokeWidth="2" /> </svg>
+                        </a>
+                    </div>
                     <div className="collapse" id="dashboard-collapse">
-                        <ul className="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                        <ul className="btn-toggle-nav list-unstyled fw-normal ps-5 pt-3 pb-1 small">
                             {categories.map((category) => (
-                                <li key={category.id}> 
-                                    <button 
-                                        className="dropdown-item" 
+                                <li className="py-2 text-capitalize" key={category.id}> 
+                                    <a 
+                                        className="sidebar-link text-decoration-none cocinarte-text" 
                                         onClick={() => navigate(`/category/search/${category.id}`)}>
                                         {category.name}
-                                    </button>
+                                    </a>
                                 </li>
                             ))} 
                         </ul>
                     </div>
                 </li>
-                <li className="mb-1">
-                    <button 
-                        className="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" 
+                <li className="sidebar-item py-3 mb-1">
+                    <PersonalAssistant/>
+                    <a 
+                        className="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed cocinarte-text" 
                         onClick={() => navigate("/assistant/")} 
                         aria-expanded="true">
                         Asistente personal
-                    </button>
+                    </a>
                 </li>
-                <li className="mb-1">
-                    <button 
-                        className="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" 
+                <li className="sidebar-item py-3 mb-1">
+                    <div className="svg-hover">
+                        <ChatIcon/>
+                        <a 
+                            className="btn btn-toggle d-inline-flex align-items-center rounded border-0 cocinarte-text" 
+                            onClick={() => navigate("/chats")}>
+                            Chats
+                        </a>
+                    </div>
+                </li>
+                <li className="sidebar-item py-3 mb-1">
+                    <AdminIcon/>
+                    <a 
+                        className="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed cocinarte-text" 
                         onClick={() => navigate("/administrador")} 
                         aria-expanded="false">
                         Crear Admins
-                    </button>
+                    </a>
                 </li>
-                <li className="mb-1">
-                    <button 
-                        className="btn btn-toggle d-inline-flex align-items-center rounded border-0" 
+                <li className="sidebar-item py-3 mb-1">
+                    <RecomendedIcon/>
+                    <a 
+                        className="btn btn-toggle d-inline-flex align-items-center rounded border-0 cocinarte-text" 
                         onClick={() => navigate("/recomended/recipe")}>
                         Recetas Recomendadas
-                    </button>
+                    </a>
                 </li>
                 {store.authadmin && (
-                    <li className="mb-1">
-                        <button
-                            className="btn btn-toggle d-inline-flex align-items-center rounded border-0"
+                    <li className="sidebar-item py-3 mb-1">
+                        
+                        <CategoryIcon/>
+                        <a
+                            className="btn btn-toggle d-inline-flex align-items-center rounded border-0 cocinarte-text"
                             onClick={() => navigate("/categories/create")}
                         >
                             Crear Etiquetas!
-                        </button>
+                        </a>
                     </li>
                 )}
                 {store.authadmin && (
-                    <li className="mb-1">
-                        <button 
-                            className="btn btn-toggle d-inline-flex align-items-center rounded border-0" 
+                    <li className="sidebar-item py-3 mb-1">
+                        <div className="d-flex align-items-center">
+                        <AdminRecomendationsIcon/>
+                        <a 
+                            className="btn btn-toggle d-inline-flex align-items-center rounded border-0 cocinarte-text" 
                             onClick={() => navigate("/admin/recomended/recipe")}>
                             Administrar Recetas Recomendadas
-                        </button>
+                        </a>
+                        </div>
                     </li>
                 )}
-                <li className="border-top my-3"></li>
-                <li className="mb-1">
-                    <button 
-                        className="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" 
+            </ul>
+                <div className="sidebar-item py-3 mt-3 mb-1 border-top" style={{paddingLeft:'2rem'}} >
+                    <AccountIcon/>
+                    <a 
+                        className="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed cocinarte-text" 
                         data-bs-toggle="collapse" 
                         data-bs-target="#account-collapse" 
                         aria-expanded="false">
                         Account
-                    </button>
+                    </a>
                     <div className="collapse" id="account-collapse">
                         <ul className="btn-toggle-nav list-unstyled fw-normal pb-1 small">
                             {/* Puedes agregar enlaces relacionados con la cuenta aquí */}
                         </ul>
                     </div>
-                </li>
-            </ul>
+                </div>
         </div>
     );
 }
