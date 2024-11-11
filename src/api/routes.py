@@ -18,8 +18,7 @@ import cloudinary.api
 import json
 import openai
 from datetime import datetime, timezone
-
-
+import requests
 
 
 api = Blueprint('api', __name__)
@@ -841,3 +840,43 @@ def delete_vote():
 def get_all_votes():
     votes = Vote.query.all()
     return jsonify([vote.serialize() for vote in votes]), 200
+
+@api.route('/traducir', methods=['POST'])
+def translate():
+    data = request.json
+    texto = data.get('texto')
+    idioma = data.get('idioma')
+
+    if not texto or not idioma:
+        return jsonify({'error': 'Los campos "texto" e "idioma" son obligatorios.'}), 400
+
+    try:
+        response = requests.post(
+            'https://api-free.deepl.com/v2/translate',
+            headers={
+                'Authorization': 'DeepL-Auth-Key a20edb1b-b5a1-4aca-901a-67b25ccfe7f1:fx',
+                'Content-Type': 'application/json'
+            },
+            json={
+                'text': texto,
+                'target_lang': idioma
+            }
+        )
+
+        # Verificar si la respuesta de la API es exitosa
+        if response.status_code != 200:
+            print(f"Error en la respuesta de DeepL: {response.status_code}, {response.text}")
+            return jsonify({'error': 'Error al comunicarse con el servicio de traducción.'}), response.status_code
+
+        response_data = response.json()
+        traducciones = [traduccion['text'] for traduccion in response_data.get('translations', [])]
+
+        return jsonify({'traducciones': traducciones})
+
+    except requests.exceptions.RequestException as e:
+        print('Error al realizar la solicitud a DeepL:', e)
+        return jsonify({'error': 'No se pudo completar la traducción debido a un problema de red.'}), 500
+
+    except Exception as e:
+        print('Error interno del servidor:', e)
+        return jsonify({'error': 'Error interno del servidor.'}), 500

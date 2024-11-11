@@ -1,14 +1,8 @@
 """empty message
 
-<<<<<<<< HEAD:migrations/versions/8e8b5091e7f8_.py
-Revision ID: 8e8b5091e7f8
+Revision ID: c06c9caa7431
 Revises: 
-Create Date: 2024-11-09 01:10:27.861734
-========
-Revision ID: df0fe5f6d6d0
-Revises: 
-Create Date: 2024-11-08 21:31:07.323893
->>>>>>>> develop:migrations/versions/df0fe5f6d6d0_.py
+Create Date: 2024-11-10 21:59:47.879902
 
 """
 from alembic import op
@@ -16,11 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-<<<<<<<< HEAD:migrations/versions/8e8b5091e7f8_.py
-revision = '8e8b5091e7f8'
-========
-revision = 'df0fe5f6d6d0'
->>>>>>>> develop:migrations/versions/df0fe5f6d6d0_.py
+revision = 'c06c9caa7431'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -53,6 +43,14 @@ def upgrade():
     sa.Column('img_profile', sa.String(length=200), nullable=True),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('email')
+    )
+    op.create_table('chat',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('user_1_id', sa.Integer(), nullable=False),
+    sa.Column('user_2_id', sa.Integer(), nullable=False),
+    sa.ForeignKeyConstraint(['user_1_id'], ['user.id'], ),
+    sa.ForeignKeyConstraint(['user_2_id'], ['user.id'], ),
+    sa.PrimaryKeyConstraint('id')
     )
     op.create_table('recipe',
     sa.Column('id', sa.Integer(), nullable=False),
@@ -92,6 +90,16 @@ def upgrade():
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('user_id', 'recipe_id', name='_user_recipe_uc')
     )
+    op.create_table('message',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('chat_id', sa.Integer(), nullable=False),
+    sa.Column('sender', sa.Integer(), nullable=False),
+    sa.Column('content', sa.Text(), nullable=False),
+    sa.Column('date', sa.Date(), nullable=False),
+    sa.ForeignKeyConstraint(['chat_id'], ['chat.id'], ),
+    sa.ForeignKeyConstraint(['sender'], ['user.id'], ),
+    sa.PrimaryKeyConstraint('id')
+    )
     op.create_table('recipe_categories',
     sa.Column('recipe_id', sa.Integer(), nullable=False),
     sa.Column('category_id', sa.Integer(), nullable=False),
@@ -126,10 +134,12 @@ def downgrade():
     op.drop_table('vote')
     op.drop_table('recommended_recipe')
     op.drop_table('recipe_categories')
+    op.drop_table('message')
     op.drop_table('favorito')
     op.drop_table('comment')
     op.drop_table('calificacion')
     op.drop_table('recipe')
+    op.drop_table('chat')
     op.drop_table('user')
     op.drop_table('category')
     op.drop_table('administrador')
