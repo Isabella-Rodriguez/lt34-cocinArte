@@ -23,6 +23,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			recipeAi:{},
 			authadmin:false,
 			admin: null, // Almacena el `admin_id`
+			sideBar:false
 
 		},
 		actions: {
@@ -187,6 +188,16 @@ const getState = ({ getStore, getActions, setStore }) => {
 				const store = getStore()
 				setStore({...store, recipeAi:recipe})
 			},
+			setSidebar:()=>{
+				const store= getStore()
+				if (store.sideBar===false){
+					setStore({...store, sideBar:true})
+					console.log(store.sideBar)
+				}else{
+					setStore({...store, sideBar:false})
+				}
+
+			}
 		}
 	};
 };

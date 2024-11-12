@@ -17,7 +17,7 @@ export function Sidebar(){
     const navigate = useNavigate()
 	const { store, actions } = useContext(Context)
     const [categoryRotate ,setCategoryRotate]= useState(false)
-
+    const [visible, setVisible]=useState(false)
 	
 
     useEffect(()=>{
@@ -34,6 +34,10 @@ export function Sidebar(){
         .then(response=> response.json()) 
         .then(data=> setCategories(data));
     },[])
+useEffect(()=>{
+    setVisible(store.sideBar)    
+},[store.sideBar])
+
     function navegar() {
 		navigate("/categories/create"); // Usa navigate para redirigir programáticamente
 	}
@@ -47,7 +51,7 @@ export function Sidebar(){
     }
 
     return (
-        <div className="flex-shrink-0 mb-5 vh-100 bg-cocinarte cocinarte-text" style={{ width: '280px' }}>
+        <div className={`container-fluid pt-4 flex-shrink-0 h-100 bg-transparent cocinarte-text oculta ${visible===false ? '':'open'}`} style={{ width: '280px' }}>
             <a href="/" className="d-flex align-items-center justify-content-center py-3 mb-3 border-bottom text-decoration-none">
             <RecipeIcon/>
             <span className="sidebar-brand text-center  ms-2 cocinarte-text fs-5">cocinArte</span>

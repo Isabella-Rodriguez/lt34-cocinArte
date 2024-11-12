@@ -42,6 +42,7 @@ import { AdminRecommendedRecipes } from "./component/adminrecomendedrecipe.js";
 import { ChatList } from "./component/chatList.jsx";
 import { Chats } from "./pages/chats.jsx";
 import { AddRecipeAi } from "./component/addRecipeAi.jsx";
+import { Dashboard } from "./pages/dashboard.jsx";
 
 
 //create your first component
@@ -56,9 +57,7 @@ const Layout = () => {
         <div>
             <BrowserRouter basename={basename}>
                 <ScrollToTop>
-                    <Navbar />
                     <div style={{display: 'flex'}}>
-                    <Sidebar/>
                     <Routes>
                         <Route element={<Home />} path="/" />
                         <Route element={<Demo />} path="/demo" />
@@ -90,10 +89,10 @@ const Layout = () => {
                         
 
                         <Route element={<AddRecipeAi />} path="/postear-recipe-ai" />
+                        <Route element={<Dashboard/> } path="/dashboard" />
                         <Route element={<h1>Not found!</h1>} />
                     </Routes>
                     </div>
-                    <Footer />
                 </ScrollToTop>
             </BrowserRouter>
         </div>
