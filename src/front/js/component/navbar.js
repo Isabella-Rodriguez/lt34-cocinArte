@@ -2,10 +2,12 @@ import React, { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import '../../styles/navBar.css'
 import { SearchIcon } from "./searchIcon.jsx";
-import { faBars } from "@fortawesome/free-solid-svg-icons";
+import { faBars, faStar, faSquarePlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Context } from "../store/appContext.js";
 import { Sidebar } from "./sidebar.jsx";
+import { jwtDecode } from "jwt-decode";
+import { width } from "@fortawesome/free-solid-svg-icons/fa0";
 
 
 export const Navbar = () => {
@@ -13,10 +15,19 @@ export const Navbar = () => {
 	const [search, setSearch] = useState("")
 	const navigate = useNavigate()
 	const {store, actions}=useContext(Context)
+	const [chats, setChats]=useState([])
+	const [userDetails, setUserDetails] = useState({})
+	const [userId, setUserId]=useState('')
+
 	useEffect(()=>{
 		const token =localStorage.getItem('token')
 		if(token){
 			setIsLogin(true)
+			const decodeToken= jwtDecode(token)
+			setUserId(decodeToken.sub)
+			actions.userById(decodeToken.sub)
+			console.log(store.user)
+			mostrarChats(decodeToken.sub, token)
 		} else{ setIsLogin(false)}
 
 	},[localStorage.getItem('token')])
@@ -24,8 +35,8 @@ export const Navbar = () => {
 		localStorage.removeItem('token');
 		setIsLogin(false);
 		console.log("Se cerro la sesion")
+		navigate('/login/cocinero')
 	}
-
 	const searchTitle=(e)=>{
 		e.preventDefault();
 		navigate(`/search?query=${search}`);
@@ -33,28 +44,98 @@ export const Navbar = () => {
 	const mostrarSidebar=()=>{
 		actions.setSidebar()
 	}
+	
+	const mostrarChats=async(userID, token)=>{
+		const response = await fetch(process.env.BACKEND_URL +`/api/users/${userID}/chats`,{
+            method: 'GET',
+            headers:{
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        })
+        const data = await response.json()
+        console.log(data)
+        setChats(data)
+        for(let chat of data){
+            const otherUserId= chat.user_1_id === userID ? chat.user_2_id : chat.user_1_id;
+            const userResponse = await fetch(process.env.BACKEND_URL + `/api/usuario/${otherUserId}`, {
+                method: 'GET',
+                headers:{ 
+                    'Content-Type': 'application/json'
+                }
+            });
+            const userData= await userResponse.json();
+            console.log(userData)
+            setUserDetails(prevDetails=>({...prevDetails, [otherUserId]: userData })); }
+    }
 
 	return (
-		<div className="container-fluid d-flex py-5">
+		<>
 			<Sidebar/>
-			<div className="container-fluid d-flex justify-content-around nav-cocinarte">
+			<div className={`container-fluid d-flex justify-content-around nav-cocinarte py-4 ${store.sideBar===false ? '':'sidebar'}`}>
+				<div className="d-flex align-items-center col-3">
 				<a className="sidebar-toggle" onClick={mostrarSidebar}>
-                <FontAwesomeIcon className="cocinarte-text my-auto fs-3" icon={faBars} />
+                <FontAwesomeIcon className="cocinarte-text fs-3" icon={faBars} />
                 </a>
+				<form className="input-group input-group-navbar ms-2" onSubmit={searchTitle}>
+					<input type="text" className="form-control form-cocinarte bg-white bg-opacity-10 border border-0" placeholder="Search projects…" aria-label="Search" value={search} onChange={(e)=>setSearch(e.target.value)}/>
+					<button className="btn bg-white bg-opacity-10 text-light" type="submit">
+						<SearchIcon/>
+					</button>
+				</form>
+				</div>
 					<div>
-						<form className="input-group input-group-navbar " onSubmit={searchTitle}>
-							<input type="text" className="form-control form-cocinarte bg-white bg-opacity-10 border border-0" placeholder="Search projects…" aria-label="Search" value={search} onChange={(e)=>setSearch(e.target.value)}/>
-							<button className="btn bg-white bg-opacity-10 text-light" type="submit">
-								<SearchIcon/>
-							</button>
-						</form>
 					</div>
-					<div>
+					<div className="d-flex">
 						{(isLogin) ? <>
-							<Link className="mx-2" to={"/recipe/create"} ><button className="btn bg-white bg-opacity-10 cocinarte-text  btn-cocinarte">Crear Receta</button></Link>
-							<Link className="mx-2" to={"/mis-recetas"} ><button className="btn bg-white bg-opacity-10 cocinarte-text  btn-cocinarte">Mis Recetas</button></Link>
-							<Link className="mx-2" to={"/favoritos"} ><button className="btn bg-white bg-opacity-10 cocinarte-text  btn-cocinarte">Favoritos</button></Link>
-							<Link className="mx-2" to={"/login/cocinero"}><button onClick={logOut} className="btn bg-white bg-opacity-10  ms-5 exit-text btn-cocinarte ">Exit</button></Link>
+							<li className="nav-item dropdown">
+								<a className="nav-icon dropdown-toggle d-inline-block d-sm-none cocinarte-text" href="#" data-bs-toggle="dropdown">
+									<svg xmlns="http://www.w3.org/2000/svg" width={"24"} height={"24"} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-settings align-middle"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+								</a>
+								<a className="nav-link dropdown-toggle cocinarte-text text-decoration-none d-none d-sm-inline-block" href="#" data-bs-toggle="dropdown" aria-expanded="false">
+								
+								</a>
+								<div className="dropdown-menu dropdown-menu-cocinarte dropdown-menu-end " style={{width:'250px'}}>
+								{chats.length>0 ? chats.map(chat=>{
+											const otherUserId = chat.user_1_id===userId ? chat.user_2_id : chat.user_1_id
+											const otherUser = userDetails[otherUserId]
+											return(
+												<a key={chat.id} href="#" className="list-group-item">
+													<div className="row g-0 align-items-center">
+														<div className="col-2">
+															<img src={otherUser ? otherUser.img_profile: null} className="img-fluid rounded-circle" alt="Ashley Briggs" width={"40"} height={"40"}/>
+														</div>
+														<div className="col-10  ms-2 ps-2">
+															<div>{otherUser ? `${otherUser.name} ${otherUser.last_name}`:null }</div>
+															<div className="text-muted small mt-1" onClick={()=>{navigate('/chats')}}>Ver mensajes</div>
+														</div>
+													</div>
+												</a>)
+                							}):null}
+								</div>
+							</li>
+							<Link className="mx-2" to={"/recipe/create"} ><button className="btn bg-white bg-opacity-10 cocinarte-text  btn-cocinarte">Postear Receta</button></Link>
+							<li className="nav-item dropdown">
+							<a className="nav-icon dropdown-toggle d-inline-block d-sm-none cocinarte-text" href="#" data-bs-toggle="dropdown">
+								<svg xmlns="http://www.w3.org/2000/svg" width={"24"} height={"24"} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-settings align-middle"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+							</a>
+							<a className="nav-link dropdown-toggle cocinarte-text text-decoration-none d-none d-sm-inline-block" href="#" data-bs-toggle="dropdown" aria-expanded="false">
+                				<img src={store.user.img_profile} className="img-fluid rounded-circle me-1 mt-n2 mb-n2" alt="ProfileImage" width="40" height="40"/>
+								<span>{store.user.name} {store.user.last_name}</span>
+              				</a>
+							<div className="dropdown-menu dropdown-menu-cocinarte dropdown-menu-end">
+							<a className="dropdown-item cocinarte-text opacity-100 fs-5" href="#" onClick={()=>{navigate('/favoritos')}}>
+								<span><FontAwesomeIcon icon={faStar} /></span>
+								Favoritos
+							</a>
+							<a className="dropdown-item cocinarte-text opacity-100 fs-5" href="#" onClick={()=>{navigate('/mis-recetas')}}>
+								<span><FontAwesomeIcon icon={faSquarePlus} /></span>
+								Mis recetas
+							</a>
+								<div className="dropdown-divider"></div>
+								<a className="dropdown-item cocinarte-text opacity-100 fs-5" href="#" onClick={logOut}>Cerrar cesion</a>
+							</div>
+							</li>
 						</> : 
 							(<>
 							<Link to="/login/cocinero">
@@ -67,6 +148,6 @@ export const Navbar = () => {
 						}
 					</div>
 			</div>
-		</div>
+		</>
 	);
 };
