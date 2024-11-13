@@ -126,7 +126,10 @@ export function CreateRecipe(){
                 formData.append(`files_${index}`, image)
             });
             formData.append('categories', JSON.stringify(selectedCategories))
-            console.log(formData)
+            console.log("FormData entries:");
+                for (let pair of formData.entries()) {
+                console.log(pair[0] + ', ' + pair[1]);
+                }
         fetch(process.env.BACKEND_URL + '/api/recetas/create', {
             method:'POST',
             body: formData,

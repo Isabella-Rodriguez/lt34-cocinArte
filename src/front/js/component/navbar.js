@@ -2,12 +2,13 @@ import React, { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import '../../styles/navBar.css'
 import { SearchIcon } from "./searchIcon.jsx";
-import { faBars, faStar, faSquarePlus } from "@fortawesome/free-solid-svg-icons";
+import { faBars, faStar, faSquarePlus, faComments } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Context } from "../store/appContext.js";
 import { Sidebar } from "./sidebar.jsx";
 import { jwtDecode } from "jwt-decode";
 import { width } from "@fortawesome/free-solid-svg-icons/fa0";
+import { Footer } from "./footer.js";
 
 
 export const Navbar = () => {
@@ -72,7 +73,7 @@ export const Navbar = () => {
 	return (
 		<>
 			<Sidebar/>
-			<div className={`container-fluid d-flex justify-content-around nav-cocinarte py-4 ${store.sideBar===false ? '':'sidebar'}`}>
+			<div className={`container-fluid d-flex col-12 justify-content-around nav-cocinarte py-4 ${store.sideBar===false ? '':'sidebar'}`}>
 				<div className="d-flex align-items-center col-3">
 				<a className="sidebar-toggle" onClick={mostrarSidebar}>
                 <FontAwesomeIcon className="cocinarte-text fs-3" icon={faBars} />
@@ -93,21 +94,22 @@ export const Navbar = () => {
 									<svg xmlns="http://www.w3.org/2000/svg" width={"24"} height={"24"} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-settings align-middle"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"></path><circle cx="12" cy="12" r="3"></circle></svg>
 								</a>
 								<a className="nav-link dropdown-toggle cocinarte-text text-decoration-none d-none d-sm-inline-block" href="#" data-bs-toggle="dropdown" aria-expanded="false">
+								<FontAwesomeIcon className="cocinarte-text" style={{fontSize:'25px'}}icon={faComments} />
 								
 								</a>
-								<div className="dropdown-menu dropdown-menu-cocinarte dropdown-menu-end " style={{width:'250px'}}>
+								<div className="dropdown-menu dropdown-menu-cocinarte dropdown-menu-end " style={{width:'280px'}}>
 								{chats.length>0 ? chats.map(chat=>{
 											const otherUserId = chat.user_1_id===userId ? chat.user_2_id : chat.user_1_id
 											const otherUser = userDetails[otherUserId]
 											return(
-												<a key={chat.id} href="#" className="list-group-item">
-													<div className="row g-0 align-items-center">
+												<a key={chat.id} href="#" className="list-group-item noDecoration chats-cocinarte-nav">
+													<div className="row g-0 noDecoration align-items-center">
 														<div className="col-2">
 															<img src={otherUser ? otherUser.img_profile: null} className="img-fluid rounded-circle" alt="Ashley Briggs" width={"40"} height={"40"}/>
 														</div>
-														<div className="col-10  ms-2 ps-2">
-															<div>{otherUser ? `${otherUser.name} ${otherUser.last_name}`:null }</div>
-															<div className="text-muted small mt-1" onClick={()=>{navigate('/chats')}}>Ver mensajes</div>
+														<div className="col-9 noDecoration text-black ms-2 ps-2">
+															<div className=" text-decoration-none">{otherUser ? `${otherUser.name} ${otherUser.last_name}`:null }</div>
+															<div className="small mt-1" onClick={()=>{navigate('/chats')}}>Ver mensajes</div>
 														</div>
 													</div>
 												</a>)
@@ -123,17 +125,17 @@ export const Navbar = () => {
                 				<img src={store.user.img_profile} className="img-fluid rounded-circle me-1 mt-n2 mb-n2" alt="ProfileImage" width="40" height="40"/>
 								<span>{store.user.name} {store.user.last_name}</span>
               				</a>
-							<div className="dropdown-menu dropdown-menu-cocinarte dropdown-menu-end">
-							<a className="dropdown-item cocinarte-text opacity-100 fs-5" href="#" onClick={()=>{navigate('/favoritos')}}>
-								<span><FontAwesomeIcon icon={faStar} /></span>
-								Favoritos
-							</a>
-							<a className="dropdown-item cocinarte-text opacity-100 fs-5" href="#" onClick={()=>{navigate('/mis-recetas')}}>
-								<span><FontAwesomeIcon icon={faSquarePlus} /></span>
-								Mis recetas
-							</a>
+							<div className="dropdown-menu dropdown-menu-cocinarte  dropdown-menu-end">
+								<a className="dropdown-item chats-cocinarte-nav  opacity-100 fs-5" href="#" onClick={()=>{navigate('/favoritos')}}>
+									<span><FontAwesomeIcon className="text-black" icon={faStar} /></span>
+									<span className="ms-2 text-black">Favoritos</span>
+								</a>
+								<a className="dropdown-item  chats-cocinarte-nav opacity-100 fs-5" href="#" onClick={()=>{navigate('/mis-recetas')}}>
+									<span><FontAwesomeIcon className="text-black" icon={faSquarePlus} /></span>
+									<span className="ms-2 text-black">Mis recetas</span>
+								</a>
 								<div className="dropdown-divider"></div>
-								<a className="dropdown-item cocinarte-text opacity-100 fs-5" href="#" onClick={logOut}>Cerrar cesion</a>
+								<a className="dropdown-item  text-black chats-cocinarte-nav opacity-100 fs-5" href="#" onClick={logOut}>Cerrar cesion</a>
 							</div>
 							</li>
 						</> : 
@@ -148,6 +150,7 @@ export const Navbar = () => {
 						}
 					</div>
 			</div>
+				
 		</>
 	);
 };

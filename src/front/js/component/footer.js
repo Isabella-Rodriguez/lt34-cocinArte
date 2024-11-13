@@ -3,12 +3,12 @@ import '../../styles/footer.css'
 import { GitHubIcon } from "./gitHubIcon.jsx";
 
 export const Footer = () => (
-	<footer className="footer mt-auto bg-footer p-3 text-center">
+	<footer className="footer mt-5 p-3 text-center position-relative bottom-0">
 		<div className="d-flex justify-content-center w-auto ms-5">
 			<h3 className="cocinarte-text fs-1 mx-5 my-auto">CocinArte</h3>
 			<div className="vr text-white"></div>
 			<div className="text-start ps-5">
-				<h4 className="cocinarte-text">Contactenos</h4>
+				<h4 className="cocinarte-text d-flex">Contactenos</h4>
 				<ul>
 					<li>
 						<GitHubIcon/>

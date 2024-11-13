@@ -34,6 +34,19 @@
     padding-left: 280px
 }
 .dropdown-menu-cocinarte{
-    background-color: white;
-    opacity: 20%;
+    background-color: #b59f78
+}
+.chats-cocinarte-nav{
+    color: lightgrey;
+    background-color: inherit;
+}
+.chats-cocinarte-nav:hover{
+    
+    background-color: #e5b768;
+}
+.noDecoration{
+    color: white;
+}
+.noDecoration:hover{
+    color: black;
 }

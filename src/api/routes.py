@@ -37,6 +37,7 @@ def handle_hello():
 
 @api.route('/recetas/create', methods=['POST'])
 def create_recete():
+    print(request.files)
     data = request.form
     img_urls = []
     for img in request.files:

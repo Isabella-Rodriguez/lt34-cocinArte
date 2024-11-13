@@ -1,0 +1,21 @@
+
+.sidebar-close{
+    padding-left: 50px;
+    transition: padding-left 0.5s ease-in-out;
+}
+.sidebar-open{
+    padding-left: 280px;
+    transition: padding-left 0.5s ease-in-out;
+}
+.card.dashboard{
+    background-color: #b59f78;
+}
+.card.dashboard:hover{
+    background-color: #c9a669;
+}
+.card.profile-card{
+    background-color: #c9a669;
+}
+.pointer:hover{
+    cursor: pointer;
+}
