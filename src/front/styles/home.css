@@ -1,7 +1,834 @@
-/*
-    home.css: This website contains selectors only used in home.css
+/* Fonts */
+:root {
+    --default-font: "Roboto",  system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    --heading-font: "Playfair Display",  sans-serif;
+    --nav-font: "Poppins",  sans-serif;
+  }
+  
+  /* Global Colors - The following color variables are used throughout the website. Updating them here will change the color scheme of the entire website */
+  :root { 
+    --background-color: #0c0b09; /* Background color for the entire website, including individual sections */
+    --default-color: rgba(255, 255, 255, 0.7); /* Default color used for the majority of the text content across the entire website */
+    --heading-color: #ffffff; /* Color for headings, subheadings and title throughout the website */
+    --accent-color: #cda45e; /* Accent color that represents your brand on the website. It's used for buttons, links, and other elements that need to stand out */
+    --surface-color: #29261f; /* The surface color is used as a background of boxed elements within sections, such as cards, icon boxes, or other elements that require a visual separation from the global background. */
+    --contrast-color: #0c0b09; /* Contrast color for text, ensuring readability against backgrounds of accent, heading, or default colors. */
+  }
+  
+  /* Nav Menu Colors - The following color variables are used specifically for the navigation menu. They are separate from the global colors to allow for more customization options */
+  :root {
+    --nav-color: #ffffff;  /* The default color of the main navmenu links */
+    --nav-hover-color: #cda45e; /* Applied to main navmenu links when they are hovered over or active */
+    --nav-mobile-background-color: #29261f; /* Used as the background color for mobile navigation menu */
+    --nav-dropdown-background-color: #29261f; /* Used as the background color for dropdown items that appear when hovering over primary navigation items */
+    --nav-dropdown-color: #ffffff; /* Used for navigation links of the dropdown items in the navigation menu. */
+    --nav-dropdown-hover-color: #cda45e; /* Similar to --nav-hover-color, this color is applied to dropdown navigation links when they are hovered over. */
+  }
+  
+  /* Color Presets - These classes override global colors when applied to any section or element, providing reuse of the sam color scheme. */
+  
+  .light-background {
+    --background-color: #29261f;
+    --surface-color: #464135;
+  }
+  
+  .dark-background {
+    --background-color: #000000;
+    --default-color: #ffffff;
+    --heading-color: #ffffff;
+    --surface-color: #1a1a1a;
+    --contrast-color: #ffffff;
+  }
+  
+  /* Smooth scroll */
+  :root {
+    scroll-behavior: smooth;
+  }
+  
+  /*--------------------------------------------------------------
+  # General Styling & Shared Classes
+  --------------------------------------------------------------*/
+  body {
+    color: var(--default-color);
+    background-color: var(--background-color);
+    font-family: var(--default-font);
+  }
+  
+  a {
+    color: var(--accent-color);
+    text-decoration: none;
+    transition: 0.3s;
+  }
+  
+  a:hover {
+    color: color-mix(in srgb, var(--accent-color), transparent 25%);
+    text-decoration: none;
+  }
+  
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: var(--heading-color);
+    font-family: var(--heading-font);
+  }
+  
+  /*--------------------------------------------------------------
+  # Global Header
+  --------------------------------------------------------------*/
+  .header {
+    --background-color: rgba(12, 11, 9, 0.61);
+    color: var(--default-color);
+    transition: all 0.5s;
+    z-index: 997;
+  }
+  
+  .header .topbar {
+    height: 40px;
+    padding: 0;
+    font-size: 14px;
+    transition: all 0.5s;
+  }
+  
+  .header .topbar .contact-info i {
+    font-style: normal;
+    color: var(--accent-color);
+  }
+  
+  .header .topbar .contact-info i a,
+  .header .topbar .contact-info i span {
+    padding-left: 5px;
+    color: var(--default-color);
+  }
+  
+  @media (max-width: 575px) {
+  
+    .header .topbar .contact-info i a,
+    .header .topbar .contact-info i span {
+      font-size: 13px;
+    }
+  }
+  
+  .header .topbar .contact-info i a {
+    line-height: 0;
+    transition: 0.3s;
+  }
+  
+  .header .topbar .contact-info i a:hover {
+    color: var(--accent-color);
+    text-decoration: underline;
+  }
+  
+  .header .topbar .languages ul {
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    color: var(--accent-color);
+  }
+  
+  .header .topbar .languages ul a {
+    color: var(--default-color);
+  }
+  
+  .header .topbar .languages ul a:hover {
+    color: var(--accent-color);
+  }
+  
+  .header .topbar .languages ul li+li {
+    padding-left: 10px;
+  }
+  
+  .header .topbar .languages ul li+li::before {
+    display: inline-block;
+    padding-right: 10px;
+    color: color-mix(in srgb, var(--default-color), transparent 10%);
+    content: "/";
+  }
+  
+  .header .branding {
+    background-color: var(--background-color);
+    min-height: 60px;
+    padding: 10px 0;
+    transition: 0.3s;
+    border-bottom: 1px solid var(--background-color);
+  }
+  
+  .header .logo {
+    line-height: 1;
+  }
+  
+  .header .logo img {
+    max-height: 36px;
+    margin-right: 8px;
+  }
+  
+  .header .logo h1 {
+    font-size: 30px;
+    margin: 0;
+    font-weight: 700;
+    color: var(--heading-color);
+  }
+  
+  .header .btn-book-a-table,
+  .header .btn-book-a-table:focus {
+    color: var(--default-color);
+    border: 2px solid var(--accent-color);
+    text-transform: uppercase;
+    font-size: 14px;
+    padding: 6px 24px;
+    margin: 0 5px 0 30px;
+    border-radius: 50px;
+    transition: 0.3s;
+  }
+  
+  .header .btn-book-a-table:hover,
+  .header .btn-book-a-table:focus:hover {
+    color: var(--default-color);
+    background: var(--accent-color);
+  }
+  
+  .scrolled .header .topbar {
+    height: 0;
+    visibility: hidden;
+    overflow: hidden;
+  }
+  
+  .scrolled .header .branding {
+    border-color: color-mix(in srgb, var(--accent-color), transparent 80%);
+  }
+  
+  /* Global Header on Scroll
+  ------------------------------*/
+  .scrolled .header {
+    --background-color: #0c0b09;
+  }
+  
+  /*--------------------------------------------------------------
+  # Navigation Menu
+  --------------------------------------------------------------*/
+  /* Navmenu - Desktop */
+  @media (min-width: 1200px) {
+    .navmenu {
+      padding: 0;
+    }
+  
+    .navmenu ul {
+      margin: 0;
+      padding: 0;
+      display: flex;
+      list-style: none;
+      align-items: center;
+    }
+  
+    .navmenu li {
+      position: relative;
+    }
+  
+    .navmenu a,
+    .navmenu a:focus {
+      color: var(--nav-color);
+      padding: 18px 15px;
+      font-size: 14px;
+      font-family: var(--nav-font);
+      font-weight: 400;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      white-space: nowrap;
+      transition: 0.3s;
+    }
+  
+    .navmenu a i,
+    .navmenu a:focus i {
+      font-size: 12px;
+      line-height: 0;
+      margin-left: 5px;
+      transition: 0.3s;
+    }
+  
+    .navmenu li:last-child a {
+      padding-right: 0;
+    }
+  
+    .navmenu li:hover>a,
+    .navmenu .active,
+    .navmenu .active:focus {
+      color: var(--nav-hover-color);
+    }
+  
+    .navmenu .dropdown ul {
+      margin: 0;
+      padding: 10px 0;
+      background: var(--nav-dropdown-background-color);
+      display: block;
+      position: absolute;
+      visibility: hidden;
+      left: 14px;
+      top: 130%;
+      opacity: 0;
+      transition: 0.3s;
+      border-radius: 4px;
+      z-index: 99;
+    }
+  
+    .navmenu .dropdown ul li {
+      min-width: 200px;
+    }
+  
+    .navmenu .dropdown ul a {
+      padding: 10px 20px;
+      font-size: 15px;
+      text-transform: none;
+      color: var(--nav-dropdown-color);
+    }
+  
+    .navmenu .dropdown ul a i {
+      font-size: 12px;
+    }
+  
+    .navmenu .dropdown ul a:hover,
+    .navmenu .dropdown ul .active:hover,
+    .navmenu .dropdown ul li:hover>a {
+      color: var(--nav-dropdown-hover-color);
+    }
+  
+    .navmenu .dropdown:hover>ul {
+      opacity: 1;
+      top: 100%;
+      visibility: visible;
+    }
+  
+    .navmenu .dropdown .dropdown ul {
+      top: 0;
+      left: -90%;
+      visibility: hidden;
+    }
+  
+    .navmenu .dropdown .dropdown:hover>ul {
+      opacity: 1;
+      top: 0;
+      left: -100%;
+      visibility: visible;
+    }
+  }
+  
+  /* Navmenu - Mobile */
+  @media (max-width: 1199px) {
+    .mobile-nav-toggle {
+      color: var(--nav-color);
+      font-size: 28px;
+      line-height: 0;
+      margin-right: 10px;
+      cursor: pointer;
+      transition: color 0.3s;
+    }
+  
+    .navmenu {
+      padding: 0;
+      z-index: 9997;
+    }
+  
+    .navmenu ul {
+      display: none;
+      list-style: none;
+      position: absolute;
+      inset: 60px 20px 20px 20px;
+      padding: 10px 0;
+      margin: 0;
+      border-radius: 6px;
+      background-color: var(--nav-mobile-background-color);
+      border: 1px solid color-mix(in srgb, var(--default-color), transparent 90%);
+      overflow-y: auto;
+      transition: 0.3s;
+      z-index: 9998;
+    }
+  
+    .navmenu a,
+    .navmenu a:focus {
+      color: var(--nav-dropdown-color);
+      padding: 10px 20px;
+      font-family: var(--nav-font);
+      font-size: 17px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      white-space: nowrap;
+      transition: 0.3s;
+    }
+  
+    .navmenu a i,
+    .navmenu a:focus i {
+      font-size: 12px;
+      line-height: 0;
+      margin-left: 5px;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      transition: 0.3s;
+      background-color: color-mix(in srgb, var(--accent-color), transparent 90%);
+    }
+  
+    .navmenu a i:hover,
+    .navmenu a:focus i:hover {
+      background-color: var(--accent-color);
+      color: var(--contrast-color);
+    }
+  
+    .navmenu a:hover,
+    .navmenu .active,
+    .navmenu .active:focus {
+      color: var(--nav-dropdown-hover-color);
+    }
+  
+    .navmenu .active i,
+    .navmenu .active:focus i {
+      background-color: var(--accent-color);
+      color: var(--contrast-color);
+      transform: rotate(180deg);
+    }
+  
+    .navmenu .dropdown ul {
+      position: static;
+      display: none;
+      z-index: 99;
+      padding: 10px 0;
+      margin: 10px 20px;
+      background-color: var(--nav-dropdown-background-color);
+      border: 1px solid color-mix(in srgb, var(--default-color), transparent 90%);
+      box-shadow: none;
+      transition: all 0.5s ease-in-out;
+    }
+  
+    .navmenu .dropdown ul ul {
+      background-color: rgba(33, 37, 41, 0.1);
+    }
+  
+    .navmenu .dropdown>.dropdown-active {
+      display: block;
+      background-color: rgba(33, 37, 41, 0.03);
+    }
+  
+    .mobile-nav-active {
+      overflow: hidden;
+    }
+  
+    .mobile-nav-active .mobile-nav-toggle {
+      color: #fff;
+      position: absolute;
+      font-size: 32px;
+      top: 15px;
+      right: 15px;
+      margin-right: 0;
+      z-index: 9999;
+    }
+  
+    .mobile-nav-active .navmenu {
+      position: fixed;
+      overflow: hidden;
+      inset: 0;
+      background: rgba(33, 37, 41, 0.8);
+      transition: 0.3s;
+    }
+  
+    .mobile-nav-active .navmenu>ul {
+      display: block;
+    }
+  }
+  
+  /*--------------------------------------------------------------
+  # Preloader
+  --------------------------------------------------------------*/
+  #preloader {
+    position: fixed;
+    inset: 0;
+    z-index: 999999;
+    overflow: hidden;
+    background: var(--background-color);
+    transition: all 0.6s ease-out;
+  }
+  
+  #preloader:before {
+    content: "";
+    position: fixed;
+    top: calc(50% - 30px);
+    left: calc(50% - 30px);
+    border: 6px solid #ffffff;
+    border-color: var(--accent-color) transparent var(--accent-color) transparent;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    animation: animate-preloader 1.5s linear infinite;
+  }
+  
+  @keyframes animate-preloader {
+    0% {
+      transform: rotate(0deg);
+    }
+  
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+  
+  
+  /*--------------------------------------------------------------
+  # Global Page Titles & Breadcrumbs
+  --------------------------------------------------------------*/
+  .page-title {
+    color: var(--default-color);
+    background-color: var(--background-color);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    padding: 160px 0 80px 0;
+    text-align: center;
+    position: relative;
+  }
+  
+  .page-title:before {
+    content: "";
+    background-color: color-mix(in srgb, var(--background-color), transparent 30%);
+    position: absolute;
+    inset: 0;
+  }
+  
+  .page-title h1 {
+    font-size: 42px;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+  
+  .page-title .breadcrumbs ol {
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+    font-size: 16px;
+    font-weight: 400;
+  }
+  
+  .page-title .breadcrumbs ol li+li {
+    padding-left: 10px;
+  }
+  
+  .page-title .breadcrumbs ol li+li::before {
+    content: "/";
+    display: inline-block;
+    padding-right: 10px;
+    color: color-mix(in srgb, var(--default-color), transparent 50%);
+  }
+  
+  /*--------------------------------------------------------------
+  # Global Sections
+  --------------------------------------------------------------*/
+  section,
+  .section {
+    color: var(--default-color);
+    background-color: var(--background-color);
+    padding: 60px 0;
+    scroll-margin-top: 77px;
+    overflow: clip;
+  }
+  
+  @media (max-width: 1199px) {
+  
+    section,
+    .section {
+      scroll-margin-top: 60px;
+    }
+  }
+  
+  /*--------------------------------------------------------------
+  # Global Section Titles
+  --------------------------------------------------------------*/
+  .section-title {
+    padding-bottom: 60px;
+    position: relative;
+  }
+  
+  .section-title h2 {
+    font-size: 14px;
+    font-weight: 500;
+    padding: 0;
+    line-height: 1px;
+    margin: 0;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: color-mix(in srgb, var(--default-color), transparent 30%);
+    position: relative;
+  }
+  
+  .section-title h2::after {
+    content: "";
+    width: 120px;
+    height: 1px;
+    display: inline-block;
+    background: var(--accent-color);
+    margin: 4px 10px;
+  }
+  
+  .section-title p {
+    color: var(--accent-color);
+    margin: 0;
+    font-size: 36px;
+    font-weight: 600;
+    font-family: var(--heading-font);
+  }
+  
+  /*--------------------------------------------------------------
+  # Hero Section
+  --------------------------------------------------------------*/
+  .hero {
+    width: 100%;
+    min-height: 100vh;
+    position: relative;
+    padding: 80px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--default-color);
+  }
+  
+  .hero img {
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1;
+  }
+  
+  .hero:before {
+    content: "";
+    background: color-mix(in srgb, var(--background-color), transparent 50%);
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+  }
+  
+  .hero .container {
+    position: relative;
+    z-index: 3;
+  }
+  
+  .hero h2 {
+    margin: 0;
+    font-size: 48px;
+    font-weight: 700;
+  }
+  
+  .hero h2 span {
+    color: var(--accent-color);
+  }
+  
+  .hero p {
+    color: color-mix(in srgb, var(--default-color), transparent 20%);
+    margin: 10px 0 0 0;
+    font-size: 24px;
+  }
+  
+  .hero .cta-btn {
+    color: var(--default-color);
+    border: 2px solid var(--accent-color);
+    font-weight: 400;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: inline-block;
+    padding: 8px 30px;
+    border-radius: 50px;
+    transition: 0.3s;
+    flex-shrink: 0;
+  }
+  
+  .hero .cta-btn:first-child {
+    margin-right: 10px;
+  }
+  
+  .hero .cta-btn:hover {
+    background: color-mix(in srgb, var(--accent-color), transparent 20%);
+  }
+  
+  @media (max-width: 480px) {
+    .hero .cta-btn {
+      font-size: 12px;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .hero h2 {
+      font-size: 32px;
+    }
+  
+    .hero p {
+      font-size: 18px;
+    }
+  }
+  
+  /*--------------------------------------------------------------
+  # About Section
+  --------------------------------------------------------------*/
+  .about {
+    
+    background-size: cover;
+    position: relative;
+    padding: 80px 0;
+  }
+  
+  .about:before {
+    content: "";
+    background: color-mix(in srgb, var(--background-color), transparent 12%);
+    position: absolute;
+    bottom: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+  }
+  
+  .about .container {
+    position: relative;
+  }
+  
+  .about .content h3 {
+    font-size: 1.75rem;
+    font-weight: 700;
+  }
+  
+  .about .content .fst-italic {
+    color: color-mix(in srgb, var(--default-color), var(--contrast-color) 50%);
+  }
+  
+  .about .content ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .about .content ul li {
+    padding: 10px 0 0 0;
+    display: flex;
+  }
+  
+  .about .content ul i {
+    color: var(--accent-color);
+    margin-right: 0.5rem;
+    line-height: 1.2;
+    font-size: 1.25rem;
+  }
+  
+  .about .content p:last-child {
+    margin-bottom: 0;
+  }
+  
+  .about .about-img {
+    border: 6px solid color-mix(in srgb, var(--default-color), transparent 80%);
+    transition: 0.3s;
+  }
+  
+  .about .about-img:hover {
+    transform: scale(1.03);
+  }
+  
+  /*--------------------------------------------------------------
+  # Why Us Section
+  --------------------------------------------------------------*/
+  .why-us .card-item {
+    background: color-mix(in srgb, var(--default-color), transparent 95%);
+    padding: 50px 30px;
+    transition: all ease-in-out 0.3s;
+    height: 100%;
+    position: relative;
+  }
+  
+  .why-us .card-item span {
+    color: var(--accent-color);
+    display: block;
+    font-size: 28px;
+    font-weight: 700;
+  }
+  
+  .why-us .card-item h4 {
+    font-size: 24px;
+    font-weight: 600;
+    padding: 0;
+    margin: 20px 0;
+  }
+  
+  .why-us .card-item h4 a {
+    color: var(--heading-color);
+  }
+  
+  .why-us .card-item p {
+    font-size: 15px;
+    color: color-mix(in srgb, var(--default-color), transparent 40%);
+    margin: 0;
+    padding: 0;
+  }
+  
+  .why-us .card-item:hover {
+    background: var(--accent-color);
+    padding: 30px 30px 70px 30px;
+  }
+  
+  .why-us .card-item:hover span,
+  .why-us .card-item:hover h4 a,
+  .why-us .card-item:hover p {
+    color: var(--contrast-color);
+  }
 
-    All pages share the styles on index.css but you should create 
-    one more css for each page that will contain the selected used 
-    on that page only (the ones not reused in other pages).
-*/
+  #galeria {
+    text-align: center;
+    color: white;
+  }
+  
+  #galeria h2.text-gold {
+    color: #cda45e;
+  }
+  
+  /* Flechas doradas al hacer hover */
+  #galeria .carousel-control-prev-icon,
+  #galeria .carousel-control-next-icon {
+    filter: invert(100%);
+  }
+  
+  #galeria .carousel-control-prev:hover .carousel-control-prev-icon,
+  #galeria .carousel-control-next:hover .carousel-control-next-icon {
+    filter: none;
+    background-color: #cda45e;
+    border-radius: 50%;
+  }
+  
+  /* Indicador activo en color dorado */
+  #galeria .carousel-indicators .active {
+    background-color: #cda45e;
+  }
+  
+  /* Estilos para el título y el fondo del item del carrusel */
+  #galeria .carousel-item .item-title {
+    color: #cda45e;
+  }
+  
+  #galeria .carousel-item .item-content {
+    background-color: #29261f;
+    transition: background-color 0.3s, color 0.3s;
+  }
+  
+  #galeria .carousel-item .item-content:hover {
+    background-color: #cda45e;
+    color: black;
+  }
+  
+  #galeria .carousel-item .item-content:hover .item-title,
+  #galeria .carousel-item .item-content:hover p {
+    color: black;
+  }
