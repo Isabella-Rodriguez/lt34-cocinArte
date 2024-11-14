@@ -37,7 +37,7 @@ export const MisRecetas = () => {
                     <div className="border px-2" key={index}>
                     <h1 className="text-center">{receta.title}</h1>
                     <h3 className="text-center">{receta.fecha_publicacion}</h3>
-                    <Link className="d-flex justify-content-center mb-2" to={`/receta/${receta.id}`}><button className="btn btn-success">Quiero probarla!</button></Link>
+                    <Link className="d-flex justify-content-center mb-2" to={`/recipe/${receta.id}`}><button className="btn btn-success">Quiero probarla!</button></Link>
                     </div>
                 ))):<h1>No hay recetas que mostrar actualmente</h1>}
                 </div>

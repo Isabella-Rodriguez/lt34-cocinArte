@@ -1,8 +1,36 @@
-create-recipe-text{
+.create-recipe-text{
     font-weight: 500;
     padding: 0;
     margin: 0;
     letter-spacing: 1.5px;
     text-transform: uppercase;
     color: #adb5bd;
+}
+.bg-create-recipe{
+    background-color: #191815;
+}
+.label-create-recipe{
+    color:#adb5bd
+}
+.input-create-recipe{
+    background-color: transparent;
+    color:#adb5bd;
+}
+.button-x-recipe{
+    color: #adb5bd;
+    background: none;
+    border: 2px solid #adb5bd;
+    padding: 8px 36px;
+    transition: 0.4s;
+    border-radius: 50px;
+    font-size: 15px;
+    width: fit-content;
+}
+.capitalize { 
+    text-transform:capitalize !important;
+}
+
+.button-x-recipe:hover{
+    color:#c9a669;
+    border:2px solid #c9a669
 }
