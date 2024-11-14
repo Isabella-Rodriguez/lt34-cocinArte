@@ -73,11 +73,12 @@ export const Navbar = () => {
 	return (
 		<>
 			<Sidebar/>
-			<div className={`container-fluid d-flex col-12 justify-content-around nav-cocinarte py-4 ${store.sideBar===false ? '':'sidebar'}`}>
-				<div className="d-flex align-items-center col-3">
-				<a className="sidebar-toggle" onClick={mostrarSidebar}>
+			<div className={`d-flex col-12 bg-sidebar-dashboard nav-cocinarte align-items-center py-4 ${store.sideBar===false ? '':'sidebar'}`}>
+				<a className="sidebar-toggle ps-3" onClick={mostrarSidebar}>
                 <FontAwesomeIcon className="cocinarte-text fs-3" icon={faBars} />
                 </a>
+			<div className="container-fluid d-flex justify-content-around ">
+				<div className="d-flex align-items-center col-3">
 				<form className="input-group input-group-navbar ms-2" onSubmit={searchTitle}>
 					<input type="text" className="form-control form-cocinarte bg-white bg-opacity-10 border border-0" placeholder="Search projects…" aria-label="Search" value={search} onChange={(e)=>setSearch(e.target.value)}/>
 					<button className="btn bg-white bg-opacity-10 text-light" type="submit">
@@ -87,7 +88,7 @@ export const Navbar = () => {
 				</div>
 					<div>
 					</div>
-					<div className="d-flex">
+					<div className="d-flex align-items-center">
 						{(isLogin) ? <>
 							<li className="nav-item dropdown">
 								<a className="nav-icon dropdown-toggle d-inline-block d-sm-none cocinarte-text" href="#" data-bs-toggle="dropdown">
@@ -105,9 +106,9 @@ export const Navbar = () => {
 												<a key={chat.id} href="#" className="list-group-item noDecoration chats-cocinarte-nav">
 													<div className="row g-0 noDecoration align-items-center">
 														<div className="col-2">
-															<img src={otherUser ? otherUser.img_profile: null} className="img-fluid rounded-circle" alt="Ashley Briggs" width={"40"} height={"40"}/>
+															<img src={otherUser ? otherUser.img_profile: null} className="img-fluid rounded-circle" alt="" width={"40"} height={"40"}/>
 														</div>
-														<div className="col-9 noDecoration text-black ms-2 ps-2">
+														<div className="col-9  ms-2  ps-2">
 															<div className=" text-decoration-none">{otherUser ? `${otherUser.name} ${otherUser.last_name}`:null }</div>
 															<div className="small mt-1" onClick={()=>{navigate('/chats')}}>Ver mensajes</div>
 														</div>
@@ -126,16 +127,16 @@ export const Navbar = () => {
 								<span>{store.user.name} {store.user.last_name}</span>
               				</a>
 							<div className="dropdown-menu dropdown-menu-cocinarte  dropdown-menu-end">
-								<a className="dropdown-item chats-cocinarte-nav  opacity-100 fs-5" href="#" onClick={()=>{navigate('/favoritos')}}>
-									<span><FontAwesomeIcon className="text-black" icon={faStar} /></span>
-									<span className="ms-2 text-black">Favoritos</span>
+								<a className="dropdown-item  opacity-100 fs-5" href="#" onClick={()=>{navigate('/favoritos')}}>
+									<span><FontAwesomeIcon className="chats-cocinarte-nav" icon={faStar} /></span>
+									<span className="ms-2 text-light">Favoritos</span>
 								</a>
-								<a className="dropdown-item  chats-cocinarte-nav opacity-100 fs-5" href="#" onClick={()=>{navigate('/mis-recetas')}}>
-									<span><FontAwesomeIcon className="text-black" icon={faSquarePlus} /></span>
-									<span className="ms-2 text-black">Mis recetas</span>
+								<a className="dropdown-item  opacity-100 fs-5" href="#" onClick={()=>{navigate('/mis-recetas')}}>
+									<span><FontAwesomeIcon className="chats-cocinarte-nav" icon={faSquarePlus} /></span>
+									<span className="ms-2 text-light">Mis recetas</span>
 								</a>
 								<div className="dropdown-divider"></div>
-								<a className="dropdown-item  text-black chats-cocinarte-nav opacity-100 fs-5" href="#" onClick={logOut}>Cerrar cesion</a>
+								<a className="dropdown-item text-light opacity-100 fs-5" href="#" onClick={logOut}>Cerrar cesion</a>
 							</div>
 							</li>
 						</> : 
@@ -149,6 +150,8 @@ export const Navbar = () => {
 							</>)
 						}
 					</div>
+				</div>
+				
 			</div>
 				
 		</>

@@ -1,7 +1,9 @@
 .bg-cocinarte{
-    background: rgb(15,15,15);
-    background: linear-gradient(121deg, rgba(15,15,15,1) 0%, rgba(69,66,61,1) 100%);
+    background-color: #0c0b09;
     
+}
+.bg-sidebar-dashboard{
+    background-color: #191815;
 }
 
 .cocinarte-text *{
@@ -33,7 +35,6 @@ ul{
 .oculta { 
     width: 280px; 
     height: 100%; 
-    background-color: #333;
     position: fixed;
     top: 0;
     left: 0;

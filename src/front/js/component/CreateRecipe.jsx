@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 
-export function CreateRecipe(){
+export function CreateRecipeComponent(){
     const [images, setImages]=useState([])
     const navigate = useNavigate()
     const [steps, setSteps]=useState('')
