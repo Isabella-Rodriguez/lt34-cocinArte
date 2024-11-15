@@ -1,5 +1,7 @@
 import { jwtDecode } from "jwt-decode";
 import React, { useEffect, useState } from "react";
+import { SearchIcon } from "./searchIcon.jsx";
+import '../../styles/chats.css'
 
 export function ChatList({selectChat}){
     const [chats, setChats]= useState([])
@@ -81,34 +83,35 @@ export function ChatList({selectChat}){
 
     return (
     <>
-        <div id="plist" className="people-list">
-            <div className="input-group">
-                <div className="input-group-prepend">
-                    <span className="input-group-text"><i className="fa fa-search"></i></span>
-                </div>
-                <input type="text" className="form-control" placeholder="Search..." value={searchInput} onChange={search}/>
-            </div>
-            <ul className="list-unstyled chat-list mt-2 mb-0">
+        <div id="plist" className="people-list border-end bg-create-recipe mt-5 p-3" style={{minHeight:'900px'}}>
+        <h1 className=" create-recipe-text mx-auto p-4 mt-4">Messages</h1>
+            <div className="input-group input-group-navbar pb-4"  onChange={search}>
+					<input type="text" className="form-control form-cocinarte rounded bg-white bg-opacity-10 border border-0" placeholder="Search projects…" aria-label="Search" value={searchInput} onChange={search}/>
+					<button className="btn bg-white bg-opacity-10 text-light" type="submit">
+						<SearchIcon/>
+					</button>
+				</div>
+            <ul className="list-unstyled chat-list mt-2 mb-0 p-2">
                 {searchResult.length>0 ? 
                     searchResult.map(user=>(
-                        <li key={user.id} className="clearfix" onClick={()=>{newChat(user)}}>
-                        <img src={user.img_profile ? user.img_profile: null}/>
+                        <li key={user.id} className="clearfix d-flex p-2 rounded" onClick={()=>{newChat(user)}}>
+                        <img style={{width:'40px', height:'40px'}} src={user.img_profile ? user.img_profile: null}/>
                         <div className="about">
                             <div className="name">iniciar chat con {user.name} {user.last_name}</div>
                         </div>
                     </li>)):null}
             </ul>
-            <ul className="list-unstyled chat-list mt-2 mb-0">
+            <ul className="list-unstyled chat-list mt-2 p-2 rounded mb-0">
                 {chats.map(chat=>{
                     const otherUserId = chat.user_1_id===userId ? chat.user_2_id : chat.user_1_id
                     const otherUser = userDetails[otherUserId]
                     return(
-                    <li key={chat.id} className="clearfix" onClick={()=>{selectChat(chat.id ,otherUser.id)}}>
-                        <img src={otherUser ? otherUser.img_profile: null}/>
+                    <li key={chat.id} className="clearfix d-flex p-2 rounded align-items-center" onClick={()=>{selectChat(chat.id ,otherUser.id)}}>
+                        <img style={{width:'40px', height:'40px'}} src={otherUser ? otherUser.img_profile: null}/>
                         <div className="about">
-                            <div className="name">Chat con {otherUser ? `${otherUser.name} ${otherUser.last_name}`: `Usuario ${otherUserId}` }</div>
+                            <div className="label-create-recipe px-2">Chat con {otherUser ? `${otherUser.name} ${otherUser.last_name}`: `Usuario ${otherUserId}` }</div>
                                 <div className="status">
-                                    <i className="fa fa-circle offline"></i>offline
+                                    <i className="fa fa-circle offline px-2"></i>offline
                                 </div>
                             </div>
                     </li>)

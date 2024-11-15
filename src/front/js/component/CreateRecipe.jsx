@@ -154,18 +154,18 @@ export function CreateRecipeComponent(){
 
 
 return(
-        <div className={`vh-100 ${store.sideBar===false ? 'sidebar-close':'sidebar-open'}`}>
+        <div className={`h-100 ${store.sideBar===false ? 'sidebar-close':'sidebar-open'}`}>
         {localStorage.getItem('token') ? <div className="container-fluid col-8 d-flex mt-5 p-5 bg-create-recipe flex-column ">
             <h1 className="create-recipe-text mt-4">Publica tu receta!</h1>
             <p className="mb-o label-create-recipe">Cuentanos mas detalles</p>
         <form onSubmit={sendRecipe} action="" className="container d-flex flex-column mt-4 gap-3">
             <div className="d-flex flex-column col-4">
-                <label className="form-label label-create-recipe" htmlFor="title">Enter recipe title:</label>
+                <label className="form-label label-create-recipe size" htmlFor="title">Enter recipe title:</label>
                 <input className="form-control input-create-recipe" id="title" type="text" placeholder="Title" onChange={(e)=>{titleToFetch(e)}}/>
                 
             </div>
             <div className="d-flex flex-column">
-                <label className="form-label label-create-recipe" htmlFor="ingredients">Ingredients:</label>
+                <label className="form-label label-create-recipe size" htmlFor="ingredients">Ingredients:</label>
                 <input className="form-control input-create-recipe mb-4" style={{width:"41.66666667%"}} id="ingredients" type="text" placeholder="Ingredients" onChange={(e)=>{setIngredient(e.target.value)}} onKeyDown={createIngredientsList}/>
                 <div className="d-flex flex-row">
                 {ingredients.length!=0 ? ingredients.map((element, index)=>(
@@ -178,41 +178,46 @@ return(
             </div>
             
             {recomendedIngredients && recomendedIngredients.length > 0 && (
-                <div className="alert alert-info">
-                    <strong>Ingredientes Recomendados:</strong>
-                    <ul>
+                <div className="bg-cocinarte rounded label-create-recipe p-3">
+                    <p className="fs-4">Estos son los ingredientes que le recomendamos</p >
+                    <ul className="d-flex flex-row flex-wrap gap-1 ">
                         {recomendedIngredients.map((ingredient, index) => (
-                            <li key={index}>{ingredient}</li>
+                            <div key={index} className="d-flex  button-x-recipe align-items-center m-2">
+                            <span className="label-create-recipe me-2 capitalize">{ingredient}</span>
+                            <FontAwesomeIcon icon={faTrash} onClick={() => removeIngredient(index)}/>
+                        </div>
                         ))}
                     </ul>
-                    <button onClick={() => {setIngredients(recomendedIngredients); }} type="button" className="btn btn-primary">
+                    <button onClick={() => {setIngredients(recomendedIngredients); }} type="button" className="btn btn-cocinarte cocinarte-text col-4 mx-auto">
                         Usar ingredientes recomendados!
                     </button>
                 </div>
             )}
 
             <div className="d-flex flex-column">
-                <label className="form-label label-create-recipe" htmlFor="steps">Pasos:</label>
-                <textarea className="form-control input-create-recipe" id="steps" type="text" value={steps} placeholder='Escribe los pasos para tu receta' onChange={(e)=>{setSteps(e.target.value)}}/>
+                <label className="form-label label-create-recipe size" htmlFor="steps">Pasos:</label>
+                <textarea className="form-control input-create-recipe" style={{minHeight:"170px"}} id="steps" type="text" value={steps} placeholder='Escribe los pasos para tu receta' onChange={(e)=>{setSteps(e.target.value)}}/>
             </div>
             {recomendedSteps && (
-                <div className="alert alert-info">
-                    <strong>Pasos Recomendados:</strong>
+                <div className="bg-cocinarte rounded label-create-recipe p-3">
+                    <p className="fs-4 ">Estos son los pasos que le recomendamos</p>
                     <p>{recomendedSteps}</p>
-                    <button onClick={()=>{setSteps(''); setSteps(recomendedSteps); console.log(steps)}} type="button" className="btn btn-primary">Use the suggested steps!</button>
+                    <button onClick={()=>{setSteps(''); setSteps(recomendedSteps); console.log(steps)}} type="button" className="btn btn-cocinarte cocinarte-text col-4 mx-auto">Use the suggested steps!</button>
                 </div> )}
             <div className="d-flex flex-column">
-                <label className="form-label label-create-recipe" htmlFor="img">Show us your finished recipe url!</label>
+                <label className="form-label label-create-recipe size" htmlFor="img">Show us your finished recipe url!</label>
                 <input className="form-control input-create-recipe" id="img" type="file" multiple onChange={(e)=>{uploadImages(e)}}/>
             </div>
             <div className="d-flex flex-column">
-                <label className="form-label label-create-recipe">Selecciona las categorias adecuadas para tu receta!</label>
+                <label className="form-label label-create-recipe size">Selecciona las categorias adecuadas para tu receta!</label>
+                <div className="d-flex flex-row gap-3 py-3 flex-wrap">
                 {categories.map((categories)=>(
-                    <div key={categories.id} className="form-check" >
+                    <div key={categories.id} className="form-check categorias-select" >
                         <input className="form-check-input input-create-recipe" type="checkbox" value={categories.id} onChange={()=>{addCategorySlection(categories.id)}}/>
                         <label className="form-check-label label-create-recipe">{categories.name}</label>
                     </div>
                 ))}
+                </div>
             </div>
             <button className="btn btn-cocinarte cocinarte-text col-4 mx-auto" type="submit">A cocinar!</button>
             <Link to={'/'} className="btn btn-secondary col-4 mx-auto" >Cancelar</Link>

@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import '../../styles/navBar.css'
 import { SearchIcon } from "./searchIcon.jsx";
-import { faBars, faStar, faSquarePlus, faComments } from "@fortawesome/free-solid-svg-icons";
+import { faBars, faStar, faSquarePlus, faComments, faArrowRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Context } from "../store/appContext.js";
 import { Sidebar } from "./sidebar.jsx";
@@ -98,13 +98,13 @@ export const Navbar = () => {
 								<FontAwesomeIcon className="cocinarte-text" style={{fontSize:'25px'}}icon={faComments} />
 								
 								</a>
-								<div className="dropdown-menu dropdown-menu-cocinarte dropdown-menu-end " style={{width:'280px'}}>
+								<div className="dropdown-menu dropdown-menu-cocinarte dropdown-menu-end shadow-detail-nav" style={{width:'280px'}}>
 								{chats.length>0 ? chats.map(chat=>{
 											const otherUserId = chat.user_1_id===userId ? chat.user_2_id : chat.user_1_id
 											const otherUser = userDetails[otherUserId]
 											return(
-												<a key={chat.id} href="#" className="list-group-item noDecoration chats-cocinarte-nav">
-													<div className="row g-0 noDecoration align-items-center">
+												<a key={chat.id} href="#" className="list-group-item chats-cocinarte-nav">
+													<div className="row g-0  align-items-center">
 														<div className="col-2">
 															<img src={otherUser ? otherUser.img_profile: null} className="img-fluid rounded-circle" alt="" width={"40"} height={"40"}/>
 														</div>
@@ -126,17 +126,20 @@ export const Navbar = () => {
                 				<img src={store.user.img_profile} className="img-fluid rounded-circle me-1 mt-n2 mb-n2" alt="ProfileImage" width="40" height="40"/>
 								<span>{store.user.name} {store.user.last_name}</span>
               				</a>
-							<div className="dropdown-menu dropdown-menu-cocinarte  dropdown-menu-end">
-								<a className="dropdown-item  opacity-100 fs-5" href="#" onClick={()=>{navigate('/favoritos')}}>
+							<div className="dropdown-menu dropdown-menu-cocinarte shadow-detail-nav dropdown-menu-end">
+								<a className="dropdown-item  chats-cocinarte-nav opacity-100 fs-5" href="#" onClick={()=>{navigate('/favoritos')}}>
 									<span><FontAwesomeIcon className="chats-cocinarte-nav" icon={faStar} /></span>
-									<span className="ms-2 text-light">Favoritos</span>
+									<span className="ms-2">Favoritos</span>
 								</a>
-								<a className="dropdown-item  opacity-100 fs-5" href="#" onClick={()=>{navigate('/mis-recetas')}}>
+								<a className="dropdown-item  chats-cocinarte-nav opacity-100 fs-5" href="#" onClick={()=>{navigate('/mis-recetas')}}>
 									<span><FontAwesomeIcon className="chats-cocinarte-nav" icon={faSquarePlus} /></span>
-									<span className="ms-2 text-light">Mis recetas</span>
+									<span className="ms-2">Mis recetas</span>
 								</a>
 								<div className="dropdown-divider"></div>
-								<a className="dropdown-item text-light opacity-100 fs-5" href="#" onClick={logOut}>Cerrar cesion</a>
+								<a className="dropdown-item opacity-100 chats-cocinarte-nav fs-5" href="#" onClick={logOut}>
+									<span><FontAwesomeIcon className="chats-cocinarte-nav" icon={faArrowRightFromBracket} /></span>
+									<span className="ms-2">Cerrar sesion</span>
+								</a>
 							</div>
 							</li>
 						</> : 

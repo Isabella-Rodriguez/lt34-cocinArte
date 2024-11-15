@@ -1,6 +1,9 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {ChatList} from "../component/chatList.jsx";
 import {ViewChats} from "../component/chatView.jsx";
+import { Navbar } from "../component/navbar.js";
+import { Footer } from "../component/footer.js";
+import { Context } from "../store/appContext.js";
 
 
 export function Chats(){
@@ -10,18 +13,21 @@ export function Chats(){
         setSelectedChat(chatId);
         setUserID(otherUserId)
     };
-    
+    const {store, actions}=useContext(Context)
 
     return(
-    <div className="container">
-        <div className="row clearfix">
-            <div className="col-lg-12">
-                <div className="card chat-app">
-                    <ChatList selectChat={selectChat} />
-                    {selectedChat && <ViewChats chatId={selectedChat} otherUserId={userId} />}
-                </div>
+        <div className="bg-cocinarte">
+        <div  className=" vh-100 w-100">
+            <Navbar/>
+            <div className={` d-flex container-fluid mx-auto rounded col-11 ${store.sideBar===false ? 'sidebar-close':'sidebar-open'}`}>
+                <ChatList selectChat={selectChat} />
+                {selectedChat && <ViewChats chatId={selectedChat} otherUserId={userId} />}
             </div>
-        </div>
+</div>
+            <div className="d-block">
+            <Footer/>
+
+            </div>
     </div>
     )
 }

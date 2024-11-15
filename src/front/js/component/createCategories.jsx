@@ -72,7 +72,6 @@ export function CategoriesAdmin() {
     };
 
     return (<>
-        {store.authadmin ? null : <Navigate to="/" />}
         <div className="container-fluid d-flex mt-5">
             <div className="col-5 border-end">
                 <h1 className="container-fluid text-center fw-semibold">Crear nueva etiqueta</h1>

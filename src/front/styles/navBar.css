@@ -39,11 +39,20 @@
 }
 .chats-cocinarte-nav{
     color: lightgrey;
-    background-color: inherit;
+    background-color: #191815;
+}
+.chats-cocinarte-nav:hover{
+    color: #adb5bd;
+    background-color: #0c0b09;
+    
+    border: 1px #adb5bd solid;
 }
 .noDecoration{
     color: white;
 }
 .noDecoration:hover{
     color: black;
+}
+.shadow-detail-nav{
+    box-shadow: 0 4px 10px #5b5a58;
 }
