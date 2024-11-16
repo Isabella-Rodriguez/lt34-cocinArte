@@ -1,0 +1,39 @@
+.cocinarte-text{
+    color: lightgray;
+    font-family: "Lexend", sans-serif
+}
+.cocinarte-text:hover{
+    color: #c9a669;
+}
+.cocinarte-text:focus{
+    color: lightgray;
+}
+.btn-cocinarte{
+    border: 2px, #c9a669, solid
+}
+.form-control:focus {
+    color: #ffffff;
+    background-color: transparent;
+    border-color: #c9a669;
+    outline: 0;
+    box-shadow: 0 0 0 .25rem #c9a669;
+}
+.exit-text{
+    color: lightgray;
+    font-family: "Lexend", sans-serif;
+}
+.exit-text:hover{
+    color: rgb(255, 136, 0);
+}
+.nav-cocinarte{
+    height: fit-content;
+    padding-left: 0;
+    transition: padding-left 0.5s;
+}
+.nav-cocinarte.sidebar{
+    padding-left: 280px
+}
+.dropdown-menu-cocinarte{
+    background-color: white;
+    opacity: 20%;
+}

@@ -1,0 +1,51 @@
+.bg-cocinarte{
+    background: rgb(15,15,15);
+    background: linear-gradient(121deg, rgba(15,15,15,1) 0%, rgba(69,66,61,1) 100%);
+    
+}
+
+.cocinarte-text *{
+    color: lightgrey;
+    font-family: "Lexend", sans-serif;
+
+}
+.cocinarte-text:hover{
+    cursor: pointer;
+    color: #c9a669
+}
+ul{
+    list-style-type: none;
+}
+.svg-hover:hover svg { 
+    fill: #c9a669;
+    stroke: #c9a669;
+    
+}
+ .svg-hover:hover .cocinarte-text { 
+    color: #c9a669;
+}
+.rotate{
+    transition: transform 0.3s ease;
+}
+.rotate-180{
+    transform: rotate(180deg);
+}
+.oculta { 
+    width: 280px; 
+    height: 100%; 
+    background-color: #333;
+    position: fixed;
+    top: 0;
+    left: 0;
+    transform: translateX(-100%);
+    opacity: 0;
+    transition: transform 0.3s ease, opacity 0.5s ease;
+    z-index: -1;
+    
+}
+.oculta.open {
+    transform: translateX(0);
+    opacity: 1;
+    transition: opacity 0.5s ease, transform 0.3s ease;
+    z-index: 1000;
+}

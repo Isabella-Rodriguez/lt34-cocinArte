@@ -5,11 +5,15 @@ import { Link, useNavigate } from "react-router-dom";
 export const Home = () => {
 	const [loading, setLoading]=useState(false);
 	const [recipesRand, setRecipesRand]=useState([]);
-	
+	const navigate = useNavigate()
 
 	useEffect(()=>{
 		recipes_external()
 	},[])
+
+    const toRecipesApi=()=>{
+        navigate(`/recipe/api/${recipe.id}`)
+    }
 
 	const recipes_external = ()=>{
 		setLoading(true);
@@ -29,15 +33,19 @@ export const Home = () => {
             ):(
                 <div className="container-fluid d-flex row ">
                     {recipesRand.length > 0 ? recipesRand.map((recipe)=>(
-                        <div key={recipe.id} className="card align-items-stretch m-2 col-3" style={{ width:"18rem" }}>
-                            <img src={recipe.image} className="card-img-top" alt={recipe.title} />
-                            <div className="card-body d-flex flex-column">
-                                <h5 className="card-title">{recipe.title}</h5>
-                                <p className="card-text">{recipe.creditsText}</p>
-                                <Link className="mt-auto" to={`/recipe/api/${recipe.id}`}><button>Quiero probarla!</button></Link>
+                        <div key={recipe.id} className="col-12 col-md-6 col-lg-4">
+                            <div className="card">
+                                <img src={recipe.image} className="card-img-top" alt={recipe.title} />
+                                    <div className="card-header">
+                                        <h5 className="card-title mb-0">{recipe.title}</h5>
+                                    </div>
+                                <div className="card-body">
+                                    <p className="card-text">{recipe.creditsText}</p>
+                                    <a className="mt-auto" onClick={toRecipesApi}>Quiero probarla!</a>
+                                </div>
                             </div>
                         </div>
-                    )):(
+                        )):(
                         <h1 className="container text-center text-danger">Error al cargar recetas.</h1>
                     )}
                 </div>
