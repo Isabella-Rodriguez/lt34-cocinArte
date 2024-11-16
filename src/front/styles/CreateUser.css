@@ -1,0 +1,200 @@
+@import url('https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Courgette&family=Protest+Riot&display=swap');
+
+.create-user-container {
+    background-color: #202634;
+    display: flex;
+    font-family: Arial, sans-serif;
+    position: absolute;
+    
+   
+}
+
+.create-user-container .left-side {
+    flex: 1;
+    background-color: #202634;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    position: relative;
+}
+
+.create-user-container .background-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.4;
+    z-index: 0;
+}
+
+.create-user-container .quote {
+    position: relative;
+    z-index: 1;
+    font-size: 1.5em;
+    text-align: center;
+    max-width: 80%;
+}
+
+.create-user-container .right-side {
+    flex: 1;
+    background-color: #202634;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    color: #adb5bd;
+
+}
+
+.create-user-container h1 {
+    margin-bottom: 20px;
+    color: #adb5bd;
+    font-weight: bold;
+    font-size: 1.44375rem
+}
+
+.create-user-container h2 {
+    color: white;
+    font-family: "Courgette", cursive;
+    font-weight: 400;
+    font-style: normal;
+    margin: 0;
+    text-align: left;
+    margin-top: 110%
+}
+
+.create-user-container .equipo-cocinarte {
+    display: block;
+    margin-top: 10px;
+    font-style: italic; 
+}
+
+.create-user-container .form-label {
+    color: #adb5bd;
+    font-weight: bold;
+    text-align: left;
+    display: block;
+    margin-bottom: 5px;
+    width: 100%; 
+}
+
+.create-user-container p {
+    color: #adb5bd; 
+    text-align: center;
+}
+
+.create-user-container p a {
+    color: #C9A669; 
+    text-decoration: none;
+}
+
+.create-user-container p a:hover {
+    color: #adb5bd; 
+}
+
+.create-user-container .form-control {
+    padding: 10px;
+    border: 1px solid #C9A669;
+    border-radius: 5px;
+    background-color: #293042;
+    color: #ffffff;
+}
+
+.create-user-container .form-control:focus {
+    border-color: #C9A669; 
+    box-shadow: 0 0 0 3px rgba(201, 166, 105, 0.5); 
+    outline: none; 
+}
+
+.create-user-container .form-control::placeholder {
+    color: #888888;
+}
+
+.create-user-container .form-control:focus {
+    background-color: #293042;
+    color: #ffffff;
+    border: 1px solid #C9A669;
+    outline: none;
+}
+
+
+.create-user-container .btn-success {
+    background-color: #C9A669;
+    border: 2px solid #C9A669;
+    color: #ffffff;
+    padding: 8px 20px;
+    font-weight: 400;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-radius: 5px;
+    width: 100%;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+
+.create-user-container .btn-success:hover {
+    background-color: #C9A669;
+    color: #202634;
+}
+
+
+.create-user-container .btn-secondary {
+    background-color: #6d7073 ;
+    border: 2px solid #6d7073;
+    color: white;
+    padding: 8px 20px;
+    font-weight: 400;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s;
+    width: 100%;
+    cursor: pointer;
+}
+
+.create-user-container .btn-secondary:hover {
+    background-color: #6d7073;
+    color: #0c0b09;
+}
+
+.create-user-container input:-webkit-autofill,
+.create-user-container input:-webkit-autofill:hover,
+.create-user-container input:-webkit-autofill:focus,
+.create-user-container input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0px 1000px #293042 inset;
+    -webkit-text-fill-color: #ffffff;
+    transition: background-color 5000s ease-in-out 0s;
+}
+
+.create-user-container button, 
+.create-user-container input, 
+.create-user-container optgroup, 
+.create-user-container select, 
+.create-user-container textarea {
+    margin: 0;
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    color: #adb5bd;;
+}
+
+.create-user-container button:hover,
+.create-user-container input:hover,
+.create-user-container optgroup:hover,
+.create-user-container select:hover,
+.create-user-container textarea:hover {
+    color: #adb5bd; 
+    outline: none; 
+    border-color: #C9A669;
+    box-shadow: 0 0 0 3px rgba(201, 166, 105, 0.5);
+}
+
+
