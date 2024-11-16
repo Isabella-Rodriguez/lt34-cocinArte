@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../store/appContext";
 import { Link, useNavigate } from "react-router-dom";
+import "../../styles/LoginCocinero.css";
 
 export function LoginCocinero(){
     const navigate = useNavigate()
@@ -26,19 +27,40 @@ export function LoginCocinero(){
     }
 
     return (
-    <div className="container d-flex flex-column align-items-center text-center">
-        <h1 className="container mb-5">Login!</h1>
-        <form className="container d-flex flex-column align-items-center gap-2" action="" onSubmit={(e)=>{login(e)}}>
-            <div>
-                <label className="form-label" htmlFor="email">Email</label>
-                <input className="form-control" type="text" name="email" id="email" placeholder="Enter your email"/>
+        <div className="login-container d-flex">
+        <div className="left-side">
+            <img 
+                src="https://st3.depositphotos.com/12039478/16201/i/450/depositphotos_162010172-stock-photo-young-man-cooking.jpg" 
+                alt="Inspirational cooking" 
+                className="background-image" 
+            />
+            <div className="quote">
+                <h2>
+                "La cocina es el lugar donde los ingredientes comunes se transforman en algo extraordinario con un toque de pasión y creatividad." 
+                <span  className="equipo-cocinarte">— Equipo cocinArte</span>
+                </h2>
             </div>
-            <div>
-                <label className="form-label" htmlFor="password">Password</label>
-                <input className="form-control" type="password" name="password" id="password" placeholder="Enter your password"/>
-            </div>
-            <button className="btn btn-success col-4">Login!</button>
-            <Link className="btn btn-primary col-4" to={'/singup'}>Singup</Link>
-        </form>
-    </div>)
+        </div>
+        <div class="right-side">
+                    <div className="right-side d-flex flex-column align-items-center text-center">
+                        <h1 className="mb-5">Hola, cocinero!</h1>
+                        <form className="d-flex flex-column align-items-center gap-2" onSubmit={login}>
+                            <div>
+                                <label className="form-label" htmlFor="email">Email</label>
+                                <input className="form-control" type="email" name="email" id="email" placeholder="Escribe tu email" />
+                            </div>
+                            <div>
+                                <label className="form-label" htmlFor="password">Contraseña</label>
+                                <input className="form-control" type="password" name="password" id="password" placeholder="Contraseña" />
+                            </div>
+                            <button className="btn btn-success col-4">Login!</button>               
+                            <p className="mt-3">
+                                ¿No tienes una cuenta? <Link to="/singup" className="text-link">Regístrate</Link>
+                            </p>
+                            <p>© 2024 - <a href="/">cocinArte</a></p>
+                        </form>
+                    </div>
+                </div>
+        </div>
+    )
 }
