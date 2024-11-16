@@ -9,7 +9,13 @@
     color: lightgray;
 }
 .btn-cocinarte{
-    border: 2px, #c9a669, solid
+    border: 2px, #c9a669, solid;
+    background-color: #c9a669;
+    color: #191815;
+}
+.btn-cocinarte:hover{
+    background-color: #191815;
+    color: #c9a669;
 }
 .form-control:focus {
     color: #ffffff;
@@ -34,6 +40,25 @@
     padding-left: 280px
 }
 .dropdown-menu-cocinarte{
-    background-color: white;
-    opacity: 20%;
+    background-color: #191815;
+    color: lightgrey;
+}
+.chats-cocinarte-nav{
+    color: lightgrey;
+    background-color: #191815;
+}
+.chats-cocinarte-nav:hover{
+    color: #adb5bd;
+    background-color: #0c0b09;
+    
+    border: 1px #adb5bd solid;
+}
+.noDecoration{
+    color: white;
+}
+.noDecoration:hover{
+    color: black;
+}
+.shadow-detail-nav{
+    box-shadow: 0 4px 10px #5b5a58;
 }

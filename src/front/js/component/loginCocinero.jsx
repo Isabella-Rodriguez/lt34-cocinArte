@@ -22,7 +22,7 @@ export function LoginCocinero(){
             console.log(('Te has logueado'), data);
             localStorage.setItem('token', data[1])
             console.log('token guardado en LocalStorage')
-            navigate('/')
+            navigate('/dashboard')
         } else console.log('No has podido loguearte, revisa tus credenciales');
     }
 

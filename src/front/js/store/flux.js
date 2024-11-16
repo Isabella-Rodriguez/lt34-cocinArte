@@ -197,7 +197,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 					setStore({...store, sideBar:false})
 				}
 
-			}
+			},
+			setAdmin:(adminData)=>{ 
+				const store = getStore(); 
+				setStore({ ...store, admin: adminData });
+			},
 		}
 	};
 };

@@ -1,6 +1,10 @@
 import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Context } from "../store/appContext"
+import { Navbar } from "./navbar";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import { Footer } from "./footer";
 export function OpenAiAssistant(){
 
     const [title, setTitle]=useState('')
@@ -10,6 +14,7 @@ export function OpenAiAssistant(){
     const [duration, setDuration] = useState('')
     const [dificulty, setDificulty]= useState('')
     const navigate = useNavigate()
+    const{store,actions}=useContext(Context)
 
     const addIngredient=(e)=>{
         setIngredient(e.target.value)
@@ -56,27 +61,49 @@ export function OpenAiAssistant(){
 
 
     return(
-        <div className="m-5">
-            <h1>En que podemos ayudarte hoy?</h1>
-            <h5 className="my-4">Cuentanos en que estas pensando y te daremos la mejor receta para ti!</h5>
-            <form className="d-flex flex-column justify-content-center gap-2" action="" onSubmit={sendData}>
-                <label htmlFor="title">Titulo</label>
-                <input type="text" name="title" id="title" onChange={(e)=>{setTitle(e.target.value)}}/>
-                <label htmlFor="ingredients">Ingredientes</label>
-                <input type="text" name="ingredients" id="ingredients" onChange={(e)=>{addIngredient(e)}} onKeyDown={(e)=>{ingredientsToSend(e)}} />
-                <ul>
-                    {ingredients.map((ing, index) => (
-                        <li key={index}>{ing}</li>
-                    ))}
-                </ul>
-                <label htmlFor="taste">Gustos</label>
-                <input type="text" name="taste" id="taste" onChange={(e)=>{setTaste(e.target.value)}}/>
-                <label htmlFor="duration">Comida del Dia</label>
-                <input type="text" name="duration" id="duration" onChange={(e)=>{setDuration(e.target.value)}}/>
-                <label htmlFor="dificulty">Dificultad</label>
-                <input type="text" name="dificulty" id="dificulty" onChange={(e)=>{setDificulty(e.target.value)}}/>
-                <button className="btn btn-success mt-3" type="submit">Recomiendame!</button>
-            </form>
+        <div className="h-100 bg-cocinarte">
+            <Navbar/>
+            <div className={`h-100 mx-5 ${store.sideBar===false ? 'sidebar-close':'sidebar-open'}`}>
+                    <div className="container mx-auto mt-5 pt-3 ps-5 rounded bg-create-recipe">
+                    <h1 className="create-recipe-text mt-4">En que podemos ayudarte hoy?</h1>
+                    <h5 className="mb-o label-create-recipe">Cuentanos en que estas pensando y te daremos la mejor receta para ti!</h5>
+                    <form className="d-flex flex-column justify-content-center gap-5 mt-5 col-6 pb-5" action="" onSubmit={sendData}>
+                        <div>
+                        <label className='form-label label-create-recipe size' htmlFor="title">Titulo</label>
+                        <input  className="form-control input-create-recipe" type="text" name="title" id="title" onChange={(e)=>{setTitle(e.target.value)}}/>
+                        </div>
+                        <div>
+                        <label className='form-label label-create-recipe size' htmlFor="ingredients">Ingredientes</label>
+                        <input  className="form-control input-create-recipe" type="text" name="ingredients" id="ingredients" onChange={(e)=>{addIngredient(e)}} onKeyDown={(e)=>{ingredientsToSend(e)}} />
+                        {ingredients && ingredients.length > 0 && (
+                        <div className="bg-cocinarte rounded label-create-recipe mt-2 p-3">
+                        <ul className="d-flex flex-row flex-wrap gap-1  ">
+                        {ingredients.map((ing, index) => (
+                            <div key={index} className="d-flex  button-x-recipe align-items-center m-2">
+                            <span className="label-create-recipe me-2 capitalize">{ing}</span>
+                            <FontAwesomeIcon icon={faTrash} onClick={() => removeIngredient(index)}/>
+                        </div>
+                        ))}
+                        </ul>
+                        </div>)}
+                        </div>
+                        <div>
+                        <label className='form-label label-create-recipe size' htmlFor="taste">Gustos</label>
+                        <input  className="form-control input-create-recipe" type="text" name="taste" id="taste" onChange={(e)=>{setTaste(e.target.value)}}/>
+                        </div>
+                        <div>
+                        <label className='form-label label-create-recipe size' htmlFor="duration">Comida del Dia</label>
+                        <input  className="form-control input-create-recipe" type="text" name="duration" id="duration" onChange={(e)=>{setDuration(e.target.value)}}/>
+                        </div>
+                        <div>
+                        <label className='form-label label-create-recipe size' htmlFor="dificulty">Dificultad</label>
+                        <input  className="form-control input-create-recipe" type="text" name="dificulty" id="dificulty" onChange={(e)=>{setDificulty(e.target.value)}}/>
+                        </div>
+                        <button className="btn btn-cocinarte cocinarte-text col-4 mx-auto my-5" type="submit">Probemos!</button>
+                    </form>
+                </div>
+            </div>
+            <Footer/>
         </div>
     )
 }

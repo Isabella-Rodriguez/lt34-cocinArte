@@ -21,7 +21,7 @@ import { ListAdministradores } from "./component/listadministradores";
 import { EditarAdministradores } from "./component/editaradmins";
 import { LoginAdmin } from "./component/loginAdministrador.jsx";
 
-import { CreateRecipe } from "./component/CreateRecipe.jsx";
+import { CreateRecipe } from "./pages/createRecipe.jsx";
 import { ViewRecipe } from "./component/ViewRecipe.jsx";
 import { AllRecipes } from "./component/allRecipes.jsx";
 import { MisRecetas } from "./component/misRecetas.jsx";
@@ -57,7 +57,7 @@ const Layout = () => {
         <div>
             <BrowserRouter basename={basename}>
                 <ScrollToTop>
-                    <div style={{display: 'flex'}}>
+                    <div>
                     <Routes>
                         <Route element={<Home />} path="/" />
                         <Route element={<Demo />} path="/demo" />
