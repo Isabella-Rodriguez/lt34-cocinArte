@@ -15,7 +15,7 @@ export const Home = () => {
             quote: "Export tempor illum tamen malis malis eram quae irure esse labore quem cillum quid malis quorum velit fore eram velit sunt aliqua noster fugiat irure amet legam anim culpa.",
             name: "Sara Wilsson",
             title: "Designer",
-            img: "https://plus.unsplash.com/premium_photo-1669879825881-6d4e4bde67d5?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8cmFuZG9tJTIwcGVvcGxlfGVufDB8fDB8fHww",
+            img: "https://cdn-icons-png.flaticon.com/512/1361/1361765.png",
           },
           {
             quote: "Fugiat enim eram quae cillum dolore dolor amet nulla culpa multos export minim fugiat dolor enim duis veniam ipsum anim magna sunt elit fore quem dolore labore illum veniam.",
@@ -102,8 +102,8 @@ export const Home = () => {
                         </ul>
                         <i className="mobile-nav-toggle d-xl-none bi bi-list"></i>
                     </nav>
-                    <Link className="mx-2" to={"/signup"}>
-                    <a className="btn-book-a-table d-none d-xl-block">Regístrate!</a>
+                    <Link className="mx-2" to={"/singup"}>
+                        <a className="btn-book-a-table d-none d-xl-block">Regístrate!</a>
                     </Link>
                 </div>
             </div>
