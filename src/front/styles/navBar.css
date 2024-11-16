@@ -9,7 +9,13 @@
     color: lightgray;
 }
 .btn-cocinarte{
-    border: 2px, #c9a669, solid
+    border: 2px, #c9a669, solid;
+    background-color: #c9a669;
+    color: #191815;
+}
+.btn-cocinarte:hover{
+    background-color: #191815;
+    color: #c9a669;
 }
 .form-control:focus {
     color: #ffffff;

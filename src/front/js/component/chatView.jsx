@@ -79,10 +79,10 @@ export function ViewChats({chatId, otherUserId}){
                         </div>
                     </div>
                     <div className="col-lg-6 hidden-sm text-right gap-2">
-                        <button  className="btn btn-lg me-1 px-3 btn-cocinarte"><i className="fa fa-camera label-create-recipe"></i></button>
-                        <button  className="btn btn-lg me-1 px-3 btn-cocinarte"><i className="fa fa-image label-create-recipe"></i></button>
-                        <button  className="btn btn-lg me-1 px-3 btn-cocinarte"><i className="fa fa-cogs label-create-recipe"></i></button>
-                        <button  className="btn btn-lg me-1 px-3 btn-cocinarte"><i className="fa fa-question label-create-recipe"></i></button>
+                        <button  className="btn btn-lg me-1 px-3 btn-cocinarte"><i className="fa fa-camera "></i></button>
+                        <button  className="btn btn-lg me-1 px-3 btn-cocinarte"><i className="fa fa-image "></i></button>
+                        <button  className="btn btn-lg me-1 px-3 btn-cocinarte"><i className="fa fa-cogs "></i></button>
+                        <button  className="btn btn-lg me-1 px-3 btn-cocinarte"><i className="fa fa-question "></i></button>
                     </div>
                 </div>
             </div>
@@ -104,7 +104,7 @@ export function ViewChats({chatId, otherUserId}){
                             <li key={message.id} className="d-flex flex-column">
                             <div className="float-start my-3 d-flex align-items-center">
                                     <img style={{width:'40px', height:'40px'}} src={friendData.img_profile} alt="avatar"/>
-                                <div className="message-data label-create-recipe ms-3 bg-cocinarte counded p-3">
+                                <div className="message-data label-create-recipe ms-3 bg-cocinarte rounded p-3">
                                     <span className="message-data-time">{message.date}</span>
                                     <div className="message other-message">{message.content}</div>
                                 </div>
@@ -115,15 +115,15 @@ export function ViewChats({chatId, otherUserId}){
                     }
                 </ul>
             </div>
-            <div className="chat-message clearfix">
+            <div className="chat-message">
                 <form className='mx-2' onSubmit={sendMessage}>
                     <div className="input-group mb-0">
                         <div className="input-group-prepend">
-                            <span className="btn btn-send cocinarte-text mx-2" onClick={fetchMessages}>Reload</span>
+                            <span className="btn btn-send mx-2" onClick={fetchMessages}>Reload</span>
                         </div>
                         <input type="text" className="form-control form-cocinarte rounded bg-white bg-opacity-10 border border-0" placeholder="Enter text here..." value={newMessage} onChange={(e)=>{setNewMessage(e.target.value)}} />
                         <div className="input-group-prepend">
-                            <button className="btn btn-send cocinarte-text mx-2" type="submit">Send</button>
+                            <button className="btn btn-send mx-2" type="submit">Send</button>
                         </div>                                    
                     </div>
                 </form>

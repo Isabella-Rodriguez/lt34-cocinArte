@@ -2,6 +2,12 @@
     background-color: #0c0b09;
 }
 .btn-send{
+    border: 2px, #c9a669, solid;
+    background-color: #c9a669;
+    color: #191815;
     border-radius: 10px;
-    border: 1px solid #c9a669;
+}
+.btn-send:hover{
+    background-color: #191815;
+    color: #c9a669;
 }

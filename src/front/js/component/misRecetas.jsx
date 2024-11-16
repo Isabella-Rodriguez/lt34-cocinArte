@@ -1,10 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Link, useNavigate } from "react-router-dom";
+import { Navbar } from './navbar';
+import { Footer } from './footer';
+import { Context } from '../store/appContext';
+import '../../styles/misRecetas.css';
 
 export const MisRecetas = () => {
     const [recetas, setRecetas] = useState([]);
     const [error, setError] = useState("");
-
+    const {store, actions}=useContext(Context)
     useEffect(() => {
         const fetchRecetas = async () => {
             const token = localStorage.getItem('token');
@@ -29,21 +33,26 @@ export const MisRecetas = () => {
     }, []);
 
     return (
-        <div>
-            <h2>Mis Recetas</h2>
+        <div className='bg-cocinarte vh-100'>
+            <Navbar/>
+            <div className={` ${store.sideBar===false ? 'sidebar-close':'sidebar-open'} container-fluid col-10 mx-auto mt-5`}>
+            <h2 className='mis-recetas-text py-3'>Mis Recetas</h2>
             {recetas.length > 0 ? (
-                <div className="container d-flex flex-column align-items-center gap-5 ">
+                <div className='d-flex flex-row flex-wrap gap-3 justify-content-center mt-3 '>
                 {(recetas.length!=0) ? (recetas.map((receta,index)=>(
-                    <div className="border px-2" key={index}>
-                    <h1 className="text-center">{receta.title}</h1>
-                    <h3 className="text-center">{receta.fecha_publicacion}</h3>
-                    <Link className="d-flex justify-content-center mb-2" to={`/recipe/${receta.id}`}><button className="btn btn-success">Quiero probarla!</button></Link>
+                    <div className="card col-3 rounded" key={index}>
+                        <img class="card-img-top w-auto" src={receta.img_ilustrativa} alt="Unsplash"></img>
+                        <h1 className="card-title mis-recetas-text-small m-1">{receta.title}</h1>
+                        <h3 className="text-center">{receta.fecha_publicacion}</h3>
+                        <Link className="d-flex justify-content-center mb-2" to={`/recipe/${receta.id}`}><button className="btn btn-success">Quiero probarla!</button></Link>
                     </div>
                 ))):<h1>No hay recetas que mostrar actualmente</h1>}
                 </div>
             ) : (
                 <p>{error || "No tienes recetas publicadas."}</p>
             )}
+            </div>
+            <Footer/>
         </div>
     );
 };
