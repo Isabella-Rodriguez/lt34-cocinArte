@@ -66,7 +66,7 @@ class Recipe(db.Model):
             'fecha_publicacion': self.fecha_publicacion,
             'img_ilustrativa': self.img_ilustrativa,
             'user_id': self.user_id,
-            'categories':[category.serialize() for category in self.categories]
+            'categories':[category.serialize() for category in self.categories],
         }
 class Administrador(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -107,6 +107,8 @@ class Comment(db.Model):
             "recipe_id": self.recipe_id,  
             "comment_text": self.comment_text,
             "user_email": self.user.email,
+            "name": self.user.name,
+            "img_profile": self.user.img_profile
         }        
 
 class Category(db.Model):

@@ -141,7 +141,7 @@ export function CreateRecipeComponent(){
             body: formData,
         }).then(response=>{
             if(response.ok){
-                navigate(`/`)
+                navigate(`/mis-recetas`)
             }
             else{
                 alert('Hubo un error')
@@ -167,7 +167,7 @@ return(
             <div className="d-flex flex-column">
                 <label className="form-label label-create-recipe size" htmlFor="ingredients">Ingredients:</label>
                 <input className="form-control input-create-recipe mb-4" style={{width:"41.66666667%"}} id="ingredients" type="text" placeholder="Ingredients" onChange={(e)=>{setIngredient(e.target.value)}} onKeyDown={createIngredientsList}/>
-                <div className="d-flex flex-row">
+                <div className="d-flex flex-row flex-wrap">
                 {ingredients.length!=0 ? ingredients.map((element, index)=>(
                     <div key={index} className="d-flex  button-x-recipe align-items-center m-2">
                         <span className="label-create-recipe me-2 capitalize">{element}</span>

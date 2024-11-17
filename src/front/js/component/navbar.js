@@ -145,10 +145,10 @@ export const Navbar = () => {
 						</> : 
 							(<>
 							<Link to="/login/cocinero">
-							<button className="btn bg-white bg-opacity-10 cocinarte-text mx-2 btn-cocinarte" >Login Cocinero</button>
+							<button className="btn btn-actions me-3" >Login Cocinero</button>
 							</Link>
 							<Link to="/login/administrador">
-							<button className="btn bg-white bg-opacity-10 cocinarte-text btn-cocinarte" >Login Admin</button>
+							<button className="btn btn-actions" >Login Admin</button>
 			   				</Link>
 							</>)
 						}

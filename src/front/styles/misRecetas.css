@@ -17,3 +17,23 @@
     text-transform: capitalize;
     color: #adb5bd;
 }
+.btn-mis-recetas{
+    border: 2px, #c9a669, solid;
+    background-color: #c9a669;
+    color: #191815;
+    border-radius: 10px;
+    
+}
+.btn-mis-recetas:hover{
+    background-color: #191815;
+    color: #c9a669;
+}
+.resaltar:hover{
+    box-shadow: 1px 1px 5px 0px #adb5bd
+}
+.fa-star{
+    color: #c9a669
+}
+.fa-star.filled{
+    color: #c9a669;
+}
