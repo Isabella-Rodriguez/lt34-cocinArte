@@ -80,6 +80,7 @@ export const MisRecetas = () => {
             [id]: data.total_votes,
         }))}
     }
+    
     return (
         <div className='bg-cocinarte vh-100'>
             <Navbar/>
@@ -88,9 +89,9 @@ export const MisRecetas = () => {
             {recetas.length > 0 ? (
                 <div className='d-flex flex-row flex-wrap gap-3 justify-content-center mt-3 '>
                 {(recetas.length!=0) ? (recetas.map((receta,index)=>(
-                    <div className="card  rounded resaltar " style={{width:'360px'}} key={index}>
-                        <img class="card-img-top img-fluid w-auto" style={{height:'360px'}} src={receta.img_ilustrativa} alt="Unsplash"></img>
-                        <div className="d-flex  ps-3 py-3 align-items-center border-bottom " style={{minHeight:'73px'}}>
+                    <div className="card border-color resaltar " style={{width:'360px'}} key={index}>
+                        <img class="img-fluid rounded-4 p-1" style={{height:'360px'}} src={receta.img_ilustrativa} alt="Unsplash"></img>
+                        <div className="d-flex  ps-3 py-3 align-items-center border-bottom-all-recipes " style={{minHeight:'73px'}}>
                         <h1 className="card-title mis-recetas-text-small p-3 ">{receta.title}</h1>
                         {promedioCalificacion[receta.id] !== undefined ? (<>
                             <span className='d-flex'>
@@ -101,7 +102,7 @@ export const MisRecetas = () => {
                             <span className="fs-6"><FontAwesomeIcon icon={faStar} className='text-alert'/></span>
                         )}
                     </div>
-                    <div className="d-flex ps-3 py-3 border-bottom justify-content-evenly" style={{minHeight:'73px'}}>
+                    <div className="d-flex ps-3 py-3 border-bottom-all-recipes justify-content-evenly" style={{minHeight:'73px'}}>
                         {votes[receta.id]!==undefined ? (<>
                             <span className="fs-5">Votos positivos</span>
                             <span className="fs-5"><FontAwesomeIcon className='mx-1' icon={faUpLong} style={{color: "#63E6BE",}} />{votes[receta.id]}</span>
@@ -109,13 +110,14 @@ export const MisRecetas = () => {
                             <span className='fs-5'>Aun no hay votos para esta receta</span>
                         </>) }
                     </div>
-                        <div className='d-flex flex-column align-items-end pe-3 py-3 border-bottom'>
+                        <div className='d-flex flex-column align-items-end pe-3 py-3 border-bottom-all-recipes'>
                             <h5 className="card-text mis-recetas-text-small m-1  fs-5">Publicado el: </h5>
                             <small style={{color:'#adb5bd'}}>{formatDate(receta.fecha_publicacion)}</small>
                         </div>
                         <div className="d-flex justify-content-center my-4" onClick={()=>{navigate(`/recipe/${receta.id}`)}}><button className="btn-mis-recetas p-2">Quiero probarla!</button></div>
                     </div>
-                ))):<h1>No hay recetas que mostrar actualmente</h1>}
+                ))):<h1>No hay recetas que mostrar actualmente</h1>
+                }
                 </div>
             ) : (
                 <p>{error || "No tienes recetas publicadas."}</p>

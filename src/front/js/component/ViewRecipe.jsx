@@ -279,7 +279,7 @@ export function ViewRecipe(){
                     </button>
                     <span className="mx-3 fs-4">{voteCount}</span>
                     <button
-                        className={`btn ${userVote === -1 ? "btn-actions" : "btn-actions-outline"}`}
+                        className={`btn ${userVote === -1 ? "btn-actions-outline" : "btn-actions"}`}
                         onClick={() => handleVote(-1)}
                     >
                         <FontAwesomeIcon icon={faThumbsDown} />

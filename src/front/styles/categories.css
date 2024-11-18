@@ -1,0 +1,15 @@
+.bg-categories{
+    background-color: #191815;
+}
+.categories-text{
+    font-weight: 500;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #adb5bd;
+}
+.col-30{
+    width: 20%;
+}
+.col-15{
+    width: 20%;
+}

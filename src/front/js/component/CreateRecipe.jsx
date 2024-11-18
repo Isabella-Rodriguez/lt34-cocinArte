@@ -155,17 +155,20 @@ export function CreateRecipeComponent(){
 
 return(
         <div className={`h-100 ${store.sideBar===false ? 'sidebar-close':'sidebar-open'}`}>
-        {localStorage.getItem('token') ? <div className="container-fluid col-8 d-flex mt-5 p-5 bg-create-recipe flex-column ">
-            <h1 className="create-recipe-text mt-4">Publica tu receta!</h1>
-            <p className="mb-o label-create-recipe">Cuentanos mas detalles</p>
-        <form onSubmit={sendRecipe} action="" className="container d-flex flex-column mt-4 gap-3">
+        {localStorage.getItem('token') ? 
+        <div className="col-10 d-flex mt-5 py-5 bg-create-recipe flex-column mx-auto">
+            <div className="border-bottom ps-4">
+                <h1 className="create-recipe-text mt-4">Publica tu receta!</h1>
+                <p className="mb-o label-create-recipe ps-3">Cuentanos mas detalles</p>
+            </div>
+        <form onSubmit={sendRecipe} action="" className=" d-flex flex-column  p-4 gap-3">
             <div className="d-flex flex-column col-4">
-                <label className="form-label label-create-recipe size" htmlFor="title">Enter recipe title:</label>
-                <input className="form-control input-create-recipe" id="title" type="text" placeholder="Title" onChange={(e)=>{titleToFetch(e)}}/>
+                <label className="form-label label-create-recipe size linea" htmlFor="title">Titulo</label>
+                <input className="form-control input-create-recipe" id="title" type="text" placeholder="Titulo" onChange={(e)=>{titleToFetch(e)}}/>
                 
             </div>
-            <div className="d-flex flex-column">
-                <label className="form-label label-create-recipe size" htmlFor="ingredients">Ingredients:</label>
+            <div className="d-flex flex-column pt-3">
+                <label className="form-label label-create-recipe size linea" htmlFor="ingredients">Ingredientes:</label>
                 <input className="form-control input-create-recipe mb-4" style={{width:"41.66666667%"}} id="ingredients" type="text" placeholder="Ingredients" onChange={(e)=>{setIngredient(e.target.value)}} onKeyDown={createIngredientsList}/>
                 <div className="d-flex flex-row flex-wrap">
                 {ingredients.length!=0 ? ingredients.map((element, index)=>(
@@ -178,7 +181,7 @@ return(
             </div>
             
             {recomendedIngredients && recomendedIngredients.length > 0 && (
-                <div className="bg-cocinarte rounded label-create-recipe p-3">
+                <div className="bg-cocinarte rounded label-create-recipe p-3 border">
                     <p className="fs-4">Estos son los ingredientes que le recomendamos</p >
                     <ul className="d-flex flex-row flex-wrap gap-1 ">
                         {recomendedIngredients.map((ingredient, index) => (
@@ -195,21 +198,21 @@ return(
             )}
 
             <div className="d-flex flex-column">
-                <label className="form-label label-create-recipe size" htmlFor="steps">Pasos:</label>
+                <label className="form-label label-create-recipe size linea " htmlFor="steps">Pasos:</label>
                 <textarea className="form-control input-create-recipe" style={{minHeight:"170px"}} id="steps" type="text" value={steps} placeholder='Escribe los pasos para tu receta' onChange={(e)=>{setSteps(e.target.value)}}/>
             </div>
             {recomendedSteps && (
-                <div className="bg-cocinarte rounded label-create-recipe p-3">
+                <div className="bg-cocinarte rounded label-create-recipe p-3 border">
                     <p className="fs-4 ">Estos son los pasos que le recomendamos</p>
                     <p>{recomendedSteps}</p>
                     <button onClick={()=>{setSteps(''); setSteps(recomendedSteps); console.log(steps)}} type="button" className="btn btn-cocinarte cocinarte-text col-4 mx-auto">Use the suggested steps!</button>
                 </div> )}
             <div className="d-flex flex-column">
-                <label className="form-label label-create-recipe size" htmlFor="img">Show us your finished recipe url!</label>
+                <label className="form-label label-create-recipe size linea" htmlFor="img">Muestranos como se ve tu receta</label>
                 <input className="form-control input-create-recipe" id="img" type="file" multiple onChange={(e)=>{uploadImages(e)}}/>
             </div>
             <div className="d-flex flex-column">
-                <label className="form-label label-create-recipe size">Selecciona las categorias adecuadas para tu receta!</label>
+                <label className="form-label label-create-recipe size">Selecciona las categorias adecuadas para tu receta</label>
                 <div className="d-flex flex-row gap-3 py-3 flex-wrap">
                 {categories.map((categories)=>(
                     <div key={categories.id} className="form-check categorias-select" >

@@ -29,11 +29,21 @@
     color: #c9a669;
 }
 .resaltar:hover{
-    box-shadow: 1px 1px 5px 0px #adb5bd
+    box-shadow: inset 0px 0px 8px 0px #adb5bd;
 }
 .fa-star{
     color: #c9a669
 }
 .fa-star.filled{
     color: #c9a669;
+}
+.border-color{
+    border: 1px #3e3f41 solid ;
+    border-radius: 10px;
+}
+.border-bottom-all-recipes{
+    border-bottom: 1px #3e3f41 solid;
+}
+.rounded-4{
+    border-radius: 10px;
 }
