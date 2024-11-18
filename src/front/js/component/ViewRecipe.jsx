@@ -4,6 +4,10 @@ import { Link } from "react-router-dom";
 
 import { Context } from "../store/appContext";
 import { jwtDecode } from "jwt-decode";
+import { Navbar } from "./navbar";
+import '../../styles/viewRecipe.css'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPen, faStar, faTrashCan, faThumbsUp, faThumbsDown } from "@fortawesome/free-solid-svg-icons";
 
 
 export function ViewRecipe(){
@@ -45,6 +49,7 @@ export function ViewRecipe(){
             method: 'GET',
         });
         const resp = await data.json();
+        console.log('dataComentarios:',resp)
         setComments(resp);
     };
 
@@ -234,97 +239,112 @@ export function ViewRecipe(){
         }
     };
 
+    const renderStars=(calificacion)=>{
+        const stars=[]
+        for(let i=0; i<calificacion; i++){
+            stars.push(<FontAwesomeIcon icon={faStar} key={i} style={{color:'#c9a669'}} />)
+        }
+        return stars;
+    };
 
-    return(
-        <div className="container d-flex flex-column align-items-center">
-            <div className="container d-flex flex-column align-items-center">
-                <h1 className="container fs-1">{recipe.title}</h1>
-                <p className="container text-start">{" | Calificación promedio: " + promedioCalificacion + " estrellas"}</p>
-                <h2 className="">Ingredientes!</h2>
-                {recipe.ingredientes && recipe.ingredientes.length>0 ? (
-                    recipe.ingredientes.map((ingrediente, index)=>(
-                    <h3 key={index}>{ingrediente}</h3>))
-                    ):(<h3>El chef aún no especifica los ingredientes!</h3>)}
-                <h2>Pasos:</h2>
-                <p>{recipe.pasos}</p>
-                <img src={recipe.img_ilustrativa} alt="" />
-                <h2>Fecha de publicacion:</h2>
-                <p>{recipe.fecha_publicacion}</p>
-                <p>{recipe.category}</p>
-            </div>
-            {userId===recipe.user_id ? (
-                <div className="d-flex col-12 gap-2 justify-content-evenly my-3">
-                    <button className="btn btn-danger " onClick={()=>{deleteReceta(id)}}>Borrar Receta!</button>
-                    <Link to={`/recipe/edit/${id}`}><button className="btn btn-warning">Editar Receta!</button></Link>
-                    <button className="btn btn-warning" onClick={()=>{actions.addFav(id)}}>Añadir a favoritos!</button>
-                </div>):(
-                    <>
-                        <button className="btn btn-warning my-3" onClick={()=>{actions.addFav(id)}}>Añadir a favoritos!</button>
-                    </>)}
 
+    return(<>
+        <Navbar/>
+        <div className={` ${store.sideBar===false ? 'sidebar-close':'sidebar-open'} container-fluid col-11 mt-4 d-flex flex-column `}>
+            <div className="bg-view-recipe p-4">
+                <div className="border-bottom mb-3 d-flex ">
+                    <div className="col-6">
+                    <h1 className="container view-recipe-text fs-1 mt-3">{recipe.title}</h1>
+                    <div className="d-flex">
+                        <p className="view-recipe-text text-start ps-4 pe-2"> | Calificación promedio </p>
+                        <span>{renderStars(promedioCalificacion)}</span>
+                    </div>
+                    </div>
+                        <div className="d-flex align-items-center col-3">
+                        {userId===recipe.user_id ? (
+                    <div className="d-flex col-12 gap-3 my-3">
+                        <button className="btn btn-actions " onClick={()=>{deleteReceta(id)}}><FontAwesomeIcon icon={faTrashCan} style={{color: "inherit",}} /></button>
+                        <Link to={`/recipe/edit/${id}`}><button className="btn btn-actions"><FontAwesomeIcon icon={faPen} style={{color: "inherit",}} /></button></Link>
+                        <button className="btn btn-actions" onClick={()=>{actions.addFav(id)}}><FontAwesomeIcon icon={faStar}  style={{color: "inherit",}}/></button>
+                    </div>):(null)}
+                    </div>
+                    <div className="col-3 d-flex align-items-center">
+                    {isLogin && (
+                      <div className="vote-section">
+                    <button
+                        className={`btn ${userVote === 1 ? "btn-actions-outline" : "btn-actions"}`}
+                        onClick={() => handleVote(1)}
+                        >
+                        <FontAwesomeIcon icon={faThumbsUp} />
+                    </button>
+                    <span className="mx-3 fs-4">{voteCount}</span>
+                    <button
+                        className={`btn ${userVote === -1 ? "btn-actions-outline" : "btn-actions"}`}
+                        onClick={() => handleVote(-1)}
+                    >
+                        <FontAwesomeIcon icon={faThumbsDown} />
+                    </button>
+                    </div>
+                )}
+                    </div>
+                </div>
+                <div className="container-fluid d-flex border-bottom">
+                <div className="container-fluid d-flex flex-column col-6 justify-content-evenly ">
+                    <div>
+                    <h2 className="view-recipe-text linea pb-3">Ingredientes</h2>
+                    <ul>
+                        {recipe.ingredientes && recipe.ingredientes.length>0 ? (
+                            recipe.ingredientes.map((ingrediente, index)=>(
+                                <li className='view-recipe-text' key={index}>{ingrediente}</li>))
+                            ):(<li>El chef aún no especifica los ingredientes!</li>)}
+                    </ul>
+                    </div>
+                    <div>
+                    <h2 className="view-recipe-text linea py-3">Pasos</h2>
+                    <p className="view-recipe-text ps-4">{recipe.pasos}</p>
+                    </div>
+                    <p>{recipe.category}</p>
+                    <div className="col-12">
+                        <h2 className="view-recipe-text linea">Fecha de publicacion</h2>
+                        <p className="view-recipe-text ps-4">{recipe.fecha_publicacion}</p>
+                    </div>
+                </div>
+                <div className="col-6">
+                    <img src={recipe.img_ilustrativa} alt="recipe image" className="img-fluid p-5" />
+                </div>
+                </div>
+            <div className="col-7 float-start">            
             {isLogin && (
-                    <div className="d-flex col-12 gap-2 justify-content-center">
-                        <div className="form-floating col-7 ms-2">
+                <div className="view-recipe-text mt-4 ">
+                        <h3 className="my-2 view-recipe-text linea">Comentarios</h3>
+                        <div className="form-floating  ms-4">
                             <textarea
+                                style={{minHeight:'150px'}}
                                 className="form-control"
                                 placeholder="Leave a comment here"
                                 id="floatingTextarea"
                                 value={comment}
                                 onChange={(e)=>setComment(e.target.value)}
-                            ></textarea>
-                            <label htmlFor="floatingTextarea">Comments</label>
+                                ></textarea>
+                            <label htmlFor="floatingTextarea">Danos una opinion sobre la receta</label>
+                        <button className="btn btn-comentarios btn-actions col-2 my-3" onClick={createComment}>Crear comentarios</button>
                         </div>
-                        <button className="btn btn-success col-2 my-3" onClick={createComment}>Crear comentarios</button>
                     </div>
                 )}
-
-                <form onSubmit={addCalif} className="calificacion-form">
-                    <h5>Califica la receta:</h5>
-                    <select value={calificacion} onChange={handleCalificacionChange}>
-                        <option value={0}>Selecciona una calificación</option>
-                        <option value={1}>1 estrella</option>
-                        <option value={2}>2 estrellas</option>
-                        <option value={3}>3 estrellas</option>
-                        <option value={4}>4 estrellas</option>
-                        <option value={5}>5 estrellas</option>
-                            </select>
-                    <button type="submit" className="btn btn-primary mt-2">Enviar Calificación</button>
-                </form>
-                  {isLogin && (
-                <div className="vote-section">
-                    <button
-                        className={`btn ${userVote === 1 ? "btn-success" : "btn-outline-primary"}`}
-                        onClick={() => handleVote(1)}
-                    >
-                        Votar Positivo
-                    </button>
-                    <span className="mx-3 fs-4">{voteCount}</span>
-                    <button
-                        className={`btn ${userVote === -1 ? "btn-danger" : "btn-outline-danger"}`}
-                        onClick={() => handleVote(-1)}
-                    >
-                        Votar Negativo
-                    </button>
-                </div>
-            )}
-            {userVote !== null && (
-                <p className="text-info">Has votado: {userVote === 1 ? "Positivo" : "Negativo"}</p>
-            )}
-           
-            <div className="comments-section">
-                <h3>Comentarios</h3>
+                <div className="comments-section py-4">
                 <ul className="list-group">
                     {comments.length > 0 ? (
                         comments.map((item, index) => (
-                            <li key={index} className="list-group-item d-flex justify-content-between">
-                                <div className="d-flex">
-                                    <div style={{ marginLeft: "10px", display: "flex", flexDirection: "column", padding: "5px" }}>
-                                        <h4>{item.user_email}</h4>
-                                        <p style={{ marginBottom: "0", marginLeft: "5px" }}>{item.comment_text}</p>
-                                    </div>
+                            <li key={index} className=" d-flex align-items-center bg-transparent my-2 p-3 border-bottom border-top ms-4">
+                                <div className="pe-3">
+                                    <img src={item.img_profile} alt="image profile" style={{width:'60px'}} />
+                                </div>
+                                <div className="container-fluid">
+                                    <h5 className="view-recipe-text soft">{item.name}</h5>
+                                    <h4 className="view-recipe-text soft">{item.comment_text}</h4>
                                 </div>
                                 {item.user_id === userId ? (  
-                                    <button onClick={() => removeComentario(item.id)} style={{ backgroundColor: "white", border: "0px" }}>
+                                    <button className="btn-actions" onClick={() => removeComentario(item.id)} style={{width:'40px', height:'40px'}}>
                                         <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" fill="currentColor" className="bi bi-trash-fill">
                                             <path d="M4.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a.5.5 0 0 1 0 1H1a.5.5 0 0 1 0-1h1V.5a.5.5 0 0 1 .5-.5zM3 2h10a1 1 0 0 1 1 1v1H2V3a1 1 0 0 1 1-1zm11 3v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5h12z" />
                                         </svg>
@@ -337,6 +357,37 @@ export function ViewRecipe(){
                     )}
                 </ul>
             </div>
+            </div>
+            <div className="col-5 float-end d-flex flex-column align-items-center">
+            {isLogin && (
+                <form onSubmit={addCalif} className="calificacion-form ">
+                    <h3 className="view-recipe-text my-2 col-12 text-center mt-4">Cuentanos cuanto te ha gustado</h3>
+                    <div className="d-flex align-items-center">
+                        <select className="form-select select-view-recipe" name="" id="calificacion" value={calificacion} onChange={handleCalificacionChange}>
+                            <option className="p-1" value={0}>Elige una opcion</option>
+                            <option className="p-1" value={1}>1</option>
+                            <option className="p-1" value={2}>2</option>
+                            <option className="p-1" value={3}>3</option>
+                            <option className="p-1" value={4}>4</option>
+                            <option className="p-1" value={5}>5</option>
+                        </select>
+                    <button type="submit" className="btn btn-actions ms-2">Enviar</button>
+                    </div>
+                </form>)}
+                <div className="container mt-5 ms-3 ">
+                    <div className="d-flex">
+                    <h3 className="view-recipe-text">Categorias</h3>
+                    </div>
+                    <div className="d-flex flex-row flex-wrap mt-2">
+                        {recipe.categories && recipe.categories.length>0 ? recipe.categories.map((category, index)=>(
+                            <p className='py-2 px-4 m-3 btn-recipe-category' key={index}>{category.name}</p>
+                        )):(null)}
+                    </div>
+                </div>
+            </div>
+                  
+            </div>
         </div>
+        </>
     )
 }

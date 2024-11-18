@@ -94,10 +94,10 @@ export function ChatList({selectChat}){
             <ul className="list-unstyled chat-list mt-2 mb-0 p-2">
                 {searchResult.length>0 ? 
                     searchResult.map(user=>(
-                        <li key={user.id} className="clearfix d-flex p-2 rounded" onClick={()=>{newChat(user)}}>
+                        <li key={user.id} className="d-flex p-2 rounded" onClick={()=>{newChat(user)}}>
                         <img style={{width:'40px', height:'40px'}} src={user.img_profile ? user.img_profile: null}/>
-                        <div className="about">
-                            <div className="name">iniciar chat con {user.name} {user.last_name}</div>
+                        <div >
+                            <div >iniciar chat con {user.name} {user.last_name}</div>
                         </div>
                     </li>)):null}
             </ul>
@@ -108,11 +108,9 @@ export function ChatList({selectChat}){
                     return(
                     <li key={chat.id} className="clearfix d-flex p-2 rounded align-items-center" onClick={()=>{selectChat(chat.id ,otherUser.id)}}>
                         <img style={{width:'40px', height:'40px'}} src={otherUser ? otherUser.img_profile: null}/>
-                        <div className="about">
+                        <div>
                             <div className="label-create-recipe px-2">Chat con {otherUser ? `${otherUser.name} ${otherUser.last_name}`: `Usuario ${otherUserId}` }</div>
-                                <div className="status">
-                                    <i className="fa fa-circle offline px-2"></i>offline
-                                </div>
+                                
                             </div>
                     </li>)
                 })}

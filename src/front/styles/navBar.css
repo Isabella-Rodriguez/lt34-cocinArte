@@ -62,3 +62,6 @@
 .shadow-detail-nav{
     box-shadow: 0 4px 10px #5b5a58;
 }
+.nav-item::marker{
+    content: none;
+}
