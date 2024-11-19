@@ -93,7 +93,7 @@ export function SearchByCategories(){
                             <h1 className="card-title mis-recetas-text-small p-3 ">{recipe.title}</h1>
                             {promedioCalificacion[recipe.id] !== undefined ? (<>
                                 <span className='d-flex'>
-                                {renderStars(promedioCalificacion[recipe.id])}
+                                {renderStars(promedioCalificacion[recipe.id]) }
                                 </span>
                                 </>
                             ) : (
