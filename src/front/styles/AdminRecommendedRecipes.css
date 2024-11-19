@@ -1,0 +1,56 @@
+.admin-recipes-page .custom-card {
+    height: 100%; 
+    border: 2px solid #c9a669; 
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+    color: #adb5bd;
+}
+
+.admin-recipes-page .custom-card img {
+    max-height: 200px;
+    object-fit: cover;
+    border-bottom: 2px solid #c9a669; 
+}
+
+.admin-recipes-page .card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+}
+
+.admin-recipes-page .btn-add {
+    background-color: #c9a669;
+    color: black;
+    border: none;
+    padding: 10px;
+    font-weight: bold;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.admin-recipes-page .btn-add:hover {
+    background-color: #c9a43a;
+}
+
+.admin-recipes-page .btn-remove {
+    background-color: grey;
+    color: white;
+    border: none;
+    padding: 10px;
+    font-weight: bold;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.admin-recipes-page .btn-remove:hover {
+    background-color: #5c5c5c;
+}
+
+.admin-recipes-page .card-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #c9a669;
+    text-align: center;
+}

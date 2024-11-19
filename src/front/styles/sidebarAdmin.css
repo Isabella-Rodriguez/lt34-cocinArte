@@ -1,0 +1,55 @@
+.sidebar-admin-container {
+    background-color: #191815;
+    color: lightgray;
+    font-family: "Lexend", sans-serif;
+    position: fixed;  
+    top: 0;
+    left: 0;
+    width: 280px; 
+    height: 100%; 
+    transform: translateX(-100%); 
+    opacity: 0;  
+    transition: transform 0.5s ease, opacity 0.8s ease; 
+    z-index: 1000; 
+}
+
+.sidebar-admin-container.open {
+    transform: translateX(0); 
+    opacity: 1; 
+}
+
+.sidebar-admin-container .sidebar-item {
+    padding: 15px 20px;
+}
+
+.sidebar-admin-container .sidebar-item:hover {
+    color: #c9a669;
+}
+
+.sidebar-admin-container .btn {
+    color: lightgray;
+    border: none;
+    background: none;
+}
+
+.sidebar-admin-container .btn:hover {
+    color: #c9a669;
+}
+
+.sidebar-admin-container .icon {
+    margin-right: 10px;
+}
+
+.sidebar-admin-container .svg-hover:hover svg {
+    fill: #c9a669;
+    stroke: #c9a669;
+}
+
+.sidebar-admin-container .border-top {
+    border-top: 1px solid #c9a669;
+    padding-top: 15px;
+}
+
+.sidebar-admin-container .sidebar-toggle {
+    cursor: pointer;
+}

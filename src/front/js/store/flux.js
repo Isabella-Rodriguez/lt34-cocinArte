@@ -202,6 +202,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 				const store = getStore(); 
 				setStore({ ...store, admin: adminData });
 			},
+			logout: () => {
+				localStorage.removeItem("token");
+				setStore({ authadmin: false });
+			},
 		}
 	};
 };
