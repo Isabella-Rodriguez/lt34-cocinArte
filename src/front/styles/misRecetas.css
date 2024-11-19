@@ -17,3 +17,33 @@
     text-transform: capitalize;
     color: #adb5bd;
 }
+.btn-mis-recetas{
+    border: 2px, #c9a669, solid;
+    background-color: #c9a669;
+    color: #191815;
+    border-radius: 10px;
+    
+}
+.btn-mis-recetas:hover{
+    background-color: #191815;
+    color: #c9a669;
+}
+.resaltar:hover{
+    box-shadow: inset 0px 0px 8px 0px #adb5bd;
+}
+.fa-star{
+    color: #c9a669
+}
+.fa-star.filled{
+    color: #c9a669;
+}
+.border-color{
+    border: 1px #3e3f41 solid ;
+    border-radius: 10px;
+}
+.border-bottom-all-recipes{
+    border-bottom: 1px #3e3f41 solid;
+}
+.rounded-4{
+    border-radius: 10px;
+}

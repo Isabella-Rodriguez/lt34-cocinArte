@@ -493,7 +493,7 @@ def get_category(id):
     category = Category.query.get(id)
     if not category:
         return jsonify({"msg":"Categoria no encontrada"}),400
-    return jsonify({category.serialize()}),200
+    return jsonify(category.serialize()),200
 
 @api.route('/categorias/<int:id>', methods=['PUT'])
 def update_category(id):

@@ -1,0 +1,31 @@
+.ia-recipe-text{
+    font-weight: 500;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #adb5bd;
+}
+.bg-open-ia{
+    background-color: #191815;
+}
+.soft{
+    font-weight: 300;
+    font-size: medium;
+}
+.linea::after{
+    content: "";
+    width: 120px;
+    height: 1px;
+    display: inline-block;
+    background: #c9a669;
+    margin: 4px 10px;
+}
+.btn-actions{
+    border: 2px, #c9a669, solid;
+    background-color: #c9a669;
+    color: #191815;
+    border-radius: 10px;
+}
+.btn-actions:hover{
+    background-color: #191815;
+    color: #c9a669;
+}

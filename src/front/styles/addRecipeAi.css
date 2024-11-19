@@ -1,18 +1,24 @@
-.create-recipe-text{
+.bg-add-recipe{
+    background-color: #191815;
+}
+.create-recipeai-text{
     font-weight: 500;
-    padding: 0;
-    margin: 0;
     letter-spacing: 1.5px;
     text-transform: uppercase;
     color: #adb5bd;
 }
-.bg-create-recipe{
-    background-color: #191815;
+.linea::after{
+    content: "";
+    width: 120px;
+    height: 1px;
+    display: inline-block;
+    background: #c9a669;
+    margin: 4px 10px;
 }
-.label-create-recipe{
-    color:#adb5bd
+.size{
+    font-size: 1.5rem;
 }
-.input-create-recipe{
+.input-createai-recipe{
     background-color: transparent;
     color:#adb5bd;
 }
@@ -26,10 +32,6 @@
     font-size: 15px;
     width: fit-content;
 }
-.capitalize { 
-    text-transform:capitalize !important;
-}
-
 .button-x-recipe:hover{
     color:#c9a669;
     border:2px solid #c9a669
@@ -53,15 +55,4 @@
     border: 1px solid #adb5bd;
     border-radius: 10px;
     padding: 10px 5px 10px 30px;
-}
-.size{
-    font-size: 1.5rem;
-}
-.linea::after{
-    content: "";
-    width: 120px;
-    height: 1px;
-    display: inline-block;
-    background: #c9a669;
-    margin: 4px 10px;
 }

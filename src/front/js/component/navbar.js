@@ -114,7 +114,10 @@ export const Navbar = () => {
 														</div>
 													</div>
 												</a>)
-                							}):null}
+                							}):(
+												<div className="list-group-item chats-cocinarte-nav text-center" onClick={()=>{navigate('/chats')}}>Ver mensajes</div>
+											)
+											}
 								</div>
 							</li>
 							<Link className="mx-2" to={"/recipe/create"} ><button className="btn btn-cocinarte">Postear Receta</button></Link>
@@ -128,7 +131,7 @@ export const Navbar = () => {
               				</a>
 							<div className="dropdown-menu dropdown-menu-cocinarte shadow-detail-nav dropdown-menu-end">
 								<a className="dropdown-item  chats-cocinarte-nav opacity-100 fs-5" href="#" onClick={()=>{navigate('/favoritos')}}>
-									<span><FontAwesomeIcon className="chats-cocinarte-nav" icon={faStar} /></span>
+									<span><FontAwesomeIcon className="chats-cocinarte-nav" icon={faStar} style={{color:'#adb5bd'}} /></span>
 									<span className="ms-2">Favoritos</span>
 								</a>
 								<a className="dropdown-item  chats-cocinarte-nav opacity-100 fs-5" href="#" onClick={()=>{navigate('/mis-recetas')}}>
@@ -145,10 +148,10 @@ export const Navbar = () => {
 						</> : 
 							(<>
 							<Link to="/login/cocinero">
-							<button className="btn bg-white bg-opacity-10 cocinarte-text mx-2 btn-cocinarte" >Login Cocinero</button>
+							<button className="btn btn-actions me-3" >Login Cocinero</button>
 							</Link>
 							<Link to="/login/administrador">
-							<button className="btn bg-white bg-opacity-10 cocinarte-text btn-cocinarte" >Login Admin</button>
+							<button className="btn btn-actions" >Login Admin</button>
 			   				</Link>
 							</>)
 						}

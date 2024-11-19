@@ -64,6 +64,17 @@ export function ViewChats({chatId, otherUserId}){
             alert('Su mensaje no se envio!')
         }
     }
+    const formatDate=(dateString)=>{
+        const options={ 
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+        };
+        return new Date(dateString).toLocaleString('es-ES', options);
+    };
+
     return (
         
         <div className="chat mt-5 col-9 bg-create-recipe">
@@ -94,7 +105,7 @@ export function ViewChats({chatId, otherUserId}){
                             <li key={message.id} className="d-flex flex-column">
                             <div className="float-end my-3 d-flex align-items-center justify-content-end me-3">
                                     <div className="message-data me-3 bg-cocinarte rounded p-3">
-                                        <span className="message-data-time text-end label-create-recipe ">{message.date}</span>
+                                        <span className="message-data-time text-end label-create-recipe ">{formatDate(message.date)}</span>
                                     <div className="message my-message label-create-recipe">{message.content}</div>                                    
                                     </div>
                                     <img style={{width:'40px', height:'40px'}} src={store.user.img_profile} alt="avatar"/>

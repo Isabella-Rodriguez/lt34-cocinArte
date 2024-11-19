@@ -80,7 +80,7 @@ export function EditRecipe() {
         formData.append('title', title)
         formData.append('ingredientes', JSON.stringify(ingredients))
         formData.append('pasos', steps)
-        selectedCategories.forEach((catId) => formData.append('categories', catId))
+        formData.append('categories', JSON.stringify(selectedCategories))
         images.forEach((image, index) => {
             formData.append(`files_${index}`, image)
         });

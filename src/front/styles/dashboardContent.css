@@ -20,8 +20,67 @@
     cursor: pointer;
 }
 .card-text-dashboard{
-    color: #adb5bd;
+    color: #ffffff;
 }
 .bg-dashboard-section{
     background-color: #191815;
 }
+.gold-text {
+    color: #c9a669;
+}
+
+
+.user-recipes-table {
+  background-color: #191815; 
+  border-collapse: collapse; 
+  width: 100%;
+  border: none; 
+}
+  
+  
+.user-recipes-table th {
+  color: rgba(255, 255, 255, 0.8);
+  text-align: center;
+  font-weight: bold;
+  padding: 12px; 
+  border: none; 
+}
+  
+
+.user-recipes-table td {
+  color: #ffffff; 
+  padding: 12px; 
+  text-align: center; 
+  border: none; 
+  }
+  
+.user-recipes-table thead th {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+  
+.recipe-image {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%; 
+  object-fit: cover; 
+}
+  
+.default-icon {
+  font-size: 2rem;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.action-cell .btn {
+  font-size: 0.875rem;
+  color: #ffffff; 
+  background-color: #c9a669; 
+  border: none;
+  transition: all 0.3s ease; 
+}
+  
+.action-cell .btn:hover {
+  background-color: transparent;
+  color: #c9a669; 
+  border: 1px solid #c9a669; 
+}
+  
