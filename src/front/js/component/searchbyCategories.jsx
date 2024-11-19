@@ -51,9 +51,13 @@ export function SearchByCategories(){
     };
     const renderStars=(calificacion)=>{
         const stars=[]
-        for(let i=0; i<calificacion; i++){
+        for(let i=0; i<Math.floor(calificacion); i++){
             stars.push(<FontAwesomeIcon icon={faStar} key={i} />)
         }
+        if(calificacion%1!=0){
+            stars.push(<FontAwesomeIcon icon={faStarHalfStroke} />)
+        }
+        else{}
         return stars;
     };
     const getVotes=async(id)=>{
