@@ -175,7 +175,8 @@ class RecommendedRecipe(db.Model):
             "admin_id": self.admin_id,
             "admin_email": self.admin.email,
             "recipe_id": self.recipe_id,
-            "recipe_title": self.recipe.title
+            "recipe_title": self.recipe.title,
+            "recipe_image": self.recipe.img_ilustrativa,  # Imagen ilustrativa
         }
     
 class Chat(db.Model):

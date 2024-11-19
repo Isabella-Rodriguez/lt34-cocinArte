@@ -1,0 +1,88 @@
+.navbar-admin-container {
+    width: 100%;
+    background-color: #202634;
+    font-family: Arial, sans-serif;
+}
+
+
+.bg-admin-dashboard {
+    background-color: #191815;
+}
+
+.nav-admin {
+    height: 60px;
+    display: flex;
+    align-items: center;
+    transition: padding-left 0.5s;
+    padding: 0 20px;
+}
+
+
+.nav-admin.sidebar-open {
+    padding-left: 290px;
+}
+
+.sidebar-toggle {
+    cursor: pointer;
+    color: #adb5bd;
+    font-size: 1.5rem;
+}
+
+
+.navbar-admin-container .admin-controls {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+}
+
+
+.navbar-admin-container .admin-text {
+    color: #adb5bd;
+    font-size: 1.1rem;
+    margin-right: 15px; 
+    transition: color 0.3s;
+}
+
+.navbar-admin-container .admin-text:hover {
+    color: #c9a669;
+}
+
+
+.navbar-admin-container .btn-logout {
+    border: 2px solid #c9a669;
+    background-color: #c9a669;
+    color: #ffffff;
+    padding: 6px 12px;
+    border-radius: 5px;
+
+    transition: background-color 0.3s, color 0.3s;
+    cursor: pointer;
+}
+
+.navbar-admin-container .btn-logout:hover {
+    background-color: #C9A669;
+    color: #202634;
+}
+
+
+@media (max-width: 768px) {
+    .nav-admin {
+        height: auto;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .navbar-admin-container .btn-logout {
+        margin-top: 10px;
+    }
+
+    .navbar-admin-container .admin-controls {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .navbar-admin-container .admin-text {
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+}

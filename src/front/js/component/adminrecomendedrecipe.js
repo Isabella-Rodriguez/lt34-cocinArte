@@ -1,24 +1,34 @@
 import React, { useEffect, useState, useContext } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import { Context } from "../store/appContext";
-import { jwtDecode } from "jwt-decode";
+import {jwtDecode} from "jwt-decode";
+import "../../styles/AdminRecommendedRecipes.css";
 
 export const AdminRecommendedRecipes = () => {
     const [recipes, setRecipes] = useState([]);
     const [recommendedRecipes, setRecommendedRecipes] = useState([]);
-    const { store, actions, setStore } = useContext(Context); 
+    const { store, actions, setStore } = useContext(Context);
     const navigate = useNavigate();
 
     useEffect(() => {
-        const token = localStorage.getItem('token');
-        
-        if (token && !store.admin?.id) {
-            const decoded = jwtDecode(token);
-            const adminId = decoded.sub;
-            setStore({ admin: { id: adminId } });
-            console.log(adminId);
+        const token = localStorage.getItem("token");
+        if (token) {
+            try {
+                const decoded = jwtDecode(token);
+                if (!store.admin?.id) {
+                    setStore({ admin: { id: decoded.sub } });
+                }
+                if (!store.authadmin) {
+                    setStore({ authadmin: true });
+                }
+            } catch (error) {
+                console.error("Error al decodificar el token:", error);
+                navigate("/login/administrador");
+            }
+        } else {
+            navigate("/login/administrador");
         }
-    }, [store.admin]);
+    }, [store.admin, store.authadmin, setStore, navigate]);
 
     useEffect(() => {
         let isMounted = true;
@@ -33,8 +43,8 @@ export const AdminRecommendedRecipes = () => {
         async function fetchRecipes() {
             try {
                 const resp = await fetch(`${process.env.BACKEND_URL}/api/recetas`, {
-                    method: 'GET',
-                    headers: { 'Content-Type': 'application/json' },
+                    method: "GET",
+                    headers: { "Content-Type": "application/json" },
                 });
                 const data = await resp.json();
                 if (isMounted) setRecipes(data);
@@ -46,11 +56,11 @@ export const AdminRecommendedRecipes = () => {
         async function fetchRecommendedRecipes() {
             try {
                 const resp = await fetch(`${process.env.BACKEND_URL}/api/recommendations`, {
-                    method: 'GET',
-                    headers: { 'Content-Type': 'application/json' },
+                    method: "GET",
+                    headers: { "Content-Type": "application/json" },
                 });
                 const data = await resp.json();
-                if (isMounted) setRecommendedRecipes(data.map(rec => rec.recipe_id));
+                if (isMounted) setRecommendedRecipes(data.map((rec) => rec.recipe_id));
             } catch (error) {
                 if (isMounted) console.error("Error fetching recommended recipes:", error);
             }
@@ -64,10 +74,13 @@ export const AdminRecommendedRecipes = () => {
     const addRecipeToRecommended = async (recipeId) => {
         try {
             const resp = await fetch(`${process.env.BACKEND_URL}/api/recommendations/add`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+                },
                 body: JSON.stringify({
-                    admin_id: store.admin.id, 
+                    admin_id: store.admin.id,
                     recipe_id: recipeId,
                 }),
             });
@@ -84,11 +97,14 @@ export const AdminRecommendedRecipes = () => {
     const removeRecipeFromRecommended = async (recipeId) => {
         try {
             const resp = await fetch(`${process.env.BACKEND_URL}/api/recommendations/recipe/${recipeId}`, {
-                method: 'DELETE',
-                headers: { 'Content-Type': 'application/json' },
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+                },
             });
             if (resp.ok) {
-                setRecommendedRecipes(recommendedRecipes.filter(id => id !== recipeId));
+                setRecommendedRecipes(recommendedRecipes.filter((id) => id !== recipeId));
             } else {
                 console.error("Failed to remove recipe from recommended list");
             }
@@ -98,34 +114,40 @@ export const AdminRecommendedRecipes = () => {
     };
 
     return store.authadmin ? (
-        <div className="container mt-4">
-            <h2>Administrar Recetas Recomendadas</h2>
-            <div className="row">
-                {recipes.map((recipe) => (
-                    <div key={recipe.id} className="col-4 mb-4">
-                        <div className="card">
-                            <img src={recipe.image_url} className="card-img-top" alt={recipe.title} />
-                            <div className="card-body">
-                                <h5 className="card-title">{recipe.title}</h5>
-                                {recommendedRecipes.includes(recipe.id) ? (
-                                    <button
-                                        className="btn btn-danger"
-                                        onClick={() => removeRecipeFromRecommended(recipe.id)}
-                                    >
-                                        Quitar de Recomendadas
-                                    </button>
-                                ) : (
-                                    <button
-                                        className="btn btn-primary"
-                                        onClick={() => addRecipeToRecommended(recipe.id)}
-                                    >
-                                        Agregar a Recomendadas
-                                    </button>
-                                )}
+        <div className="admin-recipes-page">
+            <div className="admin-recipes-container mt-4">
+                <h2 className="text-center mb-4">Administrar Recetas Recomendadas</h2>
+                <div className="row">
+                    {recipes.map((recipe) => (
+                        <div key={recipe.id} className="col-md-4">
+                            <div className="card custom-card">
+                                <img
+                                    src={recipe.img_ilustrativa}
+                                    className="card-img-top"
+                                    alt={recipe.title}
+                                />
+                                <div className="card-body text-center">
+                                    <h5 className="card-title">{recipe.title}</h5>
+                                    {recommendedRecipes.includes(recipe.id) ? (
+                                        <button
+                                            className="btn btn-remove"
+                                            onClick={() => removeRecipeFromRecommended(recipe.id)}
+                                        >
+                                            Quitar de Recomendadas
+                                        </button>
+                                    ) : (
+                                        <button
+                                            className="btn btn-add"
+                                            onClick={() => addRecipeToRecommended(recipe.id)}
+                                        >
+                                            Agregar a Recomendadas
+                                        </button>
+                                    )}
+                                </div>
                             </div>
                         </div>
-                    </div>
-                ))}
+                    ))}
+                </div>
             </div>
         </div>
     ) : (
