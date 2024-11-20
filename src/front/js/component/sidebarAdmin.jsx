@@ -33,12 +33,6 @@ export const SidebarAdmin = () => {
             </a>
             <ul className="sidebar-nav">
                 <li className="sidebar-item">
-                    <RecipeIcon />
-                    <a onClick={() => navigate("/")} className="btn">
-                        Dashboard
-                    </a>
-                </li>
-                <li className="sidebar-item">
                     <CategoryIcon />
                     <a onClick={() => navigate("/categories/create")} className="btn">
                         Crear Categorías
@@ -54,12 +48,6 @@ export const SidebarAdmin = () => {
                     <AdminRecomendationsIcon />
                     <a onClick={() => navigate("/admin/recomended/recipe")} className="btn">
                         Recomendar 
-                    </a>
-                </li>
-                <li className="sidebar-item border-top mt-3">
-                    <AdminIcon />
-                    <a onClick={() => navigate("/")} className="btn">
-                        Configuración
                     </a>
                 </li>
             </ul>

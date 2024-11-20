@@ -1,7 +1,7 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext } from "react"; 
 import { Navigate, useNavigate } from "react-router-dom";
 import { Context } from "../store/appContext";
-import {jwtDecode} from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 import "../../styles/AdminRecommendedRecipes.css";
 
 export const AdminRecommendedRecipes = () => {
@@ -113,13 +113,22 @@ export const AdminRecommendedRecipes = () => {
         }
     };
 
+    const handleGoBack = () => {
+        navigate("/dashboard/admin");
+    };
+
     return store.authadmin ? (
         <div className="admin-recipes-page">
             <div className="admin-recipes-container mt-4">
-                <h2 className="text-center mb-4">Administrar Recetas Recomendadas</h2>
+                <div className="d-flex justify-content-between align-items-center mb-4">
+                    <h2 className="text-center">Administrar Recetas Recomendadas</h2>
+                    <button className="btn btn-secondary" onClick={handleGoBack}>
+                        Volver al Dashboard
+                    </button>
+                </div>
                 <div className="row">
                     {recipes.map((recipe) => (
-                        <div key={recipe.id} className="col-md-4">
+                        <div key={recipe.id} className="col-lg-4 col-md-6 col-sm-12 mb-4">
                             <div className="card custom-card">
                                 <img
                                     src={recipe.img_ilustrativa}
