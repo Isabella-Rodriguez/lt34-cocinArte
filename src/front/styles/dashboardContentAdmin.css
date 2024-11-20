@@ -1,0 +1,81 @@
+.dashboard-admin-container .sidebar-open-admin {
+    padding-left: 320px;
+    transition: padding-left 0.5s ease-in-out;
+}
+
+.dashboard-admin-container .sidebar-close-admin {
+    padding-left: 50px;
+    transition: padding-left 0.5s ease-in-out;
+}
+
+
+.dashboard-admin-container .bg-dashboard-section {
+    background-color: #191815;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+
+.dashboard-admin-container .card-text-dashboard {
+    color: #adb5bd;
+    font-weight: bold;
+    font-size: 1.25rem;
+    margin-bottom: 10px;
+}
+
+
+.dashboard-admin-container ul {
+    list-style: none;
+    padding: 0;
+}
+
+.dashboard-admin-container ul li {
+    color: #adb5bd;
+    padding: 5px 0;
+    border-bottom: 1px solid #293042;
+}
+
+.dashboard-admin-container ul li:last-child {
+    border-bottom: none;
+}
+
+.dashboard-admin-container ul li:hover {
+    color: #c9a669;
+    cursor: pointer;
+    transition: color 0.3s ease-in-out;
+}
+
+.recommended-carousel {
+    display: flex;
+    overflow-x: scroll;
+    padding: 10px;
+    gap: 10px;
+}
+
+.carousel {
+    display: flex;
+    gap: 15px;
+}
+
+.carousel-item {
+    min-width: 200px;
+    background-color: #191815;
+    border-radius: 10px;
+    overflow: hidden;
+    text-align: center;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.carousel-item img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+.recipe-title {
+    padding: 10px;
+    color: #adb5bd;
+    font-size: 1rem;
+    font-weight: bold;
+}

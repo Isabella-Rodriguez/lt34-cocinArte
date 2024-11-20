@@ -43,6 +43,7 @@ import { ChatList } from "./component/chatList.jsx";
 import { Chats } from "./pages/chats.jsx";
 import { AddRecipeAi } from "./component/addRecipeAi.jsx";
 import { Dashboard } from "./pages/dashboard.jsx";
+import { DashboardAdmin } from "./pages/dashboardAdmin.jsx";
 
 
 //create your first component
@@ -90,6 +91,8 @@ const Layout = () => {
 
                         <Route element={<AddRecipeAi />} path="/postear-recipe-ai" />
                         <Route element={<Dashboard/> } path="/dashboard" />
+                        <Route element={<DashboardAdmin/> } path="/dashboard/admin" />
+                        
                         <Route element={<h1>Not found!</h1>} />
                     </Routes>
                     </div>

@@ -7,7 +7,7 @@ import { CategoryIcon } from "./categoryIcon.jsx";
 import { RecipeIcon } from "./recipesIcon.jsx";
 import { PersonalAssistant } from "./personalAssistant.jsx";
 import { RecomendedIcon } from "./recomendedIcon.jsx";
-import { AdminIcon } from "./aminIcon.jsx";
+import { AdminIcon } from "./adminIcon.jsx";
 import { ViewRecipeIcon } from "./viewRecipeIcon.jsx";
 import { AdminRecomendationsIcon } from "./recipesRecommendedIcon.jsx";
 import { AccountIcon } from "./accountIcon.jsx";
