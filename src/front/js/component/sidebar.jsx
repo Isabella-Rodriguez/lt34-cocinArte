@@ -126,18 +126,6 @@ useEffect(()=>{
                 </li>
                 {store.authadmin && (
                     <li className="sidebar-item py-3 mb-1">
-                        
-                        <CategoryIcon/>
-                        <a
-                            className="btn btn-toggle d-inline-flex align-items-center rounded border-0 cocinarte-text"
-                            onClick={() => navigate("/categories/create")}
-                        >
-                            Crear Etiquetas!
-                        </a>
-                    </li>
-                )}
-                {store.authadmin && (
-                    <li className="sidebar-item py-3 mb-1">
                         <div className="d-flex align-items-center">
                         <AdminRecomendationsIcon/>
                         <a 

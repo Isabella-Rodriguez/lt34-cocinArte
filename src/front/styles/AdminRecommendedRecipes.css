@@ -1,17 +1,19 @@
 .admin-recipes-page .custom-card {
     height: 100%; 
-    border: 2px solid #c9a669; 
+    border: 1px #3e3f41 solid; 
     border-radius: 10px;
     overflow: hidden;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
     color: #adb5bd;
+    background-color: #191815;
+    margin: 10px;
 }
 
 .admin-recipes-page .custom-card img {
-    max-height: 200px;
+    width: 100%;
+    height: 200px;
     object-fit: cover;
-    border-bottom: 2px solid #c9a669; 
+    border-bottom: 1px #adb5bd solid;
 }
 
 .admin-recipes-page .card-body {
@@ -22,35 +24,83 @@
 }
 
 .admin-recipes-page .btn-add {
-    background-color: #c9a669;
-    color: black;
-    border: none;
+    background-color: #C9A669;
+    border: 2px solid #C9A669;
+    color: #ffffff;
     padding: 10px;
-    font-weight: bold;
-    transition: background-color 0.3s ease-in-out;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s;
+    cursor: pointer;
 }
 
 .admin-recipes-page .btn-add:hover {
-    background-color: #c9a43a;
+    background-color: #C9A669;
+    color: #202634;
+}
+
+.admin-recipes-page .text-center{
+    color: #adb5bd;
+    text-transform: uppercase;
+    font-weight: bold;
 }
 
 .admin-recipes-page .btn-remove {
     background-color: grey;
-    color: white;
-    border: none;
+    border: 2px solid grey;
+    color: #ffffff;
     padding: 10px;
-    font-weight: bold;
-    transition: background-color 0.3s ease-in-out;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s;
+    cursor: pointer;
 }
 
 .admin-recipes-page .btn-remove:hover {
-    background-color: #5c5c5c;
+    background-color: grey;
+    color: #202634;
 }
+
+.admin-recipes-page .btn-secondary {
+    background-color: #C9A669;
+    border: 2px solid #C9A669;
+    color: #ffffff;
+    padding: 10px;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s;
+    cursor: pointer;
+}
+
+.admin-recipes-page .btn-secondary:hover {
+    background-color: #C9A669;
+    color: #202634;
+}
+
 
 .admin-recipes-page .card-title {
     font-size: 18px;
-    font-weight: bold;
+    letter-spacing: 1px;
     margin-bottom: 10px;
-    color: #c9a669;
+    color: #adb5bd;
     text-align: center;
+}
+
+.admin-recipes-page .row {
+    margin: 0 auto;
+    padding: 2%;
+}
+
+.admin-recipes-page {
+    padding: 20px;
+}
+
+.illustration-text{
+  color:#adb5bd ;  
 }
