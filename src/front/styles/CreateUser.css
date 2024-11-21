@@ -3,11 +3,12 @@
 .create-user-container {
     background-color: #202634;
     display: flex;
+    flex-direction: row; /* Diseño en filas por defecto */
     font-family: Arial, sans-serif;
-    position: absolute;
-    height: 100%;
+    position: fixed;
     width: 100%;
-   
+    height: 100%;
+    overflow: hidden; /* Elimina cualquier scroll si hay elementos extra */
 }
 
 .create-user-container .left-side {
@@ -18,7 +19,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 20px;
+    padding: 3%;
     position: relative;
 }
 
@@ -39,6 +40,7 @@
     font-size: 1.5em;
     text-align: center;
     max-width: 80%;
+    line-height: 1.8;
 }
 
 .create-user-container .right-side {
@@ -47,17 +49,19 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: center; /* Centrar verticalmente el contenido */
     padding: 40px;
     color: #adb5bd;
-
+    overflow-y: auto; /* Permite scroll si el contenido es muy grande */
 }
 
 .create-user-container h1 {
     margin-bottom: 20px;
     color: #adb5bd;
     font-weight: bold;
-    font-size: 1.44375rem
+    font-size: 2rem;
+    text-align: center;
+    margin-top: 41%;
 }
 
 .create-user-container h2 {
@@ -67,7 +71,7 @@
     font-style: normal;
     margin: 0;
     text-align: left;
-    margin-top: 110%
+    margin-top: 70%; /* Ajustado para que esté más arriba */
 }
 
 .create-user-container .equipo-cocinarte {
@@ -105,6 +109,8 @@
     border-radius: 5px;
     background-color: #293042;
     color: #ffffff;
+    width: 100%;
+    font-size: 1rem;
 }
 
 .create-user-container .form-control:focus {
@@ -117,21 +123,12 @@
     color: #888888;
 }
 
-.create-user-container .form-control:focus {
-    background-color: #293042;
-    color: #ffffff;
-    border: 1px solid #C9A669;
-    outline: none;
-}
-
-
 .create-user-container .btn-success {
     background-color: #C9A669;
     border: 2px solid #C9A669;
     color: #ffffff;
-    padding: 8px 20px;
-    font-weight: 400;
-    font-size: 14px;
+    padding: 10px 20px;
+    font-size: 1rem;
     text-transform: uppercase;
     letter-spacing: 1px;
     border-radius: 5px;
@@ -145,18 +142,25 @@
     color: #202634;
 }
 
+.create-user-container .btn-success:focus {
+    border-color: #C9A669; 
+    box-shadow: 0 0 0 3px rgba(201, 166, 105, 0.5); 
+    outline: none; 
+    
+}
 
 .create-user-container .btn-secondary {
     background-color: grey;
     border: 2px solid grey;
     color: #ffffff;
     padding: 10px;
-    font-size: 14px;
+    font-size: 1rem;
     text-transform: uppercase;
     letter-spacing: 1px;
     border-radius: 5px;
     transition: background-color 0.3s, color 0.3s;
     cursor: pointer;
+    width: 100%;
 }
 
 .create-user-container .btn-secondary:hover {
@@ -195,5 +199,3 @@
     border-color: #C9A669;
     box-shadow: 0 0 0 3px rgba(201, 166, 105, 0.5);
 }
-
-

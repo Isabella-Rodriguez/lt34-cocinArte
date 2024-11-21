@@ -5,6 +5,7 @@
     display: flex;
     font-family: Arial, sans-serif;
     min-height: 100vh;
+    overflow: hidden; 
 }
 
 .login-admin-container .left-side {
@@ -17,6 +18,7 @@
     justify-content: center;
     padding: 7%;
     position: relative;
+    overflow: hidden; 
 }
 
 .login-admin-container .background-image {
@@ -64,6 +66,7 @@
     justify-content: center;
     padding: 4%;
     color: #adb5bd;
+    overflow: hidden; 
 }
 
 .login-admin-container h1 {
