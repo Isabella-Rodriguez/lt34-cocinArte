@@ -39,12 +39,6 @@ export const SidebarAdmin = () => {
                     </a>
                 </li>
                 <li className="sidebar-item">
-                    <RecomendedIcon />
-                    <a onClick={() => navigate("/recomended/recipe")} className="btn">
-                         Recomendadas
-                    </a>
-                </li>
-                <li className="sidebar-item">
                     <AdminRecomendationsIcon />
                     <a onClick={() => navigate("/admin/recomended/recipe")} className="btn">
                         Recomendar 

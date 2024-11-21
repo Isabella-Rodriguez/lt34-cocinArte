@@ -31,7 +31,7 @@ export function AllRecipes(){
         return data;
     }
     const obtenerPromedioCalificacion = async (id) => {
-        const resp = await fetch(`${process.env.BACKEND_URL}api/calificaciones/promedio/${id}`, {
+        const resp = await fetch(`${process.env.BACKEND_URL}/api/calificaciones/promedio/${id}`, {
             method: 'GET',
         });
         const data = await resp.json();
