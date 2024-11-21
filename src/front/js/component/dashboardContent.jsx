@@ -5,7 +5,7 @@ import { Navigate, Link, useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import { height } from "@fortawesome/free-solid-svg-icons/fa0";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faStar,faStarHalfStroke, faThumbsUp } from "@fortawesome/free-solid-svg-icons";
+import { faStar,faStarHalfStroke, faThumbsUp, faUser } from "@fortawesome/free-solid-svg-icons";
 
 export const DashboardContent = () => {
     const { store, actions } = useContext(Context);
@@ -124,30 +124,29 @@ export const DashboardContent = () => {
                         <div className="card illustration flex-fill profile-card">
                             <div className="card-body align-items-center p-0 d-flex flex-fill">
 
-                                <div className="row g-0 w-100 card-text-dashboard">
-                                    <div className="col-7">
-                                        <div className="illustration-text p-3 m-1">
-                                            <h4 className="illustration-text">Bienvenido, {store.user.name}!</h4>
-                                            <p className="mb-0">¿Que deseas cocinar hoy?</p>
-                                        </div>
-                                    </div>
-
-                                    <div className="col-5 text-end">
-                                        {store.user.img_profile ? (
-                                            <img
-                                            src={store.user.img_profile}
-                                            alt="Customer Support"
-                                            className="img-fluid col-6 m-3"
-                                            />
-                                        ) : (
-                                            <img
-                                            src={'https://cdn-icons-png.flaticon.com/512/1361/1361765.png'}
-                                            alt="Customer Support"
-                                            className="img-fluid col-6 m-3"
-                                            />
-                                        )}
+                            <div className="row g-0 w-100 card-text-dashboard" style={{ height: "100px" }}>
+                                <div className="col-7">
+                                    <div className="illustration-text p-3 m-1">
+                                        <h4 className="illustration-text">Bienvenido, {store.user.name}!</h4>
+                                        <p className="mb-0">¿Qué deseas cocinar hoy?</p>
                                     </div>
                                 </div>
+
+                                <div className="col-5 text-end d-flex align-items-center justify-content-center">
+                                    {store.user.img_profile ? (
+                                        <div class="round-container">
+                                            <img
+                                                src={store.user.img_profile}
+                                                alt="Customer Support"
+                                            />
+                                        </div>
+                                    ) : (
+                                        <div className="gold-text user-icon">
+                                            <FontAwesomeIcon icon={faUser} />
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
                             </div>
                         </div>
                     </div>
