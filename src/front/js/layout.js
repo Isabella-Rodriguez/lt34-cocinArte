@@ -37,7 +37,7 @@ import { ViewRecipeApi } from "./component/viewRecipesApi.jsx";
 import { Sidebar } from "./component/sidebar.jsx";
 import { OpenAiAssistant } from "./component/openAi.jsx";
 import { OpenAiRecipe } from "./component/openAiRecipe.jsx";
-import { RecomendedRecipe } from "./component/recomendedrecipe.js";
+import { RecomendedRecipePage } from "./pages/recomededRecipePage.jsx";
 import { AdminRecommendedRecipes } from "./component/adminrecomendedrecipe.js";
 import { ChatList } from "./component/chatList.jsx";
 import { Chats } from "./pages/chats.jsx";
@@ -83,7 +83,7 @@ const Layout = () => {
                         <Route element={<ViewRecipeApi />} path="/recipe/api/:id"/>
                         <Route element={<OpenAiAssistant/>} path="/assistant"/>
                         <Route element={<OpenAiRecipe/>} path="/assistant/resp"/>
-                        <Route element={<RecomendedRecipe />} path="/recomended/recipe"/>
+                        <Route element={<RecomendedRecipePage />} path="/recomended/recipe"/>
                         <Route element={<AdminRecommendedRecipes />} path="/admin/recomended/recipe"/>
                         <Route element={<MisRecetas />} path="/mis-recetas"/>
                         <Route element={<Chats />} path="/chats"/>

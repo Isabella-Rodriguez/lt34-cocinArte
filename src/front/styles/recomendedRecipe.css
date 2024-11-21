@@ -1,0 +1,83 @@
+
+.sidebar-close{
+    padding-left: 50px;
+    transition: padding-left 0.5s ease-in-out;
+}
+.sidebar-open{
+    padding-left: 320px;
+    transition: padding-left 0.5s ease-in-out;
+}
+
+.recommended-section {
+    background-color: #191815;
+    color: #ffffff;
+    padding: 20px;
+    margin: 0 auto;
+    width: 75%; 
+    border-radius: 3px; 
+}
+
+.recommended-title {
+    text-align: left;
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #ffffff; 
+    margin-bottom: 20px;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.2); 
+    padding-bottom: 10px;
+}
+
+.recommended-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; 
+}
+
+.recommended-card {
+    background-color: transparent; 
+    border: none;
+    transition: transform 0.3s ease;
+    max-height: 300px;
+    overflow: hidden;
+}
+
+.recommended-card:hover {
+    transform: translateY(-5px);
+    color: #c9a669;
+}
+
+.image-container img {
+    object-fit: cover;
+    border-top-left-radius: 0.5rem;
+    border-bottom-left-radius: 0.5rem;
+}
+
+.default-icon-container {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-top-left-radius: 0.5rem;
+    border-bottom-left-radius: 0.5rem;
+}
+
+.card-body.text-container {
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.card-text-dashboard {
+    color: #ffffff;
+}
+
+.btn-primary {
+    background-color: #c9a669;
+    border: none;
+    color: #ffffff;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: transparent;
+    color: #c9a669;
+    border: 1px solid #c9a669;
+}

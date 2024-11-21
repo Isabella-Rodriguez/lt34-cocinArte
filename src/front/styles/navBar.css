@@ -65,3 +65,33 @@
 .nav-item::marker{
     content: none;
 }
+.round-container-nav {
+    width: 40px; /* Tamaño del círculo */
+    height: 40px;
+    border-radius: 50%; /* Círculo perfecto */
+    overflow: hidden; /* Oculta el exceso de la imagen */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Imagen dentro del círculo */
+.round-container-nav img {
+    width: 100%; /* Llenar el contenedor */
+    height: 100%;
+    object-fit: cover; /* Evita la distorsión */
+    object-position: center; /* Centra la imagen */
+}
+
+/* Ícono de usuario */
+.user-icon-nav {
+    font-size: 1.5rem; 
+    text-align: center;
+    padding-left: 10px;
+    color: #c9a669; 
+  }
+
+/* Separación entre el ícono/foto y el texto */
+.me-2 {
+    margin-right: 0.5rem; /* Espacio entre ícono/foto y texto */
+}

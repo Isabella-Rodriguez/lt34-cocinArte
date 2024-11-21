@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import '../../styles/navBar.css'
 import { SearchIcon } from "./searchIcon.jsx";
-import { faBars, faStar, faSquarePlus, faComments, faArrowRightFromBracket } from "@fortawesome/free-solid-svg-icons";
+import { faBars, faStar, faSquarePlus, faComments, faArrowRightFromBracket, faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Context } from "../store/appContext.js";
 import { Sidebar } from "./sidebar.jsx";
@@ -121,14 +121,25 @@ export const Navbar = () => {
 								</div>
 							</li>
 							<Link className="mx-2" to={"/recipe/create"} ><button className="btn btn-cocinarte">Postear Receta</button></Link>
-							<li className="nav-item dropdown">
+							<li className="nav-item dropdown d-flex">
 							<a className="nav-icon dropdown-toggle d-inline-block d-sm-none cocinarte-text" href="#" data-bs-toggle="dropdown">
 								<svg xmlns="http://www.w3.org/2000/svg" width={"24"} height={"24"} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-settings align-middle"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"></path><circle cx="12" cy="12" r="3"></circle></svg>
 							</a>
-							<a className="nav-link dropdown-toggle cocinarte-text text-decoration-none d-none d-sm-inline-block" href="#" data-bs-toggle="dropdown" aria-expanded="false">
-                				<img src={store.user.img_profile} className="img-fluid rounded-circle me-1 mt-n2 mb-n2" alt="ProfileImage" width="40" height="40"/>
+							{store.user.img_profile ? (
+									<div className="round-container-nav">
+										<img
+											src={store.user.img_profile}
+											alt="Customer Support"
+										/>
+									</div>
+								) : (
+									<div className="user-icon-nav">
+										<FontAwesomeIcon icon={faUser} />
+									</div>
+								)}
+							<a className="px-2 nav-link dropdown-toggle cocinarte-text text-decoration-none d-none d-sm-inline-block align-items-center" href="#" data-bs-toggle="dropdown" aria-expanded="false">	
 								<span>{store.user.name} {store.user.last_name}</span>
-              				</a>
+							</a>
 							<div className="dropdown-menu dropdown-menu-cocinarte shadow-detail-nav dropdown-menu-end">
 								<a className="dropdown-item  chats-cocinarte-nav opacity-100 fs-5" href="#" onClick={()=>{navigate('/favoritos')}}>
 									<span><FontAwesomeIcon className="chats-cocinarte-nav" icon={faStar} style={{color:'#adb5bd'}} /></span>
