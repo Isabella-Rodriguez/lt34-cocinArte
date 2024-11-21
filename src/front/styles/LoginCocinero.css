@@ -4,9 +4,10 @@
     background-color: #202634;
     display: flex;
     font-family: Arial, sans-serif;
-    position: absolute;
+    position: fixed;
     width: 100%;
     height: 100%;
+    overflow: hidden; /* Elimina cualquier scroll si hay elementos extra */
 }
 
 .login-container .left-side {
@@ -47,7 +48,7 @@
     font-weight: 400;
     font-style: normal;
     text-align: left;
-    margin-top: 110%;
+    margin-top: 77%;
 }
 
 .login-container .equipo-cocinarte {
@@ -136,6 +137,13 @@
 .login-container .btn-success:hover {
     background-color: #C9A669;
     color: #202634;
+}
+
+
+.login-container .btn-success:focus {
+    border-color: #C9A669; 
+    box-shadow: 0 0 0 3px rgba(201, 166, 105, 0.5); 
+    outline: none; 
 }
 
 .login-container .text-link {
