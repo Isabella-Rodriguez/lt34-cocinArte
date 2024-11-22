@@ -7,7 +7,7 @@ import { jwtDecode } from "jwt-decode";
 import { Navbar } from "./navbar";
 import '../../styles/viewRecipe.css'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPen, faStar, faTrashCan, faThumbsUp, faThumbsDown } from "@fortawesome/free-solid-svg-icons";
+import { faPen, faStar, faTrashCan, faThumbsUp, faThumbsDown, faUser} from "@fortawesome/free-solid-svg-icons";
 
 
 export function ViewRecipe(){
@@ -336,8 +336,19 @@ export function ViewRecipe(){
                     {comments.length > 0 ? (
                         comments.map((item, index) => (
                             <li key={index} className=" d-flex align-items-center bg-transparent my-2 p-3 border-bottom border-top ms-4">
-                                <div className="pe-3">
-                                    <img src={item.img_profile} alt="image profile" style={{width:'60px'}} />
+                                <div className="px-3">
+                                    {item.img_profile ? (
+                                        <div className="round-container-view">
+                                            <img
+                                                src={item.img_profile}
+                                                alt="Customer Support"
+                                            />
+                                        </div>
+                                    ) : (
+                                        <div className="user-icon-view">
+                                            <FontAwesomeIcon icon={faUser} />
+                                        </div>
+                                    )}
                                 </div>
                                 <div className="container-fluid">
                                     <h5 className="view-recipe-text soft">{item.name}</h5>
