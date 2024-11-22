@@ -61,3 +61,29 @@ option:hover{
     color: #adb5bd;
     border-radius: 10px;
 }
+
+.round-container-view {
+    width: 50px; /* Tamaño del círculo */
+    height: 50px;
+    border-radius: 50%; /* Círculo perfecto */
+    overflow: hidden; /* Oculta el exceso de la imagen */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Imagen dentro del círculo */
+.round-container-view img {
+    width: 100%; /* Llenar el contenedor */
+    height: 100%;
+    object-fit: cover; /* Evita la distorsión */
+    object-position: center; /* Centra la imagen */
+}
+
+/* Ícono de usuario */
+.user-icon-view {
+    font-size: 2rem; 
+    text-align: center;
+    padding-left: 10px;
+    color: #c9a669; 
+  }
