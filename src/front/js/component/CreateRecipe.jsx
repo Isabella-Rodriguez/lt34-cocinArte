@@ -65,7 +65,7 @@ export function CreateRecipeComponent(){
     }
 
     const recomendSteps= async(recipeTitle)=>{
-        const APIkey = '9c5e9cf7930840e5acd2b5edc06177e0';
+        const APIkey = 'f6c3531069234577afe4d0e2e49fd508';
         const response = await fetch(`https://api.spoonacular.com/recipes/complexSearch?titleMatch=${recipeTitle}&number=1&apiKey=${APIkey}`)
         const data = await response.json()
         console.log(data)
@@ -223,7 +223,7 @@ return(
                 </div>
             </div>
             <button className="btn btn-cocinarte cocinarte-text col-4 mx-auto" type="submit">A cocinar!</button>
-            <Link to={'/'} className="btn btn-secondary col-4 mx-auto" >Cancelar</Link>
+            <Link to={'/dashboard'} className="btn btn-secondary col-4 mx-auto" >Cancelar</Link>
         </form>
         </div>:
         <>
