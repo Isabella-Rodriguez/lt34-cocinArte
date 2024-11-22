@@ -137,23 +137,7 @@ useEffect(()=>{
                     </li>
                 )}
             </ul>
-                <div className="sidebar-item py-3 mt-3 mb-1 border-top" style={{paddingLeft:'2rem'}} >
-                <div className="svg-hover">
-                    <AccountIcon/>
-                    <a 
-                        className="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed cocinarte-text" 
-                        data-bs-toggle="collapse" 
-                        data-bs-target="#account-collapse" 
-                        aria-expanded="false">
-                        Account
-                    </a>
-                </div>
-                    <div className="collapse" id="account-collapse">
-                        <ul className="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                            {/* Puedes agregar enlaces relacionados con la cuenta aquí */}
-                        </ul>
-                    </div>
-                </div>
+                
         </div>
     );
 }

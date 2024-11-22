@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import "../../styles/home.css";
 import { Link, useNavigate } from "react-router-dom";
-
+import FacundoImg from "../../img/facundo.jpg";
+import IsabellaImg from "../../img/Isabella.jpg";
+import DiegoImg from "../../img/diego.png";
 
 export const Home = () => {
 	const [loading, setLoading]=useState(false);
@@ -49,7 +51,7 @@ export const Home = () => {
 
 	const recipes_external = ()=>{
 		setLoading(true);
-        const APIkey = '9c5e9cf7930840e5acd2b5edc06177e0'
+        const APIkey = 'f6c3531069234577afe4d0e2e49fd508'
 		fetch(`https://api.spoonacular.com/recipes/random?number=3&apiKey=${APIkey}`,{
 			method:'GET',
 			headers: { 'Content-Type': 'application/json' }
@@ -292,17 +294,15 @@ export const Home = () => {
 
                                 <div className="col-lg-4" data-aos="fade-up" data-aos-delay="100">
                                 <div className="member">
-                                    <img src="https://cdn-icons-png.flaticon.com/512/1361/1361765.png" className="img-fluid" alt=""/>
+                                    <img src={FacundoImg} className="img-fluid" alt=""/>
                                     <div className="member-info">
                                     <div className="member-info-content">
                                         <h4>Facundo Rodríguez</h4>
                                         <span>Web Developer</span>
                                     </div>
                                     <div className="social">
-                                        <a href=""><i className="bi bi-twitter-x"></i></a>
-                                        <a href=""><i className="bi bi-facebook"></i></a>
-                                        <a href=""><i className="bi bi-instagram"></i></a>
-                                        <a href=""><i className="bi bi-linkedin"></i></a>
+                                        <a href="https://www.linkedin.com/in/facundo-rodriguez-romero-b6aa50314/"><i className="bi bi-linkedin"></i></a>
+                                        <a href="https://github.com/Dfacundorod"><i className="bi bi-github"></i></a>
                                     </div>
                                     </div>
                                 </div>
@@ -310,17 +310,15 @@ export const Home = () => {
 
                                 <div className="col-lg-4" data-aos="fade-up" data-aos-delay="200">
                                 <div className="member">
-                                    <img src="https://cdn-icons-png.flaticon.com/512/1361/1361765.png" className="img-fluid" alt=""/>
+                                    <img src={IsabellaImg} className="img-fluid" alt=""/>
                                     <div className="member-info">
                                     <div className="member-info-content">
                                         <h4>Isabela Rodríguez</h4>
                                         <span>Web Developer</span>
                                     </div>
                                     <div className="social">
-                                        <a href=""><i className="bi bi-twitter-x"></i></a>
-                                        <a href=""><i className="bi bi-facebook"></i></a>
-                                        <a href=""><i className="bi bi-instagram"></i></a>
-                                        <a href=""><i className="bi bi-linkedin"></i></a>
+                                        <a href="https://www.linkedin.com/in/isabella-rodríguez-layton"><i className="bi bi-linkedin"></i></a>
+                                        <a href="https://github.com/Isabella-Rodriguez"><i className="bi bi-github"></i></a>
                                     </div>
                                     </div>
                                 </div>
@@ -328,17 +326,15 @@ export const Home = () => {
 
                                 <div className="col-lg-4" data-aos="fade-up" data-aos-delay="300">
                                 <div className="member">
-                                    <img src="https://cdn-icons-png.flaticon.com/512/1361/1361765.png" className="img-fluid" alt=""/>
+                                    <img src={DiegoImg} className="img-fluid" alt=""/>
                                     <div className="member-info">
                                     <div className="member-info-content">
                                         <h4>Diego Barajas</h4>
                                         <span>Web Developer</span>
                                     </div>
                                     <div className="social">
-                                        <a href=""><i className="bi bi-twitter-x"></i></a>
-                                        <a href=""><i className="bi bi-facebook"></i></a>
-                                        <a href=""><i className="bi bi-instagram"></i></a>
-                                        <a href=""><i className="bi bi-linkedin"></i></a>
+                                        <a href="https://www.linkedin.com/in/diego-sebastian-barajas-cruz-10424922b"><i className="bi bi-linkedin"></i></a>
+                                        <a href="https://github.com/DiegoCruzzz"><i className="bi bi-github"></i></a>
                                     </div>
                                     </div>
                                 </div>
